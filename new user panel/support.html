@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support & Help - AllServ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/support.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+       <!-- Top Bar -->
+       <div class="top-bar">
+        <div class="container">
+            <div class="contact-info">
+                <span><i class="fas fa-phone"></i> +1 234 567 890</span>
+                <span><i class="fas fa-envelope"></i> support@allserv.com</span>
+            </div>
+            <div class="user-actions">
+                <a href="login.html"><i class="fas fa-user"></i> Login</a>
+                <a href="register.html"><i class="fas fa-user-plus"></i> Register</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><h1>AllServ</h1></a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="booking-history.html">My Bookings</a></li>
+                    <li><a href="support.html" class="active">Support</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="#" class="wishlist-icon"><i class="fas fa-heart"></i><span class="wishlist-count">0</span></a>
+                <a href="#" class="cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Support Section -->
+    <section class="support-container">
+        <div class="support-header">
+            <h2>Support & Help Center</h2>
+            <p>Get help with your services and bookings</p>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h3>Frequently Asked Questions</h3>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How do I book a service?</h3>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Booking a service is easy! Simply follow these steps:</p>
+                        <ol>
+                            <li>Browse our services and select the one you need</li>
+                            <li>Click the "Book Now" button</li>
+                            <li>Choose your preferred date and time</li>
+                            <li>Fill in your address and any special instructions</li>
+                            <li>Proceed to payment</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>What payment methods do you accept?</h3>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We accept various payment methods including:</p>
+                        <ul>
+                            <li>Credit/Debit Cards</li>
+                            <li>PayPal</li>
+                            <li>Google Pay</li>
+                            <li>Bank Transfer</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>How can I reschedule or cancel my booking?</h3>
+                        <i class="fas fa-chevron-down faq-toggle"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>You can manage your bookings through the "My Bookings" section. To reschedule or cancel:</p>
+                        <ol>
+                            <li>Go to "My Bookings"</li>
+                            <li>Find the booking you want to modify</li>
+                            <li>Click "Reschedule" or "Cancel"</li>
+                            <li>Follow the prompts to complete the action</li>
+                        </ol>
+                        <p>Note: Cancellations made less than 24 hours before the service may incur a fee.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-section">
+            <h3>Submit a Support Ticket</h3>
+            <form id="supportForm" class="form-grid">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookingId">Booking ID (if applicable)</label>
+                    <input type="text" id="bookingId" placeholder="e.g., BOK123456">
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Issue Category</label>
+                    <select id="category" required>
+                        <option value="">Select Category</option>
+                        <option value="booking">Booking Issue</option>
+                        <option value="payment">Payment Problem</option>
+                        <option value="service">Service Quality</option>
+                        <option value="technical">Technical Issue</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" required>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="message">Message</label>
+                    <textarea id="message" required></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Attachments (optional)</label>
+                    <div class="file-upload" id="fileUpload">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Drag & drop files here or click to browse</p>
+                        <input type="file" hidden multiple>
+                    </div>
+                    <div class="file-list" id="fileList"></div>
+                </div>
+
+                <div class="form-group full-width">
+                    <button type="submit" class="btn-submit">Submit Ticket</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Ticket History -->
+        <div class="ticket-history">
+            <h3>Your Support Tickets</h3>
+            <div class="ticket-list">
+                <div class="ticket-item">
+                    <div class="ticket-status status-open">Open</div>
+                    <div class="ticket-info">
+                        <div class="ticket-subject">Payment Failed for Booking</div>
+                        <div class="ticket-date">Submitted on Feb 1, 2025</div>
+                        <div class="ticket-id">Ticket ID: TIC123456</div>
+                    </div>
+                    <a href="#" class="view-ticket">View Details</a>
+                </div>
+
+                <div class="ticket-item">
+                    <div class="ticket-status status-pending">Pending</div>
+                    <div class="ticket-info">
+                        <div class="ticket-subject">Request for Service Modification</div>
+                        <div class="ticket-date">Submitted on Jan 28, 2025</div>
+                        <div class="ticket-id">Ticket ID: TIC123455</div>
+                    </div>
+                    <a href="#" class="view-ticket">View Details</a>
+                </div>
+
+                <div class="ticket-item">
+                    <div class="ticket-status status-resolved">Resolved</div>
+                    <div class="ticket-info">
+                        <div class="ticket-subject">Technical Issue with Website</div>
+                        <div class="ticket-date">Submitted on Jan 25, 2025</div>
+                        <div class="ticket-id">Ticket ID: TIC123454</div>
+                    </div>
+                    <a href="#" class="view-ticket">View Details</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About AllServ</h3>
+                    <p>Your trusted partner for premium home and office services.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="booking-history.html">My Bookings</a></li>
+                        <li><a href="support.html">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <p>Email: support@allserv.com</p>
+                    <p>Phone: +1 234 567 890</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 AllServ. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/support.js"></script>
+</body>
+</html>

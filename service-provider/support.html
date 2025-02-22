@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support - AllServ Provider</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/support.css" rel="stylesheet">
+    <link href="css/dashboard.css" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/images/logo.png" alt="AllServ Logo" class="logo">
+                <h1>AllServ</h1>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="service-requests.html">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Service Requests</span>
+                            <span class="badge bg-primary">5</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="service-history.html">
+                            <i class="fas fa-history"></i>
+                            <span>Service History</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="earnings.html">
+                            <i class="fas fa-wallet"></i>
+                            <span>Earnings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile.html">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="support.html" class="active">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help & Support</span>
+                </a>
+                <a href="#" class="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <nav class="top-nav">
+                <button class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="nav-right">
+                    <div class="notifications">
+                        <button class="notification-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="badge bg-danger">3</span>
+                        </button>
+                    </div>
+                    <div class="user-profile">
+                        <img src="assets/images/profile.jpg" alt="Profile Picture">
+                        <span>John Smith</span>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="support-content">
+                <!-- Quick Help Section -->
+                <div class="quick-help-section">
+                    <h1>How can we help you?</h1>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search for help articles, topics, or questions" class="form-control">
+                    </div>
+                    <div class="quick-links">
+                        <div class="quick-link-card">
+                            <i class="fas fa-book"></i>
+                            <h3>Getting Started</h3>
+                            <p>Learn the basics of using AllServ</p>
+                        </div>
+                        <div class="quick-link-card">
+                            <i class="fas fa-dollar-sign"></i>
+                            <h3>Payments</h3>
+                            <p>Manage your earnings and payouts</p>
+                        </div>
+                        <div class="quick-link-card">
+                            <i class="fas fa-shield-alt"></i>
+                            <h3>Account Security</h3>
+                            <p>Keep your account safe</p>
+                        </div>
+                        <div class="quick-link-card">
+                            <i class="fas fa-star"></i>
+                            <h3>Best Practices</h3>
+                            <p>Tips for success on AllServ</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Section -->
+                <div class="faq-section">
+                    <h2>Frequently Asked Questions</h2>
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    How do I get paid for my services?
+                                </button>
+                            </h3>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Payments are processed automatically after service completion. You can choose weekly, bi-weekly, or monthly payouts through direct deposit to your bank account. All earnings can be tracked in real-time through your dashboard.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    What happens if I need to cancel a booking?
+                                </button>
+                            </h3>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    If you need to cancel a booking, please do so at least 24 hours in advance. Go to "Service Requests," find the booking, and click "Cancel." Be sure to provide a reason for cancellation to maintain good customer relations.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h3 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    How can I improve my visibility in search results?
+                                </button>
+                            </h3>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    To improve visibility: maintain a high rating, respond quickly to requests, complete your profile with detailed information, add high-quality photos, and keep your availability calendar up to date.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Support Section -->
+                <div class="contact-support-section">
+                    <h2>Still need help?</h2>
+                    <div class="contact-options">
+                        <div class="contact-card">
+                            <i class="fas fa-comments"></i>
+                            <h3>Live Chat</h3>
+                            <p>Chat with our support team</p>
+                            <button class="btn btn-primary">Start Chat</button>
+                        </div>
+                        <div class="contact-card">
+                            <i class="fas fa-envelope"></i>
+                            <h3>Email Support</h3>
+                            <p>Get help via email</p>
+                            <button class="btn btn-outline-primary">Send Email</button>
+                        </div>
+                        <div class="contact-card">
+                            <i class="fas fa-phone"></i>
+                            <h3>Phone Support</h3>
+                            <p>Talk to a representative</p>
+                            <button class="btn btn-outline-primary">Call Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Help Articles -->
+                <div class="help-articles-section">
+                    <h2>Popular Help Articles</h2>
+                    <div class="articles-grid">
+                        <article class="help-article">
+                            <span class="article-category">Getting Started</span>
+                            <h3>Complete Guide to Service Provider Onboarding</h3>
+                            <p>Learn everything you need to know about getting started as a service provider on AllServ.</p>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </article>
+                        <article class="help-article">
+                            <span class="article-category">Payments</span>
+                            <h3>Understanding Your Earnings and Fees</h3>
+                            <p>A detailed breakdown of how payments work, including platform fees and payout schedules.</p>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </article>
+                        <article class="help-article">
+                            <span class="article-category">Best Practices</span>
+                            <h3>Tips for Managing Multiple Bookings</h3>
+                            <p>Learn how to efficiently handle multiple service requests and maintain high customer satisfaction.</p>
+                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/support.js"></script>
+</body>
+</html>

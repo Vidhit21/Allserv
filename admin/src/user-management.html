@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management - AllServ Admin</title>
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="../css/user-management.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-cube"></i> AllServ Admin
+        </div>
+        <div class="navbar-nav">
+            <div class="nav-item">
+                <i class="fas fa-bell"></i>
+                <span class="badge">3</span>
+            </div>
+            <div class="nav-item">
+                <img src="../images/admin-avatar.png" alt="Admin" class="avatar">
+                <span>Admin User</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item">
+                <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="provider-verification.html"><i class="fas fa-user-check"></i> Provider Verification</a>
+            </li>
+            <li class="sidebar-nav-item active">
+                <a href="user-management.html"><i class="fas fa-users"></i> User Management</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="reports.html"><i class="fas fa-chart-bar"></i> Reports</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="content-management.html"><i class="fas fa-edit"></i> Content Management</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="support.html"><i class="fas fa-headset"></i> Support</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>User Management</h1>
+            <div class="header-actions">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search users...">
+                </div>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Add New User
+                </button>
+            </div>
+        </div>
+
+        <!-- User Stats -->
+        <div class="user-stats">
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>2,547</h3>
+                    <p>Total Users</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon active">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>2,100</h3>
+                    <p>Active Users</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon inactive">
+                    <i class="fas fa-user-slash"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>447</h3>
+                    <p>Inactive Users</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <div class="table-filters">
+                    <select class="filter-select">
+                        <option value="all">All Users</option>
+                        <option value="active">Active Users</option>
+                        <option value="inactive">Inactive Users</option>
+                    </select>
+                    <select class="filter-select">
+                        <option value="all">All Roles</option>
+                        <option value="customer">Customer</option>
+                        <option value="provider">Provider</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+                <button class="btn btn-outline">
+                    <i class="fas fa-download"></i> Export
+                </button>
+            </div>
+            
+            <table class="user-table">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox" class="select-all">
+                        </th>
+                        <th>User</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th>Last Active</th>
+                        <th>Joined Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="select-user">
+                        </td>
+                        <td>
+                            <div class="user-cell">
+                                <img src="../images/user-avatar.png" alt="User" class="user-avatar">
+                                <div class="user-info">
+                                    <div class="user-name">John Doe</div>
+                                    <div class="user-email">john.doe@example.com</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>Customer</td>
+                        <td><span class="status-badge active">Active</span></td>
+                        <td>2 hours ago</td>
+                        <td>Jan 15, 2025</td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-icon" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-icon" title="Disable">
+                                    <i class="fas fa-ban"></i>
+                                </button>
+                                <button class="btn-icon" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- More user rows would be added here -->
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="btn-page" disabled>
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="btn-page active">1</button>
+                <button class="btn-page">2</button>
+                <button class="btn-page">3</button>
+                <span class="pagination-ellipsis">...</span>
+                <button class="btn-page">10</button>
+                <button class="btn-page">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="../js/user-management.js"></script>
+</body>
+</html>

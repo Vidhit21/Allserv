@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllServ - Service Requests</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="css/service-requests.css" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar (Same as dashboard.html) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/images/logo.png" alt="AllServ Logo" class="logo">
+                <h1>AllServ</h1>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="service-requests.html">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Service Requests</span>
+                            <span class="badge bg-primary">5</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="service-history.html">
+                            <i class="fas fa-history"></i>
+                            <span>Service History</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="earnings.html">
+                            <i class="fas fa-wallet"></i>
+                            <span>Earnings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile.html">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="support.html">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help & Support</span>
+                </a>
+                <a href="#" class="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <nav class="top-nav">
+                <button class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="nav-right">
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="assets/images/profile-placeholder.jpg" alt="Profile Picture">
+                        <span>John Doe</span>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Service Requests Content -->
+            <div class="service-requests-content">
+                <div class="page-header">
+                    <h2>Service Requests</h2>
+                    <div class="header-actions">
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown">
+                                <i class="fas fa-filter"></i> Filter
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">All Requests</a></li>
+                                <li><a class="dropdown-item" href="#">New Requests</a></li>
+                                <li><a class="dropdown-item" href="#">Accepted</a></li>
+                                <li><a class="dropdown-item" href="#">In Progress</a></li>
+                            </ul>
+                        </div>
+                        <div class="search-box">
+                            <input type="text" class="form-control" placeholder="Search requests...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Request Categories -->
+                <div class="request-categories">
+                    <div class="nav nav-tabs">
+                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#newRequests">
+                            New Requests <span class="badge bg-primary">5</span>
+                        </button>
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#acceptedRequests">
+                            Accepted <span class="badge bg-success">3</span>
+                        </button>
+                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#inProgress">
+                            In Progress <span class="badge bg-warning">2</span>
+                        </button>
+                    </div>
+
+                    <div class="tab-content">
+                        <!-- New Requests Tab -->
+                        <div class="tab-pane fade show active" id="newRequests">
+                            <div class="request-cards">
+                                <!-- Request Card 1 -->
+                                <div class="request-card">
+                                    <div class="request-header">
+                                        <div class="customer-info">
+                                            <img src="assets/images/profile-placeholder.jpg" alt="Customer">
+                                            <div>
+                                                <h4>Sarah Johnson</h4>
+                                                <p class="text-muted">Plumbing Service</p>
+                                            </div>
+                                        </div>
+                                        <span class="badge bg-primary">New</span>
+                                    </div>
+                                    <div class="request-details">
+                                        <div class="detail-item">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <span>123 Main St, Apt 4B, New York</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-calendar"></i>
+                                            <span>Tomorrow, 10:00 AM</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-tools"></i>
+                                            <span>Leaking Pipe Repair</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-dollar-sign"></i>
+                                            <span>Estimated: ₹80-120</span>
+                                        </div>
+                                    </div>
+                                    <div class="request-description">
+                                        <p>Kitchen sink pipe is leaking. Water is collecting under the sink. Need urgent repair.</p>
+                                    </div>
+                                    <div class="request-actions">
+                                        <button class="btn btn-primary">Accept Request</button>
+                                        <button class="btn btn-outline-danger">Decline</button>
+                                        <button class="btn btn-outline-secondary">
+                                            <i class="fas fa-info-circle"></i> More Details
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Request Card 2 -->
+                                <div class="request-card">
+                                    <div class="request-header">
+                                        <div class="customer-info">
+                                            <img src="assets/images/profile-placeholder.jpg" alt="Customer">
+                                            <div>
+                                                <h4>Michael Brown</h4>
+                                                <p class="text-muted">Plumbing Service</p>
+                                            </div>
+                                        </div>
+                                        <span class="badge bg-primary">New</span>
+                                    </div>
+                                    <div class="request-details">
+                                        <div class="detail-item">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <span>456 Oak Avenue, Brooklyn</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-calendar"></i>
+                                            <span>Today, 3:00 PM</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-tools"></i>
+                                            <span>Bathroom Faucet Installation</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-dollar-sign"></i>
+                                            <span>Estimated: ₹100-150</span>
+                                        </div>
+                                    </div>
+                                    <div class="request-description">
+                                        <p>Need to install a new bathroom faucet. Old one is removed and new one is ready for installation.</p>
+                                    </div>
+                                    <div class="request-actions">
+                                        <button class="btn btn-primary">Accept Request</button>
+                                        <button class="btn btn-outline-danger">Decline</button>
+                                        <button class="btn btn-outline-secondary">
+                                            <i class="fas fa-info-circle"></i> More Details
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Accepted Requests Tab -->
+                        <div class="tab-pane fade" id="acceptedRequests">
+                            <div class="request-cards">
+                                <!-- Accepted Request Card -->
+                                <div class="request-card">
+                                    <div class="request-header">
+                                        <div class="customer-info">
+                                            <img src="assets/images/profile-placeholder.jpg" alt="Customer">
+                                            <div>
+                                                <h4>Emily Wilson</h4>
+                                                <p class="text-muted">Plumbing Service</p>
+                                            </div>
+                                        </div>
+                                        <span class="badge bg-success">Accepted</span>
+                                    </div>
+                                    <div class="request-details">
+                                        <div class="detail-item">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <span>789 Pine Road, Queens</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-calendar"></i>
+                                            <span>Tomorrow, 2:00 PM</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-tools"></i>
+                                            <span>Water Heater Repair</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-dollar-sign"></i>
+                                            <span>Estimated: ₹150-200</span>
+                                        </div>
+                                    </div>
+                                    <div class="request-description">
+                                        <p>Water heater not producing hot water. Need diagnostic and repair service.</p>
+                                    </div>
+                                    <div class="request-actions">
+                                        <button class="btn btn-success">Start Service</button>
+                                        <button class="btn btn-outline-primary">Contact Customer</button>
+                                        <button class="btn btn-outline-secondary">
+                                            <i class="fas fa-map-marked-alt"></i> Get Directions
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- In Progress Tab -->
+                        <div class="tab-pane fade" id="inProgress">
+                            <div class="request-cards">
+                                <!-- In Progress Request Card -->
+                                <div class="request-card">
+                                    <div class="request-header">
+                                        <div class="customer-info">
+                                            <img src="assets/images/profile-placeholder.jpg" alt="Customer">
+                                            <div>
+                                                <h4>David Chen</h4>
+                                                <p class="text-muted">Plumbing Service</p>
+                                            </div>
+                                        </div>
+                                        <span class="badge bg-warning">In Progress</span>
+                                    </div>
+                                    <div class="request-details">
+                                        <div class="detail-item">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <span>321 Elm Street, Manhattan</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-clock"></i>
+                                            <span>Started: 1 hour ago</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-tools"></i>
+                                            <span>Drain Cleaning</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-dollar-sign"></i>
+                                            <span>Quoted: ₹120</span>
+                                        </div>
+                                    </div>
+                                    <div class="request-description">
+                                        <p>Main bathroom drain clogged. Currently working on snake cleaning.</p>
+                                    </div>
+                                    <div class="request-actions">
+                                        <button class="btn btn-success">Complete Service</button>
+                                        <button class="btn btn-outline-warning">Report Issue</button>
+                                        <button class="btn btn-outline-primary">Update Status</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/dashboard.js"></script>
+    <script src="js/service-requests.js"></script>
+</body>
+</html>

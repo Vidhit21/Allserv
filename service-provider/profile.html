@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllServ - Profile</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/dashboard.css" rel="stylesheet">
+    <link href="css/profile.css" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar (Same as dashboard.html) -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/images/logo.png" alt="AllServ Logo" class="logo">
+                <h1>AllServ</h1>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="dashboard.html">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="service-requests.html">
+                            <i class="fas fa-clipboard-list"></i>
+                            <span>Service Requests</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="service-history.html">
+                            <i class="fas fa-history"></i>
+                            <span>Service History</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="earnings.html">
+                            <i class="fas fa-wallet"></i>
+                            <span>Earnings</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="profile.html">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="support.html">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Help & Support</span>
+                </a>
+                <a href="#" class="logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <nav class="top-nav">
+                <button class="toggle-sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="nav-right">
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="user-profile">
+                        <img src="assets/images/provider/person.png" alt="Profile Picture">
+                        <span>John Doe</span>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Profile Content -->
+            <div class="profile-content">
+                <!-- Profile Header -->
+                <div class="profile-header-card">
+                    <div class="cover-photo">
+                        <img src="assets/images/provider/cover.png" alt="Cover Photo">
+                        <button class="edit-cover">
+                            <i class="fas fa-camera"></i>
+                            <span>Change Cover</span>
+                        </button>
+                        <input type="file" id="coverImageInput" hidden accept="image/*">
+                    </div>
+                    <div class="profile-info-section">
+                        <div class="profile-photo">
+                            <img src="assets/images/provider/person.png" alt="Profile Picture">
+                            <button class="edit-photo">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                            <input type="file" id="profileImageInput" hidden accept="image/*">
+                        </div>
+                        <div class="profile-details">
+                            <h2>John Doe</h2>
+                            <p class="profession">Professional Plumber</p>
+                            <div class="profile-stats">
+                                <div class="stat-item">
+                                    <i class="fas fa-star"></i>
+                                    <span>4.8 Rating</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>156 Jobs</span>
+                                </div>
+                                <div class="stat-item">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    <span>New York, USA</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-actions">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-edit"></i> Edit Profile
+                            </button>
+                            <button class="btn btn-outline-primary">
+                                <i class="fas fa-share"></i> Share Profile
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Navigation -->
+                <div class="profile-nav">
+                    <div class="nav-item active" data-tab="about">
+                        <i class="fas fa-user"></i>
+                        <span>About</span>
+                    </div>
+                    <div class="nav-item" data-tab="services">
+                        <i class="fas fa-tools"></i>
+                        <span>Services</span>
+                    </div>
+                    <div class="nav-item" data-tab="reviews">
+                        <i class="fas fa-star"></i>
+                        <span>Reviews</span>
+                    </div>
+                    <div class="nav-item" data-tab="documents">
+                        <i class="fas fa-file"></i>
+                        <span>Documents</span>
+                    </div>
+                    <div class="nav-item" data-tab="schedule">
+                        <i class="fas fa-calendar"></i>
+                        <span>Schedule</span>
+                    </div>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content">
+                    <!-- About Tab -->
+                    <div class="tab-pane active" id="about">
+                        <div class="content-grid">
+                            <!-- Personal Information -->
+                            <div class="info-card">
+                                <div class="card-header">
+                                    <h3>Personal Information</h3>
+                                    <button class="btn btn-link">
+                                        <i class="fas fa-pen"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="info-grid">
+                                        <div class="info-item">
+                                            <label>Full Name</label>
+                                            <p>John Michael Doe</p>
+                                        </div>
+                                        <div class="info-item">
+                                            <label>Email</label>
+                                            <p>john.doe@example.com</p>
+                                        </div>
+                                        <div class="info-item">
+                                            <label>Phone</label>
+                                            <p>+1 (555) 123-4567</p>
+                                        </div>
+                                        <div class="info-item">
+                                            <label>Location</label>
+                                            <p>New York, United States</p>
+                                        </div>
+                                        <div class="info-item">
+                                            <label>Member Since</label>
+                                            <p>January 2023</p>
+                                        </div>
+                                        <div class="info-item">
+                                            <label>Languages</label>
+                                            <p>English, Spanish</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Professional Information -->
+                            <div class="info-card">
+                                <div class="card-header">
+                                    <h3>Professional Details</h3>
+                                    <button class="btn btn-link">
+                                        <i class="fas fa-pen"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="info-grid">
+                                        <div class="info-item full-width">
+                                            <label>Bio</label>
+                                            <p>Professional plumber with over 10 years of experience in residential and commercial plumbing services. Specialized in emergency repairs, installations, and maintenance.</p>
+                                        </div>
+                                        <div class="info-item">
+                                            <label>Experience</label>
+                                            <p>10+ Years</p>
+                                        </div>
+                                        <div class="info-item">
+                                            <label>Specialization</label>
+                                            <p>Emergency Repairs, Installation</p>
+                                        </div>
+                                        <div class="info-item">
+                                            <label>Certification</label>
+                                            <p>Master Plumber License</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Skills -->
+                            <div class="info-card">
+                                <div class="card-header">
+                                    <h3>Skills & Expertise</h3>
+                                    <button class="btn btn-link">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="skills-grid">
+                                        <div class="skill-tag">Emergency Repairs</div>
+                                        <div class="skill-tag">Pipe Installation</div>
+                                        <div class="skill-tag">Water Heaters</div>
+                                        <div class="skill-tag">Drain Cleaning</div>
+                                        <div class="skill-tag">Leak Detection</div>
+                                        <div class="skill-tag">Fixture Installation</div>
+                                        <div class="skill-tag">Maintenance</div>
+                                        <div class="skill-tag">Troubleshooting</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Services Tab -->
+                    <div class="tab-pane" id="services">
+                        <div class="services-grid">
+                            <div class="service-card">
+                                <div class="service-icon">
+                                    <i class="fas fa-wrench"></i>
+                                </div>
+                                <h4>Emergency Repairs</h4>
+                                <p>24/7 emergency plumbing repair services for urgent issues</p>
+                                <div class="service-price">
+                                    <span>Starting from</span>
+                                    <h5>₹85/hour</h5>
+                                </div>
+                            </div>
+                            <div class="service-card">
+                                <div class="service-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <h4>Emergency Plumbing</h4>
+                                <p>24/7 emergency plumbing services for urgent issues like burst pipes, severe leaks, or flooding.</p>
+                                <div class="service-price">
+                                    <span>Starting at</span>
+                                    <h5>₹150/hour</h5>
+                                </div>
+                            </div>
+                            <div class="service-card">
+                                <div class="service-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <h4>Home Inspection</h4>
+                                <p>Comprehensive plumbing inspection for home buyers, sellers, or maintenance.</p>
+                                <div class="service-price">
+                                    <span>Flat Rate</span>
+                                    <h5>₹199</h5>
+                                </div>
+                            </div>
+                            <div class="service-card">
+                                <div class="service-icon">
+                                    <i class="fas fa-sink"></i>
+                                </div>
+                                <h4>Kitchen Remodeling</h4>
+                                <p>Complete kitchen plumbing remodeling including sink, dishwasher, and garbage disposal installation.</p>
+                                <div class="service-price">
+                                    <span>Starting at</span>
+                                    <h5>₹500</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews Tab -->
+                    <div class="tab-pane" id="reviews">
+                        <div class="reviews-header">
+                            <div class="rating-summary">
+                                <div class="overall-rating">
+                                    <h1>4.8</h1>
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <p>Based on 156 reviews</p>
+                                </div>
+                                <div class="rating-bars">
+                                    <!-- Rating distribution bars -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="reviews-list">
+                            <div class="review-card" data-rating="4">
+                                <div class="review-header">
+                                    <img src="assets/images/user3.jpg" alt="David Wilson">
+                                    <div class="review-info">
+                                        <h6>David Wilson</h6>
+                                        <div class="stars">★★★★☆</div>
+                                        <span class="review-date">January 28, 2025</span>
+                                    </div>
+                                </div>
+                                <p class="review-text">Very professional service. Fixed our kitchen sink and garbage disposal. Would recommend.</p>
+                                <div class="review-photos">
+                                    <img src="assets/images/review1.jpg" alt="Kitchen Sink">
+                                    <img src="assets/images/review2.jpg" alt="Garbage Disposal">
+                                </div>
+                            </div>
+                            <div class="review-card" data-rating="5">
+                                <div class="review-header">
+                                    <img src="assets/images/user4.jpg" alt="Emily Chen">
+                                    <div class="review-info">
+                                        <h6>Emily Chen</h6>
+                                        <div class="stars">★★★★★</div>
+                                        <span class="review-date">January 25, 2025</span>
+                                    </div>
+                                </div>
+                                <p class="review-text">John came for an emergency pipe burst at 2 AM! Saved us from a disaster. Extremely grateful for the quick response.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Documents Tab -->
+                    <div class="tab-pane" id="documents">
+                        <div class="documents-header">
+                            <h3>Verification Documents</h3>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-upload"></i> Upload Document
+                            </button>
+                        </div>
+                        <div class="documents-grid">
+                            <!-- Document cards will go here -->
+                        </div>
+                    </div>
+
+                    <!-- Schedule Tab -->
+                    <div class="tab-pane" id="schedule">
+                        <div class="schedule-grid">
+                            <!-- Availability schedule will go here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Time Slot Modal -->
+    <div class="modal fade" id="addTimeSlotModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Time Slot</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="timeSlotForm">
+                        <div class="mb-3">
+                            <label class="form-label">Start Time</label>
+                            <input type="time" class="form-control" id="startTime" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">End Time</label>
+                            <input type="time" class="form-control" id="endTime" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Slot</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Preview Modal -->
+    <div class="modal fade" id="documentPreviewModal">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Preview content will be dynamically inserted -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Book Modal -->
+    <div class="modal fade" id="quickBookModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Quick Book Service</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="quickBookForm">
+                        <h6 id="bookingServiceName" class="mb-4"></h6>
+                        <div class="mb-3">
+                            <label class="form-label">Select Date</label>
+                            <input type="date" class="form-control" id="bookingDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Available Time Slots</label>
+                            <select class="form-select" id="bookingTime" required></select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Notes (Optional)</label>
+                            <textarea class="form-control" rows="3" placeholder="Any special instructions or requirements?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Confirm Booking</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Upload Modal -->
+    <div class="modal fade" id="documentUploadModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Upload Document</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="documentUploadForm">
+                        <div class="mb-3">
+                            <label class="form-label">Document Type</label>
+                            <select class="form-select" required>
+                                <option value="">Select document type</option>
+                                <option value="license">License</option>
+                                <option value="certification">Certification</option>
+                                <option value="insurance">Insurance</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Document Title</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Expiry Date (if applicable)</label>
+                            <input type="date" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Upload File</label>
+                            <input type="file" class="form-control" required>
+                            <small class="text-muted">Supported formats: PDF, JPG, PNG (Max size: 5MB)</small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload Document</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/dashboard.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

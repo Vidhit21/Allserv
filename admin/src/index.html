@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AllServ Admin Panel</title>
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Chart.js for analytics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-cube"></i> AllServ Admin
+        </div>
+        <div class="navbar-nav">
+            <div class="nav-item" data-tooltip="Notifications">
+                <i class="fas fa-bell"></i>
+                <span class="badge">3</span>
+            </div>
+            <div class="nav-item">
+                <img src="../images/admin-avatar.png" alt="Admin" class="avatar">
+                <span>Admin User</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item active">
+                <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="provider-verification.html"><i class="fas fa-user-check"></i> Provider Verification</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="user-management.html"><i class="fas fa-users"></i> User Management</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="reports.html"><i class="fas fa-chart-bar"></i> Reports</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="content-management.html"><i class="fas fa-edit"></i> Content Management</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="support.html"><i class="fas fa-headset"></i> Support</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Dashboard</h1>
+            <p class="text-muted">Welcome back, Admin User</p>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-card-title">Total Users</div>
+                <div class="stat-card-value">2,547</div>
+                <div class="stat-card-trend text-success">
+                    <i class="fas fa-arrow-up"></i> 12% this month
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-title">Active Providers</div>
+                <div class="stat-card-value">184</div>
+                <div class="stat-card-trend text-success">
+                    <i class="fas fa-arrow-up"></i> 8% this month
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-title">Total Revenue</div>
+                <div class="stat-card-value">₹45,289</div>
+                <div class="stat-card-trend text-success">
+                    <i class="fas fa-arrow-up"></i> 15% this month
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-card-title">Pending Verifications</div>
+                <div class="stat-card-value">23</div>
+                <div class="stat-card-trend text-warning">
+                    <i class="fas fa-arrow-up"></i> 5 new today
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-container">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">Revenue Overview</h3>
+                    <select class="chart-period">
+                        <option>Last 7 Days</option>
+                        <option>Last 30 Days</option>
+                        <option>Last 3 Months</option>
+                    </select>
+                </div>
+                <canvas id="revenueChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3 class="chart-title">User Growth</h3>
+                    <select class="chart-period">
+                        <option>Last 7 Days</option>
+                        <option>Last 30 Days</option>
+                        <option>Last 3 Months</option>
+                    </select>
+                </div>
+                <canvas id="userGrowthChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="activity-list">
+            <h3 class="mb-3">Recent Activity</h3>
+            <div class="activity-item">
+                <div class="activity-icon bg-primary">
+                    <i class="fas fa-user-plus text-white"></i>
+                </div>
+                <div class="activity-details">
+                    <div class="activity-title">New Provider Registration</div>
+                    <div class="activity-description">John Doe registered as a new service provider</div>
+                    <div class="activity-time">2 hours ago</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon bg-success">
+                    <i class="fas fa-check text-white"></i>
+                </div>
+                <div class="activity-details">
+                    <div class="activity-title">Provider Verified</div>
+                    <div class="activity-description">Sarah Smith's provider account was verified</div>
+                    <div class="activity-time">4 hours ago</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-icon bg-warning">
+                    <i class="fas fa-exclamation text-white"></i>
+                </div>
+                <div class="activity-details">
+                    <div class="activity-title">New Support Ticket</div>
+                    <div class="activity-description">New support ticket #2547 requires attention</div>
+                    <div class="activity-time">5 hours ago</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="../js/dashboard.js"></script>
+</body>
+</html>

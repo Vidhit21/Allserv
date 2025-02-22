@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Service - AllServ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="css/services.css"> -->
+    <link rel="stylesheet" href="css/booking.css">
+    <link rel="stylesheet" href="css/cart-wishlist.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Progress Bar -->
+    <div class="booking-progress">
+        <div class="progress-container">
+            <div class="progress-step active">
+                <span>Service Details</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step active">
+                <span>Booking Details</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <span>Payment</span>
+            </div>
+            <div class="progress-line"></div>
+            <div class="progress-step">
+                <span>Confirmation</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Booking Section -->
+    <section class="booking-section">
+        <div class="container">
+            <div class="booking-container">
+                <!-- Service Summary -->
+                <div class="service-summary">
+                    {{ ... }}
+                </div>
+
+                <!-- Booking Form -->
+                <div class="booking-form">
+                    <!-- Step 1: Service Details -->
+                    <div class="form-step" id="step1">
+                        <div class="form-sections">
+                            <div class="form-section">
+                                <h3><i class="fas fa-info-circle"></i> Service Details</h3>
+                                <div class="form-group">
+                                    <label for="serviceType">Service Type</label>
+                                    <select id="serviceType" name="serviceType" required>
+                                        <option value="">Select a service</option>
+                                        <option value="cleaning">House Cleaning</option>
+                                        <option value="repair">Home Repair</option>
+                                        <option value="plumbing">Plumbing</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="servicePackage">Service Package</label>
+                                    <select id="servicePackage" name="servicePackage" required>
+                                        <option value="">Select a package</option>
+                                        <option value="basic">Basic</option>
+                                        <option value="standard">Standard</option>
+                                        <option value="premium">Premium</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-navigation">
+                            <button type="button" class="btn-next">Continue to Booking Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Booking Details -->
+                    <div class="form-step" id="step2" style="display: none;">
+                        <div class="form-sections">
+                            <div class="form-section" id="dateTimeSection">
+                                <h3><i class="far fa-calendar-alt"></i> Schedule Service</h3>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="date">Preferred Date</label>
+                                        <input type="date" id="date" name="date" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="time">Preferred Time</label>
+                                        <select id="time" name="time" required>
+                                            <option value="">Select time</option>
+                                            <option value="morning">Morning (8 AM - 12 PM)</option>
+                                            <option value="afternoon">Afternoon (12 PM - 4 PM)</option>
+                                            <option value="evening">Evening (4 PM - 8 PM)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-section" id="locationSection">
+                                <h3><i class="fas fa-map-marker-alt"></i> Service Location</h3>
+                                <div class="form-group">
+                                    <label for="address">Address</label>
+                                    <input type="text" id="address" name="address" required>
+                                </div>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="city">City</label>
+                                        <input type="text" id="city" name="city" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="zipcode">Zipcode</label>
+                                        <input type="text" id="zipcode" name="zipcode" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-navigation">
+                            <button type="button" class="btn-prev">Previous</button>
+                            <button type="button" class="btn-next">Continue to Payment</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Payment -->
+                    <div class="form-step" id="step3" style="display: none;">
+                        <div class="form-sections">
+                            <div class="form-section" id="paymentSection">
+                                <h3><i class="fas fa-credit-card"></i> Payment Details</h3>
+                                <div class="payment-methods">
+                                    <label class="payment-method">
+                                        <input type="radio" name="payment" value="card" checked>
+                                        <img src="images/visa.png" alt="Visa">
+                                        Credit/Debit Card
+                                    </label>
+                                    <label class="payment-method">
+                                        <input type="radio" name="payment" value="paypal">
+                                        <img src="images/paypal.png" alt="PayPal">
+                                        PayPal
+                                    </label>
+                                </div>
+
+                                <div id="cardDetails">
+                                    <div class="form-group">
+                                        <label for="cardNumber">Card Number</label>
+                                        <input type="text" id="cardNumber" name="cardNumber"
+                                            placeholder="1234 5678 9012 3456">
+                                    </div>
+                                    <div class="form-grid">
+                                        <div class="form-group">
+                                            <label for="expiry">Expiry Date</label>
+                                            <input type="text" id="expiry" name="expiry" placeholder="MM/YY">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="cvv">CVV</label>
+                                            <input type="text" id="cvv" name="cvv" placeholder="123">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="order-summary">
+                                <h3>Order Summary</h3>
+                                <div class="summary-items">
+                                    <div class="summary-item">
+                                        <span>Service Price</span>
+                                        <span id="summaryPrice">₹99.99</span>
+                                    </div>
+                                    <div class="summary-item">
+                                        <span>Discount</span>
+                                        <span id="summaryDiscount">-₹20.00</span>
+                                    </div>
+                                    <div class="summary-item total">
+                                        <span>Total Amount</span>
+                                        <span id="summaryTotal">₹79.99</span>
+                                    </div>
+                                </div>
+
+                                <div class="promo-code">
+                                    <input type="text" placeholder="Enter promo code">
+                                    <button type="button">Apply</button>
+                                </div>
+
+                                <div class="terms-checkbox">
+                                    <input type="checkbox" id="terms" required>
+                                    <label for="terms">I agree to the <a href="#">Terms & Conditions</a></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-navigation">
+                            <button type="button" class="btn-prev">Previous</button>
+                            <button type="button" class="btn-next">Continue to Confirmation</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Confirmation -->
+                    <div class="form-step" id="step4" style="display: none;">
+                        <div class="form-sections">
+                            <div class="form-section">
+                                <h3><i class="fas fa-check-circle"></i> Booking Confirmation</h3>
+                                <div class="confirmation-details">
+                                    <p>Please review your booking details before confirming:</p>
+                                    <div class="confirmation-item">
+                                        <strong>Service:</strong>
+                                        <span id="confirmService"></span>
+                                    </div>
+                                    <div class="confirmation-item">
+                                        <strong>Date & Time:</strong>
+                                        <span id="confirmDateTime"></span>
+                                    </div>
+                                    <div class="confirmation-item">
+                                        <strong>Location:</strong>
+                                        <span id="confirmLocation"></span>
+                                    </div>
+                                    <div class="confirmation-item">
+                                        <strong>Total Amount:</strong>
+                                        <span id="confirmAmount"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-navigation">
+                            <button type="button" class="btn-prev">Previous</button>
+                            <button type="button" class="btn-book" id="confirmBooking">Confirm Booking</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Need Help Section -->
+    <section class="need-help">
+        <div class="container">
+            <div class="help-content">
+                <i class="fas fa-headset"></i>
+                <h3>Need Help?</h3>
+                <p>Our support team is available 24/7</p>
+                <div class="help-actions">
+                    <a href="#" class="help-btn"><i class="fas fa-comments"></i> Live Chat</a>
+                    <a href="tel:+1234567890" class="help-btn"><i class="fas fa-phone"></i> Call Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/booking.js"></script>
+</body>
+
+</html>

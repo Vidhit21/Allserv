@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - AllServ Admin</title>
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="../css/support.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-cube"></i> AllServ Admin
+        </div>
+        <div class="navbar-nav">
+            <div class="nav-item">
+                <i class="fas fa-bell"></i>
+                <span class="badge">3</span>
+            </div>
+            <div class="nav-item">
+                <img src="../images/admin-avatar.png" alt="Admin" class="avatar">
+                <span>Admin User</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item">
+                <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="provider-verification.html"><i class="fas fa-user-check"></i> Provider Verification</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="user-management.html"><i class="fas fa-users"></i> User Management</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="reports.html"><i class="fas fa-chart-bar"></i> Reports</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="content-management.html"><i class="fas fa-edit"></i> Content Management</a>
+            </li>
+            <li class="sidebar-nav-item active">
+                <a href="support.html"><i class="fas fa-headset"></i> Support</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Support Center</h1>
+            <div class="header-actions">
+                <select class="ticket-filter">
+                    <option value="all">All Tickets</option>
+                    <option value="open">Open</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="resolved">Resolved</option>
+                </select>
+                <button class="btn btn-primary" id="exportTickets">
+                    <i class="fas fa-download"></i> Export
+                </button>
+            </div>
+        </div>
+
+        <!-- Support Overview -->
+        <div class="support-overview">
+            <div class="overview-card">
+                <div class="card-icon">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Open Tickets</h3>
+                    <div class="card-value">24</div>
+                </div>
+                <div class="card-trend positive">
+                    <i class="fas fa-arrow-down"></i> 12%
+                </div>
+            </div>
+            <div class="overview-card">
+                <div class="card-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Average Response</h3>
+                    <div class="card-value">2.5h</div>
+                </div>
+                <div class="card-trend positive">
+                    <i class="fas fa-arrow-down"></i> 0.5h
+                </div>
+            </div>
+            <div class="overview-card">
+                <div class="card-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Resolution Rate</h3>
+                    <div class="card-value">94%</div>
+                </div>
+                <div class="card-trend positive">
+                    <i class="fas fa-arrow-up"></i> 3%
+                </div>
+            </div>
+            <div class="overview-card">
+                <div class="card-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="card-content">
+                    <h3>Satisfaction</h3>
+                    <div class="card-value">4.8/5</div>
+                </div>
+                <div class="card-trend positive">
+                    <i class="fas fa-arrow-up"></i> 0.2
+                </div>
+            </div>
+        </div>
+
+        <!-- Ticket List -->
+        <div class="ticket-list">
+            <div class="ticket-item high-priority">
+                <div class="ticket-header">
+                    <div class="ticket-id">#1234</div>
+                    <div class="ticket-priority">
+                        <i class="fas fa-flag"></i> High
+                    </div>
+                </div>
+                <div class="ticket-content">
+                    <div class="ticket-title">Payment Processing Issue</div>
+                    <div class="ticket-description">Unable to process credit card payments for service bookings.</div>
+                </div>
+                <div class="ticket-meta">
+                    <div class="ticket-user">
+                        <img src="../images/user-avatar.png" alt="User" class="avatar">
+                        <span>John Smith</span>
+                    </div>
+                    <div class="ticket-category">Payment</div>
+                    <div class="ticket-time">2h ago</div>
+                </div>
+                <div class="ticket-actions">
+                    <button class="btn btn-outline">View</button>
+                    <button class="btn btn-primary">Respond</button>
+                </div>
+            </div>
+
+            <div class="ticket-item medium-priority">
+                <div class="ticket-header">
+                    <div class="ticket-id">#1235</div>
+                    <div class="ticket-priority">
+                        <i class="fas fa-flag"></i> Medium
+                    </div>
+                </div>
+                <div class="ticket-content">
+                    <div class="ticket-title">Service Provider App Login</div>
+                    <div class="ticket-description">Unable to log in to the service provider mobile app.</div>
+                </div>
+                <div class="ticket-meta">
+                    <div class="ticket-user">
+                        <img src="../images/provider-avatar.png" alt="Provider" class="avatar">
+                        <span>Sarah Johnson</span>
+                    </div>
+                    <div class="ticket-category">Authentication</div>
+                    <div class="ticket-time">3h ago</div>
+                </div>
+                <div class="ticket-actions">
+                    <button class="btn btn-outline">View</button>
+                    <button class="btn btn-primary">Respond</button>
+                </div>
+            </div>
+
+            <div class="ticket-item low-priority in-progress">
+                <div class="ticket-header">
+                    <div class="ticket-id">#1236</div>
+                    <div class="ticket-priority">
+                        <i class="fas fa-flag"></i> Low
+                    </div>
+                </div>
+                <div class="ticket-content">
+                    <div class="ticket-title">Booking Modification Request</div>
+                    <div class="ticket-description">Need to change the scheduled service time for tomorrow.</div>
+                </div>
+                <div class="ticket-meta">
+                    <div class="ticket-user">
+                        <img src="../images/user-avatar.png" alt="User" class="avatar">
+                        <span>Emma Davis</span>
+                    </div>
+                    <div class="ticket-category">Booking</div>
+                    <div class="ticket-time">5h ago</div>
+                </div>
+                <div class="ticket-actions">
+                    <button class="btn btn-outline">View</button>
+                    <button class="btn btn-primary">Respond</button>
+                </div>
+            </div>
+
+            <div class="ticket-item medium-priority resolved">
+                <div class="ticket-header">
+                    <div class="ticket-id">#1237</div>
+                    <div class="ticket-priority">
+                        <i class="fas fa-flag"></i> Medium
+                    </div>
+                </div>
+                <div class="ticket-content">
+                    <div class="ticket-title">Refund Request</div>
+                    <div class="ticket-description">Service not completed as described, requesting refund.</div>
+                </div>
+                <div class="ticket-meta">
+                    <div class="ticket-user">
+                        <img src="../images/user-avatar.png" alt="User" class="avatar">
+                        <span>Michael Brown</span>
+                    </div>
+                    <div class="ticket-category">Refund</div>
+                    <div class="ticket-time">1d ago</div>
+                </div>
+                <div class="ticket-actions">
+                    <button class="btn btn-outline">View</button>
+                    <div class="resolved-status">
+                        <i class="fas fa-check-circle"></i> Resolved
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ticket Details Modal -->
+        <div class="modal" id="ticketModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Ticket #1234 - Payment Processing Issue</h2>
+                    <button class="close-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="ticket-details">
+                        <div class="detail-group">
+                            <label>Status</label>
+                            <select class="status-select">
+                                <option value="open">Open</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="resolved">Resolved</option>
+                            </select>
+                        </div>
+                        <div class="detail-group">
+                            <label>Priority</label>
+                            <select class="priority-select">
+                                <option value="high">High</option>
+                                <option value="medium">Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                        <div class="detail-group">
+                            <label>Assigned To</label>
+                            <select class="agent-select">
+                                <option value="agent1">John Agent</option>
+                                <option value="agent2">Sarah Support</option>
+                                <option value="agent3">Mike Helper</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="conversation-history">
+                        <h3>Conversation History</h3>
+                        <div class="message customer">
+                            <div class="message-header">
+                                <span class="message-sender">John Smith</span>
+                                <span class="message-time">2h ago</span>
+                            </div>
+                            <div class="message-content">
+                                I'm trying to make a payment for a cleaning service but keep getting an error message. Can you help?
+                            </div>
+                        </div>
+                        <div class="message agent">
+                            <div class="message-header">
+                                <span class="message-sender">Support Agent</span>
+                                <span class="message-time">1h ago</span>
+                            </div>
+                            <div class="message-content">
+                                Hi John, I'm sorry to hear you're having trouble. Can you please provide the error message you're seeing?
+                            </div>
+                        </div>
+                    </div>
+                    <div class="response-area">
+                        <textarea placeholder="Type your response..."></textarea>
+                        <div class="response-actions">
+                            <button class="btn btn-outline">
+                                <i class="fas fa-paperclip"></i> Attach
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-reply"></i> Internal Note
+                            </button>
+                            <button class="btn btn-primary">Send Response</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="../js/support.js"></script>
+</body>
+</html>

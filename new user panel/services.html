@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - AllServ</title>
+    <link rel="stylesheet" href="css/services.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+       <!-- Top Bar -->
+       <div class="top-bar">
+        <div class="container">
+            <div class="contact-info">
+                <span><i class="fas fa-phone"></i> +1 234 567 890</span>
+                <span><i class="fas fa-envelope"></i> support@allserv.com</span>
+            </div>
+            <div class="user-actions">
+                <a href="login.html"><i class="fas fa-user"></i> Login</a>
+                <a href="register.html"><i class="fas fa-user-plus"></i> Register</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html"><h1>AllServ</h1></a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html" class="active">Services</a></li>
+                    <li><a href="booking-history.html">My Bookings</a></li>
+                    <li><a href="support.html">Support</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="#" class="wishlist-icon"><i class="fas fa-heart"></i><span class="wishlist-count">0</span></a>
+                <a href="#" class="cart-icon"><i class="fas fa-shopping-cart"></i><span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Services Hero Section -->
+        <section class="services-hero">
+            <div class="container">
+                <div class="services-hero-content">
+                    <h1>Our Services</h1>
+                    <p>Discover our wide range of professional services for your home and office</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Filter -->
+        <section class="category-filter">
+            <div class="container">
+                <div class="filter-wrapper">
+                    <div class="filter-group">
+                        <label>Categories:</label>
+                        <div class="category-buttons">
+                            <button class="filter-btn active" data-category="all">All</button>
+                            <button class="filter-btn" data-category="cleaning">Cleaning</button>
+                            <button class="filter-btn" data-category="repair">Repair</button>
+                            <button class="filter-btn" data-category="maintenance">Maintenance</button>
+                            <button class="filter-btn" data-category="renovation">Renovation</button>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label>Sort by:</label>
+                        <select class="sort-select">
+                            <option value="popular">Most Popular</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="rating">Highest Rated</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Grid -->
+        <section class="services-grid">
+            <div class="container">
+                <div class="services-wrapper" id="servicesContainer">
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="assets/images/services/cleaning-2.jpg" alt="Office Cleaning">
+                            <span class="service-badge">20% Off</span>
+                        </div>
+                        <div class="service-content">
+                            <div class="service-category">Cleaning</div>
+                            <h3>Office Cleaning</h3>
+                            <p>Professional cleaning services for offices and commercial spaces</p>
+                            <div class="service-features">
+                                <span><i class="fas fa-check"></i> Daily Service</span>
+                                <span><i class="fas fa-check"></i> Weekly Service</span>
+                                <span><i class="fas fa-check"></i> Monthly Service</span>
+                            </div>
+                            <div class="service-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span>(156 reviews)</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="current-price">₹199</span>
+                                <span class="original-price">₹249</span>
+                            </div>
+                            <div class="service-actions">
+                                <button class="btn-book" onclick="location.href='booking.html'">Book Now</button>
+                                <button class="btn-wishlist"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="assets/images/services/repair-2.jpg" alt="Appliance Repair">
+                            <span class="service-badge">Fast Service</span>
+                        </div>
+                        <div class="service-content">
+                            <div class="service-category">Repair</div>
+                            <h3>Appliance Repair</h3>
+                            <p>Expert repair services for all home appliances</p>
+                            <div class="service-features">
+                                <span><i class="fas fa-check"></i> All Brands</span>
+                                <span><i class="fas fa-check"></i> Warranty Service</span>
+                                <span><i class="fas fa-check"></i> Genuine Parts</span>
+                            </div>
+                            <div class="service-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>(198 reviews)</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="current-price">₹69</span>
+                                <span class="original-price">₹89</span>
+                            </div>
+                            <div class="service-actions">
+                                <button class="btn-book" onclick="location.href='booking.html'">Book Now</button>
+                                <button class="btn-wishlist"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="assets/images/services/maintenance-1.jpg" alt="HVAC Maintenance">
+                            <span class="service-badge">Recommended</span>
+                        </div>
+                        <div class="service-content">
+                            <div class="service-category">Maintenance</div>
+                            <h3>HVAC Maintenance</h3>
+                            <p>Regular maintenance and servicing for HVAC systems</p>
+                            <div class="service-features">
+                                <span><i class="fas fa-check"></i> System Check</span>
+                                <span><i class="fas fa-check"></i> Filter Change</span>
+                                <span><i class="fas fa-check"></i> Performance Test</span>
+                            </div>
+                            <div class="service-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>(178 reviews)</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="current-price">₹129</span>
+                                <span class="original-price">₹159</span>
+                            </div>
+                            <div class="service-actions">
+                                <button class="btn-book" onclick="location.href='booking.html'">Book Now</button>
+                                <button class="btn-wishlist"><i class="far fa-heart"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Services -->
+        <section class="featured-services">
+            <div class="container">
+                <h2>Featured Services</h2>
+                <div class="featured-grid">
+                    <div class="featured-card">
+                        <div class="featured-image">
+                            <img src="assets/images/services/cleaning-2.jpg" alt="Home Deep Cleaning">
+                            <div class="featured-badge">Popular</div>
+                        </div>
+                        <div class="featured-content">
+                            <div class="featured-category">Cleaning</div>
+                            <h3>Home Deep Cleaning</h3>
+                            <div class="featured-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span>(245)</span>
+                            </div>
+                            <div class="featured-price">
+                                <span class="current-price">₹149</span>
+                                <span class="original-price">₹199</span>
+                            </div>
+                            <button class="btn-book" onclick="location.href='booking.html'">Book Now</button>
+                        </div>
+                    </div>
+
+                    <div class="featured-card">
+                        <div class="featured-image">
+                            <img src="assets/images/services/repair-1.jpg" alt="AC Repair & Service">
+                            <div class="featured-badge">Best Seller</div>
+                        </div>
+                        <div class="featured-content">
+                            <div class="featured-category">Repair</div>
+                            <h3>AC Repair & Service</h3>
+                            <div class="featured-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span>(189)</span>
+                            </div>
+                            <div class="featured-price">
+                                <span class="current-price">₹79</span>
+                                <span class="original-price">₹99</span>
+                            </div>
+                            <button class="btn-book" onclick="location.href='booking.html'">Book Now</button>
+                        </div>
+                    </div>
+
+                    <div class="featured-card">
+                        <div class="featured-image">
+                            <img src="assets/images/services/plumbing-1.jpg" alt="Plumbing Services">
+                            <div class="featured-badge">Top Rated</div>
+                        </div>
+                        <div class="featured-content">
+                            <div class="featured-category">Maintenance</div>
+                            <h3>Plumbing Services</h3>
+                            <div class="featured-rating">
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <span>(167)</span>
+                            </div>
+                            <div class="featured-price">
+                                <span class="current-price">₹89</span>
+                                <span class="original-price">₹119</span>
+                            </div>
+                            <button class="btn-book" onclick="location.href='booking.html'">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Toast Container -->
+        <div id="toastContainer" class="toast-container"></div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>About AllServ</h3>
+                    <p>Your trusted platform for all home and professional services. We connect you with verified service providers to make your life easier.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="services.html"><i class="fas fa-chevron-right"></i> Services</a></li>
+                        <li><a href="booking.html"><i class="fas fa-chevron-right"></i> Book Now</a></li>
+                        <li><a href="booking-history.html"><i class="fas fa-chevron-right"></i> Booking History</a></li>
+                        <li><a href="support.html"><i class="fas fa-chevron-right"></i> Support</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Home Cleaning</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Appliance Repair</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Plumbing</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Electrical Work</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right"></i> Painting</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <div class="contact-info-footer">
+                        <div>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <p>123 Service Street, City, Country</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-phone-alt"></i>
+                            <p>+1 234 567 8900</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-envelope"></i>
+                            <p>support@allserv.com</p>
+                        </div>
+                    </div>
+                    <h3>Newsletter</h3>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2024 AllServ. All rights reserved. | Designed with <i class="fas fa-heart"></i> by AllServ Team</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+/* General Styling */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f7fc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Auth Container */
+.container {
+    max-width: 400px;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    text-align: center;
+}
+
+/* Title */
+h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+label {
+    font-weight: 600;
+    color: #555;
+}
+
+.form-control {
+    padding: 12px;
+    border: 2px solid #d1d9e6;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.3s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    outline: none;
+}
+
+/* Buttons */
+.btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease-in-out;
+    width: 100%;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 12px rgba(0, 91, 187, 0.2);
+}
+
+/* Links */
+a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .container {
+        padding: 25px;
+    }
+}

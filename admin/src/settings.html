@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - AllServ Admin</title>
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="../css/settings.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fas fa-cube"></i> AllServ Admin
+        </div>
+        <div class="navbar-nav">
+            <div class="nav-item">
+                <i class="fas fa-bell"></i>
+                <span class="badge">3</span>
+            </div>
+            <div class="nav-item">
+                <img src="../images/admin-avatar.png" alt="Admin" class="avatar">
+                <span>Admin User</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <ul class="sidebar-nav">
+            <li class="sidebar-nav-item">
+                <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="provider-verification.html"><i class="fas fa-user-check"></i> Provider Verification</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="user-management.html"><i class="fas fa-users"></i> User Management</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="reports.html"><i class="fas fa-chart-bar"></i> Reports</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="content-management.html"><i class="fas fa-edit"></i> Content Management</a>
+            </li>
+            <li class="sidebar-nav-item">
+                <a href="support.html"><i class="fas fa-headset"></i> Support</a>
+            </li>
+            <li class="sidebar-nav-item active">
+                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>System Settings</h1>
+            <button class="btn btn-primary" id="saveSettings">
+                <i class="fas fa-save"></i> Save Changes
+            </button>
+        </div>
+
+        <!-- Settings Sections -->
+        <div class="settings-container">
+            <!-- General Settings -->
+            <section class="settings-section">
+                <h2><i class="fas fa-sliders-h"></i> General Settings</h2>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <label>Platform Name</label>
+                        <input type="text" value="AllServ" placeholder="Enter platform name">
+                    </div>
+                    <div class="setting-item">
+                        <label>Support Email</label>
+                        <input type="email" value="support@allserv.com" placeholder="Enter support email">
+                    </div>
+                    <div class="setting-item">
+                        <label>Time Zone</label>
+                        <select>
+                            <option value="UTC-8">Pacific Time (PT)</option>
+                            <option value="UTC-5">Eastern Time (ET)</option>
+                            <option value="UTC+0">UTC</option>
+                            <option value="UTC+5.30" selected>India (IST)</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Date Format</label>
+                        <select>
+                            <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                            <option value="DD/MM/YYYY" selected>DD/MM/YYYY</option>
+                            <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Security Settings -->
+            <section class="settings-section">
+                <h2><i class="fas fa-shield-alt"></i> Security Settings</h2>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <label>Two-Factor Authentication</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="2fa" checked>
+                            <label for="2fa">Enable 2FA for admin accounts</label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label>Session Timeout (minutes)</label>
+                        <input type="number" value="30" min="5" max="120">
+                    </div>
+                    <div class="setting-item">
+                        <label>Password Policy</label>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" checked> Require uppercase letters
+                            </label>
+                            <label>
+                                <input type="checkbox" checked> Require numbers
+                            </label>
+                            <label>
+                                <input type="checkbox" checked> Require special characters
+                            </label>
+                            <label>
+                                <input type="checkbox" checked> Minimum 8 characters
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label>Login Attempts</label>
+                        <input type="number" value="5" min="3" max="10">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Notification Settings -->
+            <section class="settings-section">
+                <h2><i class="fas fa-bell"></i> Notification Settings</h2>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <label>Email Notifications</label>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" checked> New provider registrations
+                            </label>
+                            <label>
+                                <input type="checkbox" checked> High-priority support tickets
+                            </label>
+                            <label>
+                                <input type="checkbox" checked> System alerts
+                            </label>
+                            <label>
+                                <input type="checkbox"> Daily reports
+                            </label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label>Push Notifications</label>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" checked> New bookings
+                            </label>
+                            <label>
+                                <input type="checkbox" checked> Booking cancellations
+                            </label>
+                            <label>
+                                <input type="checkbox" checked> User reports
+                            </label>
+                            <label>
+                                <input type="checkbox" checked> Payment issues
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Payment Settings -->
+            <section class="settings-section">
+                <h2><i class="fas fa-credit-card"></i> Payment Settings</h2>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <label>Currency</label>
+                        <select>
+                            <option value="USD">USD ($)</option>
+                            <option value="EUR">EUR (€)</option>
+                            <option value="GBP">GBP (£)</option>
+                            <option value="INR" selected>INR (₹)</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Payment Gateway</label>
+                        <select>
+                            <option value="stripe">Stripe</option>
+                            <option value="paypal">PayPal</option>
+                            <option value="razorpay" selected>Razorpay</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Service Fee (%)</label>
+                        <input type="number" value="10" min="0" max="100" step="0.1">
+                    </div>
+                    <div class="setting-item">
+                        <label>Payment Methods</label>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" checked> Credit/Debit Cards
+                            </label>
+                            <label>
+                                <input type="checkbox" checked> UPI
+                            </label>
+                            <label>
+                                <input type="checkbox" checked> Net Banking
+                            </label>
+                            <label>
+                                <input type="checkbox"> Wallet
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- API Settings -->
+            <section class="settings-section">
+                <h2><i class="fas fa-code"></i> API Settings</h2>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <label>API Version</label>
+                        <select>
+                            <option value="v1">v1.0</option>
+                            <option value="v2" selected>v2.0</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>API Key</label>
+                        <div class="api-key-field">
+                            <input type="password" value="11111" readonly>
+                            <button class="btn btn-outline" id="showApiKey">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn btn-outline" id="copyApiKey">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                            <button class="btn btn-outline" id="regenerateApiKey">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label>Webhook URL</label>
+                        <input type="url" value="https://api.allserv.com/webhooks/events" placeholder="Enter webhook URL">
+                    </div>
+                    <div class="setting-item">
+                        <label>Rate Limiting</label>
+                        <div class="rate-limit-group">
+                            <input type="number" value="100" min="10" max="1000">
+                            <span>requests per minute</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Backup Settings -->
+            <section class="settings-section">
+                <h2><i class="fas fa-database"></i> Backup Settings</h2>
+                <div class="settings-group">
+                    <div class="setting-item">
+                        <label>Automatic Backups</label>
+                        <div class="toggle-switch">
+                            <input type="checkbox" id="autoBackup" checked>
+                            <label for="autoBackup">Enable automatic backups</label>
+                        </div>
+                    </div>
+                    <div class="setting-item">
+                        <label>Backup Frequency</label>
+                        <select>
+                            <option value="daily">Daily</option>
+                            <option value="weekly" selected>Weekly</option>
+                            <option value="monthly">Monthly</option>
+                        </select>
+                    </div>
+                    <div class="setting-item">
+                        <label>Retention Period (days)</label>
+                        <input type="number" value="30" min="7" max="365">
+                    </div>
+                    <div class="setting-item">
+                        <label>Storage Location</label>
+                        <select>
+                            <option value="local">Local Storage</option>
+                            <option value="s3" selected>Amazon S3</option>
+                            <option value="gcs">Google Cloud Storage</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Unsaved Changes Alert -->
+        <div class="alert" id="unsavedChanges">
+            <i class="fas fa-exclamation-circle"></i>
+            You have unsaved changes. Please save or discard them before leaving.
+            <div class="alert-actions">
+                <button class="btn btn-outline" id="discardChanges">Discard</button>
+                <button class="btn btn-primary" id="saveChanges">Save Changes</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script src="../js/settings.js"></script>
+</body>
+</html>

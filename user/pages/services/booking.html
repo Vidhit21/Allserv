@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Service - AllServ</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/services.css">
+    <style>
+        .booking-page {
+            padding-top: 6rem;
+            padding-bottom: 4rem;
+            background-color: var(--bg-light);
+            min-height: 100vh;
+        }
+        .booking-container {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: var(--shadow-sm);
+            padding: 2rem;
+        }
+        .service-summary {
+            background-color: var(--bg-light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .service-summary img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .time-slot {
+            background: var(--bg-light);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .time-slot:hover {
+            background: var(--primary-color-light);
+            border-color: var(--primary-color);
+        }
+        .time-slot.selected {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        .booking-summary {
+            background: var(--bg-light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        .price-breakdown {
+            border-top: 1px solid var(--border-color);
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        .total-price {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="../../index.html">
+                <img src="../../assets/images/logo.png" alt="AllServ Logo" height="40">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="list.html">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../history/bookings.html">History</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                            <img src="https://ui-avatars.com/api/?name=John+Doe&background=random" alt="Profile" class="rounded-circle" width="32" height="32">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="../profile/settings.html"><i class="fas fa-user me-2"></i>Profile</a></li>
+                            <li><a class="dropdown-item" href="#"><i class="fas fa-cog me-2"></i>Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="../auth/login.html"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="booking-page">
+        <div class="container">
+            <div class="row">
+                <!-- Booking Form -->
+                <div class="col-lg-8">
+                    <div class="booking-container">
+                        <nav aria-label="breadcrumb" class="mb-4">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="list.html">Services</a></li>
+                                <li class="breadcrumb-item"><a href="details.html" id="serviceDetailsLink">Service Details</a></li>
+                                <li class="breadcrumb-item active">Book Service</li>
+                            </ol>
+                        </nav>
+
+                        <div class="service-summary">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img src="" alt="" id="serviceImage" class="img-fluid">
+                                </div>
+                                <div class="col-md-8">
+                                    <h4 id="serviceName">Service Name</h4>
+                                    <p id="serviceDescription" class="text-muted">Service description will be displayed here.</p>
+                                    <div class="d-flex align-items-center">
+                                        <span class="me-3"><i class="fas fa-clock me-2"></i><span id="serviceDuration">3-4 hours</span></span>
+                                        <span><i class="fas fa-tag me-2"></i><span id="servicePrice">₹0</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form id="bookingForm">
+                            <div class="mb-4">
+                                <h5>Select Date</h5>
+                                <input type="text" class="form-control" id="bookingDate" required>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5>Available Time Slots</h5>
+                                <div id="timeSlots" class="time-slots"></div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5>Service Location</h5>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" id="address" placeholder="Street Address" required>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <input type="text" class="form-control" id="city" placeholder="City" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <input type="text" class="form-control" id="state" placeholder="State" required>
+                                    </div>
+                                    <div class="col-md-3 mb-3">
+                                        <input type="text" class="form-control" id="zipcode" placeholder="Zip Code" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h5>Special Instructions</h5>
+                                <textarea class="form-control" id="notes" rows="3" placeholder="Any specific requirements or instructions for the service provider"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Booking Summary -->
+                <div class="col-lg-4">
+                    <div class="booking-container">
+                        <h5 class="mb-4">Booking Summary</h5>
+                        <div class="price-breakdown">
+                            <div class="price-item">
+                                <span>Service Cost</span>
+                                <span id="summaryServicePrice">₹0</span>
+                            </div>
+                            <div class="price-item">
+                                <span>Service Fee</span>
+                                <span id="serviceFee">₹5</span>
+                            </div>
+                            <div class="price-item total-price mt-3">
+                                <span>Total</span>
+                                <span id="totalPrice">₹0</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mt-4" form="bookingForm">Confirm Booking</button>
+                        <p class="text-muted small text-center mt-3">
+                            By confirming, you agree to our <a href="#">Terms of Service</a> and <a href="#">Cancellation Policy</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer bg-light">
+        <div class="container">
+            <div class="row py-4">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <img src="../../assets/images/logo.png" alt="AllServ Logo" height="30" class="mb-3">
+                    <p class="text-muted">Your trusted platform for professional home services.</p>
+                </div>
+                <div class="col-lg-2 col-md-3 mb-4 mb-md-0">
+                    <h6>Services</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Cleaning</a></li>
+                        <li><a href="#">Plumbing</a></li>
+                        <li><a href="#">Electrical</a></li>
+                        <li><a href="#">All Services</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 mb-4 mb-md-0">
+                    <h6>Company</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3 mb-4 mb-md-0">
+                    <h6>Support</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-3">
+                    <h6>Follow Us</h6>
+                    <div class="social-links">
+                        <a href="#" class="me-2"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="me-2"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-top py-3">
+                <p class="text-center text-muted mb-0"> 2025 AllServ. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        // Initialize date picker
+        flatpickr("#bookingDate", {
+            minDate: "today",
+            dateFormat: "Y-m-d",
+            onChange: function(selectedDates) {
+                generateTimeSlots(selectedDates[0]);
+            }
+        });
+
+        // Get service ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const serviceId = urlParams.get('id');
+
+        // Update service details link
+        document.getElementById('serviceDetailsLink').href = `details.html?id=₹{serviceId}`;
+
+        // Load service details
+        function loadServiceDetails() {
+            // Mock service data - in real app, fetch from API
+            const serviceData = {
+                1: {
+                    name: "Home Deep Cleaning",
+                    description: "Complete home cleaning service including dusting, vacuuming, and sanitization.",
+                    price: 80,
+                    duration: "3-4 hours",
+                    image: "../../assets/images/services/cleaning.jpg"
+                },
+                2: {
+                    name: "Electrical Repair",
+                    description: "Professional electrical repair and maintenance service.",
+                    price: 60,
+                    duration: "1-2 hours",
+                    image: "../../assets/images/services/electrician.jpg"
+                },
+                3: {
+                    name: "Plumbing Services",
+                    description: "Expert plumbing repairs and installations.",
+                    price: 75,
+                    duration: "1-3 hours",
+                    image: "../../assets/images/services/plumbing.jpg"
+                }
+            };
+
+            const service = serviceData[serviceId] || serviceData[1];
+            
+            // Update service details
+            document.getElementById('serviceName').textContent = service.name;
+            document.getElementById('serviceDescription').textContent = service.description;
+            document.getElementById('servicePrice').textContent = `₹₹{service.price}`;
+            document.getElementById('serviceDuration').textContent = service.duration;
+            document.getElementById('serviceImage').src = service.image;
+            document.getElementById('serviceImage').alt = service.name;
+
+            // Update summary
+            document.getElementById('summaryServicePrice').textContent = `₹₹{service.price}`;
+            const serviceFee = 5;
+            const total = service.price + serviceFee;
+            document.getElementById('totalPrice').textContent = `₹₹{total}`;
+        }
+
+        // Generate time slots based on selected date
+        function generateTimeSlots(date) {
+            const timeSlotsContainer = document.getElementById('timeSlots');
+            timeSlotsContainer.innerHTML = '';
+            
+            // Example time slots (9 AM to 5 PM)
+            const startHour = 9;
+            const endHour = 17;
+            
+            for (let hour = startHour; hour < endHour; hour++) {
+                const timeSlot = document.createElement('div');
+                timeSlot.className = 'time-slot';
+                timeSlot.textContent = `₹{hour}:00`;
+                timeSlot.onclick = function() {
+                    document.querySelectorAll('.time-slot').forEach(slot => {
+                        slot.classList.remove('selected');
+                    });
+                    this.classList.add('selected');
+                };
+                timeSlotsContainer.appendChild(timeSlot);
+            }
+        }
+
+        // Handle form submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const selectedTimeSlot = document.querySelector('.time-slot.selected');
+            if (!selectedTimeSlot) {
+                alert('Please select a time slot');
+                return;
+            }
+
+            const bookingData = {
+                serviceId: serviceId,
+                date: document.getElementById('bookingDate').value,
+                time: selectedTimeSlot.textContent,
+                location: {
+                    address: document.getElementById('address').value,
+                    city: document.getElementById('city').value,
+                    state: document.getElementById('state').value,
+                    zipcode: document.getElementById('zipcode').value
+                },
+                notes: document.getElementById('notes').value
+            };
+
+            // Here you would typically send the booking data to your backend
+            console.log('Booking data:', bookingData);
+            alert('Booking submitted successfully!');
+            // Redirect to bookings history page
+            window.location.href = '../history/bookings.html';
+        });
+
+        // Load service details when page loads
+        window.addEventListener('DOMContentLoaded', loadServiceDetails);
+    </script>
+</body>
+</html>
