@@ -4,16 +4,1196 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AllServ - Professional Home & Office Services</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2ecc71;
+            --primary-dark: #27ae60;
+            --secondary-color: #2d3436;
+            --accent-color: #00a8cc;
+            --accent-dark: #0090b3;
+            --text-color: #2d3436;
+            --text-light: #636e72;
+            --text-lighter: #b2bec3;
+            --light-bg: #f8f9fa;
+            --white: #ffffff;
+            --gray: #636e72;
+            --border-color: #e9ecef;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #ff4757;
+            --footer-bg: #1e272e;
+            --footer-text: #ffffff;
+            --footer-link: #b2bec3;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            font-size: 16px;
+            background-color: var(--light-bg);
+            overflow-x: hidden;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 2rem;
+            line-height: 1.3;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        h4 {
+            font-size: 1.25rem;
+            line-height: 1.4;
+            font-weight: 500;
+        }
+
+        h5, h6 {
+            font-family: 'Poppins', sans-serif;
+            color: var(--secondary-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+
+        .section-header h2 {
+            position: relative;
+            padding-bottom: 20px;
+            margin-bottom: 15px;
+        }
+
+        .section-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+        }
+
+        .btn-outline:hover {
+            background: var(--white);
+            color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: var(--secondary-color);
+            color: var(--white);
+            padding: 8px 0;
+            font-size: 0.9rem;
+        }
+
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-info span {
+            margin-right: 20px;
+        }
+
+        .contact-info i,
+        .user-actions i {
+            margin-right: 5px;
+        }
+
+        .user-actions a {
+            color: var(--white);
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .user-actions a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Header */
+        .main-header {
+            background: var(--white);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+        }
+
+        .logo a {
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        .main-nav ul {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-nav a {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--secondary-color);
+            text-decoration: none;
+            padding: 10px 20px;
+            position: relative;
+        }
+
+        .main-nav a.active::after,
+        .main-nav a:hover::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            right: 20px;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 20px;
+        }
+
+        .wishlist-icon,
+        .cart-icon {
+            color: var(--secondary-color);
+            text-decoration: none;
+            position: relative;
+        }
+
+        .wishlist-count,
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary-color);
+            color: var(--white);
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        /* Hero Slider */
+        .hero-slider {
+            position: relative;
+            height: 85vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #2ecc71, #00a8cc);
+            display: flex;
+            align-items: center;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            padding: 50px 0;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .slide-content {
+            flex: 1;
+            color: var(--white);
+            max-width: 600px;
+            padding-right: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .slide-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            color: var(--white);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .slide-content p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            animation: fadeInUp 1.2s ease;
+        }
+
+        .slide-image {
+            flex: 1;
+            max-width: 600px;
+            height: auto;
+            position: relative;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .slide-image img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+        }
+
+        .hero-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .shape-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--white);
+            top: -300px;
+            right: -300px;
+        }
+
+        .shape-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--white);
+            bottom: -200px;
+            left: -200px;
+        }
+
+        /* Features Bar */
+        .features-bar {
+            background: var(--white);
+            padding: 40px 0;
+            margin-top: -50px;
+            position: relative;
+            z-index: 2;
+            border-radius: 16px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .feature-items {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 12px;
+            transition: var(--transition);
+            background: rgba(46, 204, 113, 0.05);
+        }
+
+        .feature-item:hover {
+            transform: translateY(-10px);
+            background: var(--primary-color);
+            color: var(--white);
+            box-shadow: var(--box-shadow);
+        }
+
+        .feature-item:hover i,
+        .feature-item:hover h4,
+        .feature-item:hover p {
+            color: var(--white);
+        }
+
+        .feature-item i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .feature-item h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin: 0;
+            transition: var(--transition);
+        }
+
+        .feature-item p {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin: 0;
+            transition: var(--transition);
+        }
+
+        /* Trending Services */
+        .trending-services {
+            padding: 100px 0;
+            background: var(--light-bg);
+        }
+
+        .section-header {
+            margin-bottom: 50px;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.7));
+            z-index: 1;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-image {
+            position: relative;
+            height: 200px;
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .service-card:hover .service-image img {
+            transform: scale(1.1);
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--danger-color);
+            color: var(--white);
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--white);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .wishlist-btn:hover {
+            background: var(--danger-color);
+            color: var(--white);
+        }
+
+        .service-content {
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .service-category {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+
+        .service-content h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin: 0 0 15px 0;
+        }
+
+        .service-rating {
+            color: #f39c12;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .service-rating span {
+            color: var(--gray);
+            margin-left: 10px;
+            font-size: 0.9rem;
+        }
+
+        .service-price {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .current-price {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .original-price {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            text-decoration: line-through;
+            margin-left: 10px;
+        }
+
+        .price-unit {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-left: 5px;
+        }
+
+        .btn-block {
+            width: 100%;
+            text-align: center;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, var(--accent-color), var(--accent-dark));
+            color: var(--white);
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .stat-item {
+            padding: 30px;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* Special Offers */
+        .special-offers {
+            padding: 80px 0;
+        }
+
+        .offers-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .offer-card {
+            position: relative;
+            border-radius: 16px;
+            overflow: hidden;
+            height: 300px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .offer-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .offer-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .offer-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .offer-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, rgba(0,0,0,0.7), rgba(0,0,0,0.3));
+            color: var(--white);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .offer-content h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .offer-content p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.9;
+            max-width: 400px;
+        }
+
+        .btn-light {
+            background: var(--white);
+            color: var(--secondary-color);
+            align-self: flex-start;
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+
+        .btn-light:hover {
+            background: var(--primary-color);
+            color: var(--white);
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 0;
+            background: var(--light-bg);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            position: relative;
+        }
+
+        .steps-grid::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            right: 50px;
+            height: 4px;
+            background: rgba(46, 204, 113, 0.2);
+            border-radius: 2px;
+            z-index: 0;
+        }
+
+        .step-item {
+            text-align: center;
+            position: relative;
+            padding: 40px 20px;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--box-shadow);
+            z-index: 1;
+            transition: var(--transition);
+        }
+
+        .step-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: var(--primary-color);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.4);
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(46, 204, 113, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+        }
+
+        .step-icon i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+        }
+
+        .step-item h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin: 1rem 0;
+        }
+
+        .step-item p {
+            font-size: 1.1rem;
+            color: var(--text-light);
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #2d3436, #1a1e20);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonials::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(46, 204, 113, 0.1);
+        }
+
+        .testimonials::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            right: -100px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(0, 168, 204, 0.1);
+        }
+
+        .testimonial-slider {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .testimonial-item {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .testimonial-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .testimonial-content::before,
+        .testimonial-content::after {
+            content: '"';
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.1);
+            position: absolute;
+        }
+
+        .testimonial-content::before {
+            top: -30px;
+            left: -20px;
+        }
+
+        .testimonial-content::after {
+            bottom: -50px;
+            right: -20px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 3px solid var(--primary-color);
+        }
+
+        .author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .author-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .author-designation {
+            color: var(--primary-color);
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        .main-footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 80px 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-section {
+            position: relative;
+        }
+
+        .footer-section h3 {
+            color: var(--footer-text);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary-color);
+        }
+
+        .footer-section p {
+            color: var(--footer-link);
+            margin-bottom: 20px;
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 15px;
+        }
+
+        .footer-section ul li a {
+            color: var(--footer-link);
+            text-decoration: none;
+            font-size: 1rem;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--primary-color);
+            transform: translateX(5px);
+        }
+
+        .footer-section ul li a i {
+            margin-right: 10px;
+            font-size: 0.9rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--footer-text);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: var(--footer-link);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .footer-bottom a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        /* Newsletter Section in Footer */
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            color: var(--footer-text);
+            font-size: 0.95rem;
+        }
+
+        .newsletter-form input::placeholder {
+            color: var(--footer-link);
+        }
+
+        .newsletter-form button {
+            padding: 12px 25px;
+            background: var(--primary-color);
+            border: none;
+            border-radius: 4px;
+            color: var(--white);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .newsletter-form button:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Contact Info Styling */
+        .contact-info-footer {
+            margin-top: 20px;
+        }
+
+        .contact-info-footer div {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .contact-info-footer i {
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary-color);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .feature-items,
+            .stats-grid,
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+            
+            .slide-content h1 {
+                font-size: 3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .offers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .slide-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .slide .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .slide-content {
+                padding-right: 0;
+                margin-bottom: 40px;
+            }
+            
+            .cta-buttons {
+                justify-content: center;
+            }
+            
+            .service-grid,
+            .feature-items,
+            .stats-grid,
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .top-bar .container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .main-header .container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .main-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .slide-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="container">
             <div class="contact-info">
-                <span><i class="fas fa-phone"></i> +91 9988776655</span>
+                <span><i class="fas fa-phone"></i> +1 234 567 890</span>
                 <span><i class="fas fa-envelope"></i> support@allserv.com</span>
             </div>
             <div class="user-actions">
@@ -45,22 +1225,30 @@
     </header>
 
     <main>
+        <!-- Hero Section -->
         <section class="hero-slider">
             <div class="slide active">
+                <div class="hero-shapes">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                </div>
                 <div class="container">
-                    <div class="slide-content" style="color: black;">
-                        <h1 style="color: black;">Professional Home Services</h1>
-                        <p>Book trusted professionals for your home & office</p>
+                    <div class="slide-content">
+                        <h1>Professional Home & Office Services</h1>
+                        <p>Book trusted professionals for all your home and office needs. Quality service guaranteed at the best prices.</p>
                         <div class="cta-buttons">
                             <a href="#" class="btn btn-primary">Book Now</a>
                             <a href="#" class="btn btn-outline">View Offers</a>
                         </div>
                     </div>
-                    <img src="assets/images/hero-section.png" alt="Professional Services" class="slide-image">
+                    <div class="slide-image">
+                        <img src="assets/images/hero-section.png" alt="Professional Services">
+                    </div>
                 </div>
             </div>
         </section>
 
+        <!-- Features Bar -->
         <section class="features-bar">
             <div class="container">
                 <div class="feature-items">
@@ -96,11 +1284,12 @@
             </div>
         </section>
 
-        <section class="trending-services">
+        <!-- Trending Services -->
+        <section class="trending-services section-padding">
             <div class="container">
                 <div class="section-header">
                     <h2>Trending Services</h2>
-                    <a href="#" class="view-all">View All <i class="fas fa-arrow-right"></i></a>
+                    <p>Discover our most popular services trusted by thousands of customers</p>
                 </div>
                 <div class="service-grid">
                     <div class="service-card">
@@ -128,13 +1317,119 @@
                             <button class="btn btn-primary btn-block">Add to Cart</button>
                         </div>
                     </div>
-                    <!-- Repeat similar cards for other services -->
+                    
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="assets/images/services/plumbing-1.jpg" alt="Plumbing">
+                            <span class="discount-badge">-15%</span>
+                            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                        </div>
+                        <div class="service-content">
+                            <div class="service-category">Plumbing</div>
+                            <h3>Pipe Repair & Installation</h3>
+                            <div class="service-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                                <span>(92)</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="current-price">₹149</span>
+                                <span class="original-price">₹175</span>
+                                <span class="price-unit">/service</span>
+                            </div>
+                            <button class="btn btn-primary btn-block">Add to Cart</button>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="assets/images/services/electrician.jpg" alt="Electrical Work">
+                            <span class="discount-badge">-10%</span>
+                            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                        </div>
+                        <div class="service-content">
+                            <div class="service-category">Electrical</div>
+                            <h3>Wiring & Fixture Installation</h3>
+                            <div class="service-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(210)</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="current-price">₹199</span>
+                                <span class="original-price">₹220</span>
+                                <span class="price-unit">/service</span>
+                            </div>
+                            <button class="btn btn-primary btn-block">Add to Cart</button>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-image">
+                            <img src="assets/images/services/painting.png" alt="Painting">
+                            <span class="discount-badge">-25%</span>
+                            <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                        </div>
+                        <div class="service-content">
+                            <div class="service-category">Painting</div>
+                            <h3>Home Painting Service</h3>
+                            <div class="service-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>(156)</span>
+                            </div>
+                            <div class="service-price">
+                                <span class="current-price">₹249</span>
+                                <span class="original-price">₹330</span>
+                                <span class="price-unit">/room</span>
+                            </div>
+                            <button class="btn btn-primary btn-block">Add to Cart</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="special-offers">
+        <!-- Stats Section -->
+        <section class="stats-section">
             <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number">5,000+</div>
+                        <div class="stat-label">Happy Customers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">200+</div>
+                        <div class="stat-label">Expert Professionals</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Services Offered</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Satisfaction Rate</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Special Offers -->
+        <section class="special-offers section-padding">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Special Offers</h2>
+                    <p>Take advantage of our limited time offers and save big on services</p>
+                </div>
                 <div class="offers-grid">
                     <div class="offer-card">
                         <img src="assets/images/offer-1.jpg" alt="Special Offer">
@@ -156,9 +1451,13 @@
             </div>
         </section>
 
-        <section class="how-it-works">
+        <!-- How It Works -->
+        <section class="how-it-works section-padding">
             <div class="container">
-                <h2 class="section-title">How It Works</h2>
+                <div class="section-header">
+                    <h2>How It Works</h2>
+                    <p>Getting professional services has never been easier</p>
+                </div>
                 <div class="steps-grid">
                     <div class="step-item">
                         <div class="step-number">1</div>
@@ -187,8 +1486,33 @@
                 </div>
             </div>
         </section>
+
+        <!-- Testimonials -->
+        <section class="testimonials section-padding">
+            <div class="container">
+                <div class="section-header">
+                    <h2>What Our Customers Say</h2>
+                    <p>Hear from our satisfied customers about their experience</p>
+                </div>
+                <div class="testimonial-slider">
+                    <div class="testimonial-item">
+                        <div class="testimonial-content">
+                            I've used AllServ for multiple home services, and they never disappoint. Their professionals are punctual, skilled, and polite. The deep cleaning service transformed my home!
+                        </div>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <img src="assets/images/testimonial.png" alt="Customer">
+                            </div>
+                            <div class="author-name">Sarah Johnson</div>
+                            <div class="author-designation">Homeowner</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
+    <!-- Footer -->
     <footer class="main-footer">
         <div class="container">
             <div class="footer-content">
@@ -234,7 +1558,7 @@
                         </div>
                         <div>
                             <i class="fas fa-phone-alt"></i>
-                            <p>+91 9988776655</p>
+                            <p>+1 234 567 8900</p>
                         </div>
                         <div>
                             <i class="fas fa-envelope"></i>
@@ -251,12 +1575,59 @@
         </div>
         <div class="footer-bottom">
             <div class="container">
-                <p>&copy; 2025 AllServ. All rights reserved. | Designed with <i class="fas fa-heart"></i> by AllServ Team</p>
+                <p>&copy; 2024 AllServ. All rights reserved. | Designed with <i class="fas fa-heart"></i> by AllServ Team</p>
             </div>
         </div>
     </footer>
 
-    <script src="js/global.js"></script>
-    <script src="js/main.js"></script>
+    <script>
+        // Simple animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hero text animation
+            const heroElements = document.querySelectorAll('.slide-content h1, .slide-content p, .cta-buttons');
+            heroElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 300 * index);
+            });
+            
+            // Stats counter animation
+            const statNumbers = document.querySelectorAll('.stat-number');
+            statNumbers.forEach(stat => {
+                const target = +stat.innerText.replace(/\D/g, '');
+                let count = 0;
+                const duration = 2000;
+                const increment = target / (duration / 16);
+                
+                const updateCount = () => {
+                    count += increment;
+                    if (count < target) {
+                        stat.innerText = Math.ceil(count) + (stat.innerText.includes('%') ? '%' : '+');
+                        setTimeout(updateCount, 16);
+                    } else {
+                        stat.innerText = target + (stat.innerText.includes('%') ? '%' : '+');
+                    }
+                };
+                
+                setTimeout(updateCount, 500);
+            });
+            
+            // Service card animation on scroll
+            const serviceCards = document.querySelectorAll('.service-card');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            serviceCards.forEach(card => {
+                observer.observe(card);
+            });
+        });
+    </script>
 </body>
 </html>
