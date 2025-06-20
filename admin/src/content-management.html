@@ -1,488 +1,659 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Management - AllServ Admin</title>
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="../css/shared.css">
-    <link rel="stylesheet" href="../css/content-management.css">
+    <style>
+      /* Shared styles for AllServ Admin Panel */
+
+      /* Reset and base styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        background-color: #f5f7fa;
+      }
+
+      /* Navbar styles */
+      .navbar {
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 1rem 2rem;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #2c3e50;
+      }
+
+      .navbar-nav {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      /* Sidebar styles */
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 70px;
+        height: calc(100vh - 70px);
+        width: 250px;
+        background-color: #ffffff;
+        box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+        padding: 2rem 0;
+      }
+
+      .sidebar-nav {
+        list-style: none;
+      }
+
+      .sidebar-nav-item {
+        padding: 0.75rem 2rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .sidebar-nav-item a {
+        color: #2c3e50;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .sidebar-nav-item:hover {
+        background-color: #f8f9fa;
+      }
+
+      .sidebar-nav-item.active {
+        background-color: #e9ecef;
+        border-left: 4px solid #007bff;
+      }
+
+      .sidebar-nav-item.active a {
+        color: #007bff;
+      }
+
+      /* Common components */
+      .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background-color: #007bff;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3;
+      }
+
+      .card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      /* Layout */
+      .main-content {
+        margin-left: 250px;
+        margin-top: 70px;
+        padding: 2rem;
+      }
+
+      /* Utility classes */
+      .text-primary {
+        color: #007bff;
+      }
+      .text-success {
+        color: #28a745;
+      }
+      .text-danger {
+        color: #dc3545;
+      }
+      .text-warning {
+        color: #ffc107;
+      }
+
+      .bg-light {
+        background-color: #f8f9fa;
+      }
+      .bg-white {
+        background-color: #ffffff;
+      }
+
+      .mb-1 {
+        margin-bottom: 0.5rem;
+      }
+      .mb-2 {
+        margin-bottom: 1rem;
+      }
+      .mb-3 {
+        margin-bottom: 1.5rem;
+      }
+      .mb-4 {
+        margin-bottom: 2rem;
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+        .main-content {
+          margin-left: 0;
+          margin-top: 60px;
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="../css/content-management.css" />
     <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
     <!-- Rich Text Editor -->
     <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="navbar-brand">
-            <i class="fas fa-cube"></i> AllServ Admin
+      <div class="navbar-brand"><i class="fas fa-cube"></i> AllServ Admin</div>
+      <div class="navbar-nav">
+        <div class="nav-item">
+          <i class="fas fa-bell"></i>
+          <span class="badge">3</span>
         </div>
-        <div class="navbar-nav">
-            <div class="nav-item">
-                <i class="fas fa-bell"></i>
-                <span class="badge">3</span>
-            </div>
-            <div class="nav-item">
-                <img src="../images/admin-avatar.png" alt="Admin" class="avatar">
-                <span>Admin User</span>
-            </div>
+        <div class="nav-item">
+          <img src="../images/admin-avatar.png" alt="Admin" class="avatar" />
+          <span>Admin User</span>
         </div>
+      </div>
     </nav>
 
     <!-- Sidebar -->
     <aside class="sidebar">
-        <ul class="sidebar-nav">
-            <li class="sidebar-nav-item">
-                <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
-            </li>
-            <li class="sidebar-nav-item">
-                <a href="provider-verification.html"><i class="fas fa-user-check"></i> Provider Verification</a>
-            </li>
-            <li class="sidebar-nav-item">
-                <a href="user-management.html"><i class="fas fa-users"></i> User Management</a>
-            </li>
-            <li class="sidebar-nav-item">
-                <a href="reports.html"><i class="fas fa-chart-bar"></i> Reports</a>
-            </li>
-            <li class="sidebar-nav-item active">
-                <a href="content-management.html"><i class="fas fa-edit"></i> Content Management</a>
-            </li>
-            <li class="sidebar-nav-item">
-                <a href="support.html"><i class="fas fa-headset"></i> Support</a>
-            </li>
-            <li class="sidebar-nav-item">
-                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
-            </li>
-        </ul>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="provider-verification.html"
+            ><i class="fas fa-user-check"></i> Provider Verification</a
+          >
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="user-management.html"
+            ><i class="fas fa-users"></i> User Management</a
+          >
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="reports.html"><i class="fas fa-chart-bar"></i> Reports</a>
+        </li>
+        <li class="sidebar-nav-item active">
+          <a href="content-management.html"
+            ><i class="fas fa-edit"></i> Content Management</a
+          >
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="support.html"><i class="fas fa-headset"></i> Support</a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+        </li>
+      </ul>
     </aside>
 
     <!-- Main Content -->
     <main class="main-content">
-        <div class="page-header">
-            <h1>Content Management</h1>
-            <div class="header-actions">
-                <select class="content-type-select">
-                    <option value="services">Service Categories</option>
-                    <option value="pricing">Pricing Plans</option>
-                    <option value="faqs">FAQs</option>
-                    <option value="announcements">Announcements</option>
-                </select>
-                <button class="btn btn-primary" id="addNewBtn">
-                    <i class="fas fa-plus"></i> Add New
+      <div class="page-header">
+        <h1>Content Management</h1>
+        <div class="header-actions">
+          <select class="content-type-select">
+            <option value="services">Service Categories</option>
+            <option value="pricing">Pricing Plans</option>
+            <option value="faqs">FAQs</option>
+            <option value="announcements">Announcements</option>
+          </select>
+          <button class="btn btn-primary" id="addNewBtn">
+            <i class="fas fa-plus"></i> Add New
+          </button>
+        </div>
+      </div>
+
+      <!-- Content Sections -->
+      <div class="content-sections">
+        <!-- Service Categories Section -->
+        <div class="content-section active" id="services">
+          <div class="section-header">
+            <h2>Service Categories</h2>
+            <p>Manage service categories and their details</p>
+          </div>
+          <div class="categories-grid">
+            <div class="category-card">
+              <div class="category-header">
+                <i class="fas fa-broom"></i>
+                <div class="status-badge active">Active</div>
+              </div>
+              <h3>Home Cleaning</h3>
+              <p>Professional home cleaning services</p>
+              <div class="category-stats">
+                <div class="stat-item">
+                  <span class="stat-label">Providers</span>
+                  <span class="stat-value">45</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Services</span>
+                  <span class="stat-value">120</span>
+                </div>
+              </div>
+              <div class="category-actions">
+                <button class="btn-icon" title="Edit">
+                  <i class="fas fa-edit"></i>
                 </button>
+                <button class="btn-icon" title="Disable">
+                  <i class="fas fa-ban"></i>
+                </button>
+                <button class="btn-icon" title="Delete">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
             </div>
+            <div class="category-card">
+              <div class="category-header">
+                <i class="fas fa-wrench"></i>
+                <div class="status-badge active">Active</div>
+              </div>
+              <h3>Plumbing Services</h3>
+              <p>Professional plumbing and repair services</p>
+              <div class="category-stats">
+                <div class="stat-item">
+                  <span class="stat-label">Providers</span>
+                  <span class="stat-value">32</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Services</span>
+                  <span class="stat-value">85</span>
+                </div>
+              </div>
+              <div class="category-actions">
+                <button class="btn-icon" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon" title="Disable">
+                  <i class="fas fa-ban"></i>
+                </button>
+                <button class="btn-icon" title="Delete">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div class="category-card">
+              <div class="category-header">
+                <i class="fas fa-bolt"></i>
+                <div class="status-badge active">Active</div>
+              </div>
+              <h3>Electrical Work</h3>
+              <p>Licensed electrical installation and repairs</p>
+              <div class="category-stats">
+                <div class="stat-item">
+                  <span class="stat-label">Providers</span>
+                  <span class="stat-value">28</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Services</span>
+                  <span class="stat-value">92</span>
+                </div>
+              </div>
+              <div class="category-actions">
+                <button class="btn-icon" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon" title="Disable">
+                  <i class="fas fa-ban"></i>
+                </button>
+                <button class="btn-icon" title="Delete">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+            <div class="category-card">
+              <div class="category-header">
+                <i class="fas fa-tree"></i>
+                <div class="status-badge active">Active</div>
+              </div>
+              <h3>Gardening</h3>
+              <p>Professional landscaping and garden maintenance</p>
+              <div class="category-stats">
+                <div class="stat-item">
+                  <span class="stat-label">Providers</span>
+                  <span class="stat-value">22</span>
+                </div>
+                <div class="stat-item">
+                  <span class="stat-label">Services</span>
+                  <span class="stat-value">45</span>
+                </div>
+              </div>
+              <div class="category-actions">
+                <button class="btn-icon" title="Edit">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-icon" title="Disable">
+                  <i class="fas fa-ban"></i>
+                </button>
+                <button class="btn-icon" title="Delete">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Content Sections -->
-        <div class="content-sections">
-            <!-- Service Categories Section -->
-            <div class="content-section active" id="services">
-                <div class="section-header">
-                    <h2>Service Categories</h2>
-                    <p>Manage service categories and their details</p>
-                </div>
-                <div class="categories-grid">
-                    <div class="category-card">
-                        <div class="category-header">
-                            <i class="fas fa-broom"></i>
-                            <div class="status-badge active">Active</div>
-                        </div>
-                        <h3>Home Cleaning</h3>
-                        <p>Professional home cleaning services</p>
-                        <div class="category-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Providers</span>
-                                <span class="stat-value">45</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Services</span>
-                                <span class="stat-value">120</span>
-                            </div>
-                        </div>
-                        <div class="category-actions">
-                            <button class="btn-icon" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn-icon" title="Disable">
-                                <i class="fas fa-ban"></i>
-                            </button>
-                            <button class="btn-icon" title="Delete">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
+        <!-- Pricing Plans Section -->
+        <div class="content-section" id="pricing">
+          <div class="section-header">
+            <h2>Pricing Plans</h2>
+            <p>Manage service pricing and packages</p>
+          </div>
+          <div class="pricing-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Service Type</th>
+                  <th>Base Price</th>
+                  <th>Peak Hours</th>
+                  <th>Weekend</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Standard Cleaning</td>
+                  <td>₹25/hr</td>
+                  <td>+20%</td>
+                  <td>+30%</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn-icon" title="Edit">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button class="btn-icon" title="Delete">
+                        <i class="fas fa-trash"></i>
+                      </button>
                     </div>
-                    <div class="category-card">
-                        <div class="category-header">
-                            <i class="fas fa-wrench"></i>
-                            <div class="status-badge active">Active</div>
-                        </div>
-                        <h3>Plumbing Services</h3>
-                        <p>Professional plumbing and repair services</p>
-                        <div class="category-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Providers</span>
-                                <span class="stat-value">32</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Services</span>
-                                <span class="stat-value">85</span>
-                            </div>
-                        </div>
-                        <div class="category-actions">
-                            <button class="btn-icon" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn-icon" title="Disable">
-                                <i class="fas fa-ban"></i>
-                            </button>
-                            <button class="btn-icon" title="Delete">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Deep Cleaning</td>
+                  <td>₹35/hr</td>
+                  <td>+25%</td>
+                  <td>+35%</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn-icon" title="Edit">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button class="btn-icon" title="Delete">
+                        <i class="fas fa-trash"></i>
+                      </button>
                     </div>
-                    <div class="category-card">
-                        <div class="category-header">
-                            <i class="fas fa-bolt"></i>
-                            <div class="status-badge active">Active</div>
-                        </div>
-                        <h3>Electrical Work</h3>
-                        <p>Licensed electrical installation and repairs</p>
-                        <div class="category-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Providers</span>
-                                <span class="stat-value">28</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Services</span>
-                                <span class="stat-value">92</span>
-                            </div>
-                        </div>
-                        <div class="category-actions">
-                            <button class="btn-icon" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn-icon" title="Disable">
-                                <i class="fas fa-ban"></i>
-                            </button>
-                            <button class="btn-icon" title="Delete">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Plumbing Repair</td>
+                  <td>₹45/hr</td>
+                  <td>+15%</td>
+                  <td>+25%</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn-icon" title="Edit">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button class="btn-icon" title="Delete">
+                        <i class="fas fa-trash"></i>
+                      </button>
                     </div>
-                    <div class="category-card">
-                        <div class="category-header">
-                            <i class="fas fa-tree"></i>
-                            <div class="status-badge active">Active</div>
-                        </div>
-                        <h3>Gardening</h3>
-                        <p>Professional landscaping and garden maintenance</p>
-                        <div class="category-stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Providers</span>
-                                <span class="stat-value">22</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Services</span>
-                                <span class="stat-value">45</span>
-                            </div>
-                        </div>
-                        <div class="category-actions">
-                            <button class="btn-icon" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn-icon" title="Disable">
-                                <i class="fas fa-ban"></i>
-                            </button>
-                            <button class="btn-icon" title="Delete">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Electrical Work</td>
+                  <td>₹50/hr</td>
+                  <td>+20%</td>
+                  <td>+30%</td>
+                  <td>
+                    <div class="table-actions">
+                      <button class="btn-icon" title="Edit">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button class="btn-icon" title="Delete">
+                        <i class="fas fa-trash"></i>
+                      </button>
                     </div>
-                </div>
-            </div>
-
-            <!-- Pricing Plans Section -->
-            <div class="content-section" id="pricing">
-                <div class="section-header">
-                    <h2>Pricing Plans</h2>
-                    <p>Manage service pricing and packages</p>
-                </div>
-                <div class="pricing-table">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Service Type</th>
-                                <th>Base Price</th>
-                                <th>Peak Hours</th>
-                                <th>Weekend</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Standard Cleaning</td>
-                                <td>₹25/hr</td>
-                                <td>+20%</td>
-                                <td>+30%</td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button class="btn-icon" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn-icon" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Deep Cleaning</td>
-                                <td>₹35/hr</td>
-                                <td>+25%</td>
-                                <td>+35%</td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button class="btn-icon" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn-icon" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Plumbing Repair</td>
-                                <td>₹45/hr</td>
-                                <td>+15%</td>
-                                <td>+25%</td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button class="btn-icon" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn-icon" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Electrical Work</td>
-                                <td>₹50/hr</td>
-                                <td>+20%</td>
-                                <td>+30%</td>
-                                <td>
-                                    <div class="table-actions">
-                                        <button class="btn-icon" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn-icon" title="Delete">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- FAQs Section -->
-            <div class="content-section" id="faqs">
-                <div class="section-header">
-                    <h2>Frequently Asked Questions</h2>
-                    <p>Manage FAQs for users and providers</p>
-                </div>
-                <div class="faq-list">
-                    <div class="faq-item">
-                        <div class="faq-header">
-                            <h3>How do I become a service provider?</h3>
-                            <div class="faq-actions">
-                                <button class="btn-icon" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn-icon" title="Delete">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                                <button class="btn-icon" title="Toggle">
-                                    <i class="fas fa-chevron-down"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="faq-content">
-                            <p>To become a service provider, you need to:</p>
-                            <ol>
-                                <li>Register an account</li>
-                                <li>Complete your profile</li>
-                                <li>Submit required documents</li>
-                                <li>Wait for verification</li>
-                            </ol>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-header">
-                            <h3>What payment methods are accepted?</h3>
-                            <div class="faq-actions">
-                                <button class="btn-icon" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn-icon" title="Delete">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                                <button class="btn-icon" title="Toggle">
-                                    <i class="fas fa-chevron-down"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="faq-content">
-                            <p>We accept the following payment methods:</p>
-                            <ul>
-                                <li>Credit/Debit Cards</li>
-                                <li>PayPal</li>
-                                <li>Bank Transfer</li>
-                                <li>Digital Wallets</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="faq-item">
-                        <div class="faq-header">
-                            <h3>What is your cancellation policy?</h3>
-                            <div class="faq-actions">
-                                <button class="btn-icon" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn-icon" title="Delete">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                                <button class="btn-icon" title="Toggle">
-                                    <i class="fas fa-chevron-down"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="faq-content">
-                            <p>Our cancellation policy is as follows:</p>
-                            <ul>
-                                <li>Free cancellation up to 24 hours before the service</li>
-                                <li>50% charge for cancellations within 24 hours</li>
-                                <li>Full charge for no-shows</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Announcements Section -->
-            <div class="content-section" id="announcements">
-                <div class="section-header">
-                    <h2>Announcements</h2>
-                    <p>Manage platform announcements and updates</p>
-                </div>
-                <div class="announcements-list">
-                    <div class="announcement-card">
-                        <div class="announcement-header">
-                            <div class="announcement-meta">
-                                <span class="announcement-type maintenance">
-                                    <i class="fas fa-wrench"></i> Maintenance
-                                </span>
-                                <span class="announcement-date">Feb 5, 2025</span>
-                            </div>
-                            <div class="announcement-actions">
-                                <button class="btn-icon" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn-icon" title="Delete">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <h3>Scheduled Maintenance Notice</h3>
-                        <p>The platform will be undergoing scheduled maintenance on February 5th, 2025, from 2 AM to 4 AM EST.</p>
-                        <div class="announcement-footer">
-                            <div class="visibility">
-                                <i class="fas fa-eye"></i> All Users
-                            </div>
-                            <div class="status active">Active</div>
-                        </div>
-                    </div>
-                    <div class="announcement-card">
-                        <div class="announcement-header">
-                            <div class="announcement-meta">
-                                <span class="announcement-type update">
-                                    <i class="fas fa-rocket"></i> Platform Update
-                                </span>
-                                <span class="announcement-date">Feb 10, 2025</span>
-                            </div>
-                            <div class="announcement-actions">
-                                <button class="btn-icon" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn-icon" title="Delete">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <h3>New Features Released</h3>
-                        <p>We're excited to announce new features including in-app messaging, service ratings, and improved booking management.</p>
-                        <div class="announcement-footer">
-                            <div class="visibility">
-                                <i class="fas fa-eye"></i> All Users
-                            </div>
-                            <div class="status scheduled">Scheduled</div>
-                        </div>
-                    </div>
-                    <div class="announcement-card">
-                        <div class="announcement-header">
-                            <div class="announcement-meta">
-                                <span class="announcement-type notice">
-                                    <i class="fas fa-exclamation-circle"></i> Important Notice
-                                </span>
-                                <span class="announcement-date">Feb 15, 2025</span>
-                            </div>
-                            <div class="announcement-actions">
-                                <button class="btn-icon" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn-icon" title="Delete">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <h3>Holiday Service Schedule</h3>
-                        <p>Please note the modified service hours during the upcoming holiday season. Check the schedule for availability.</p>
-                        <div class="announcement-footer">
-                            <div class="visibility">
-                                <i class="fas fa-eye"></i> All Users
-                            </div>
-                            <div class="status draft">Draft</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
+
+        <!-- FAQs Section -->
+        <div class="content-section" id="faqs">
+          <div class="section-header">
+            <h2>Frequently Asked Questions</h2>
+            <p>Manage FAQs for users and providers</p>
+          </div>
+          <div class="faq-list">
+            <div class="faq-item">
+              <div class="faq-header">
+                <h3>How do I become a service provider?</h3>
+                <div class="faq-actions">
+                  <button class="btn-icon" title="Edit">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn-icon" title="Delete">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                  <button class="btn-icon" title="Toggle">
+                    <i class="fas fa-chevron-down"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="faq-content">
+                <p>To become a service provider, you need to:</p>
+                <ol>
+                  <li>Register an account</li>
+                  <li>Complete your profile</li>
+                  <li>Submit required documents</li>
+                  <li>Wait for verification</li>
+                </ol>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-header">
+                <h3>What payment methods are accepted?</h3>
+                <div class="faq-actions">
+                  <button class="btn-icon" title="Edit">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn-icon" title="Delete">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                  <button class="btn-icon" title="Toggle">
+                    <i class="fas fa-chevron-down"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="faq-content">
+                <p>We accept the following payment methods:</p>
+                <ul>
+                  <li>Credit/Debit Cards</li>
+                  <li>PayPal</li>
+                  <li>Bank Transfer</li>
+                  <li>Digital Wallets</li>
+                </ul>
+              </div>
+            </div>
+            <div class="faq-item">
+              <div class="faq-header">
+                <h3>What is your cancellation policy?</h3>
+                <div class="faq-actions">
+                  <button class="btn-icon" title="Edit">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn-icon" title="Delete">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                  <button class="btn-icon" title="Toggle">
+                    <i class="fas fa-chevron-down"></i>
+                  </button>
+                </div>
+              </div>
+              <div class="faq-content">
+                <p>Our cancellation policy is as follows:</p>
+                <ul>
+                  <li>Free cancellation up to 24 hours before the service</li>
+                  <li>50% charge for cancellations within 24 hours</li>
+                  <li>Full charge for no-shows</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Announcements Section -->
+        <div class="content-section" id="announcements">
+          <div class="section-header">
+            <h2>Announcements</h2>
+            <p>Manage platform announcements and updates</p>
+          </div>
+          <div class="announcements-list">
+            <div class="announcement-card">
+              <div class="announcement-header">
+                <div class="announcement-meta">
+                  <span class="announcement-type maintenance">
+                    <i class="fas fa-wrench"></i> Maintenance
+                  </span>
+                  <span class="announcement-date">Feb 5, 2025</span>
+                </div>
+                <div class="announcement-actions">
+                  <button class="btn-icon" title="Edit">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn-icon" title="Delete">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+              <h3>Scheduled Maintenance Notice</h3>
+              <p>
+                The platform will be undergoing scheduled maintenance on
+                February 5th, 2025, from 2 AM to 4 AM EST.
+              </p>
+              <div class="announcement-footer">
+                <div class="visibility">
+                  <i class="fas fa-eye"></i> All Users
+                </div>
+                <div class="status active">Active</div>
+              </div>
+            </div>
+            <div class="announcement-card">
+              <div class="announcement-header">
+                <div class="announcement-meta">
+                  <span class="announcement-type update">
+                    <i class="fas fa-rocket"></i> Platform Update
+                  </span>
+                  <span class="announcement-date">Feb 10, 2025</span>
+                </div>
+                <div class="announcement-actions">
+                  <button class="btn-icon" title="Edit">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn-icon" title="Delete">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+              <h3>New Features Released</h3>
+              <p>
+                We're excited to announce new features including in-app
+                messaging, service ratings, and improved booking management.
+              </p>
+              <div class="announcement-footer">
+                <div class="visibility">
+                  <i class="fas fa-eye"></i> All Users
+                </div>
+                <div class="status scheduled">Scheduled</div>
+              </div>
+            </div>
+            <div class="announcement-card">
+              <div class="announcement-header">
+                <div class="announcement-meta">
+                  <span class="announcement-type notice">
+                    <i class="fas fa-exclamation-circle"></i> Important Notice
+                  </span>
+                  <span class="announcement-date">Feb 15, 2025</span>
+                </div>
+                <div class="announcement-actions">
+                  <button class="btn-icon" title="Edit">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn-icon" title="Delete">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+              <h3>Holiday Service Schedule</h3>
+              <p>
+                Please note the modified service hours during the upcoming
+                holiday season. Check the schedule for availability.
+              </p>
+              <div class="announcement-footer">
+                <div class="visibility">
+                  <i class="fas fa-eye"></i> All Users
+                </div>
+                <div class="status draft">Draft</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <!-- Add/Edit Modal -->
     <div class="modal" id="contentModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Add New Item</h2>
-                <button class="close-btn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <!-- Form fields will be dynamically loaded based on content type -->
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-outline" data-dismiss="modal">Cancel</button>
-                <button class="btn btn-primary" id="saveContent">Save</button>
-            </div>
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Add New Item</h2>
+          <button class="close-btn">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
+        <div class="modal-body">
+          <!-- Form fields will be dynamically loaded based on content type -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary" id="saveContent">Save</button>
+        </div>
+      </div>
     </div>
 
     <!-- JavaScript -->
     <script src="../js/content-management.js"></script>
-</body>
+  </body>
 </html>

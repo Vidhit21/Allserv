@@ -1,264 +1,426 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reports & Analytics - AllServ Admin</title>
-    <!-- CSS Files -->
-    <link rel="stylesheet" href="../css/shared.css">
-    <link rel="stylesheet" href="../css/reports.css">
+    <style>
+      /* Shared styles for AllServ Admin Panel */
+
+      /* Reset and base styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        background-color: #f5f7fa;
+      }
+
+      /* Navbar styles */
+      .navbar {
+        background-color: #ffffff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 1rem 2rem;
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 1000;
+      }
+
+      .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #2c3e50;
+      }
+
+      .navbar-nav {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      /* Sidebar styles */
+      .sidebar {
+        position: fixed;
+        left: 0;
+        top: 70px;
+        height: calc(100vh - 70px);
+        width: 250px;
+        background-color: #ffffff;
+        box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+        padding: 2rem 0;
+      }
+
+      .sidebar-nav {
+        list-style: none;
+      }
+
+      .sidebar-nav-item {
+        padding: 0.75rem 2rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .sidebar-nav-item a {
+        color: #2c3e50;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .sidebar-nav-item:hover {
+        background-color: #f8f9fa;
+      }
+
+      .sidebar-nav-item.active {
+        background-color: #e9ecef;
+        border-left: 4px solid #007bff;
+      }
+
+      .sidebar-nav-item.active a {
+        color: #007bff;
+      }
+
+      /* Common components */
+      .btn {
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-primary {
+        background-color: #007bff;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3;
+      }
+
+      .card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      /* Layout */
+      .main-content {
+        margin-left: 250px;
+        margin-top: 70px;
+        padding: 2rem;
+      }
+
+      /* Utility classes */
+      .text-primary {
+        color: #007bff;
+      }
+      .text-success {
+        color: #28a745;
+      }
+      .text-danger {
+        color: #dc3545;
+      }
+      .text-warning {
+        color: #ffc107;
+      }
+
+      .bg-light {
+        background-color: #f8f9fa;
+      }
+      .bg-white {
+        background-color: #ffffff;
+      }
+
+      .mb-1 {
+        margin-bottom: 0.5rem;
+      }
+      .mb-2 {
+        margin-bottom: 1rem;
+      }
+      .mb-3 {
+        margin-bottom: 1.5rem;
+      }
+      .mb-4 {
+        margin-bottom: 2rem;
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 768px) {
+        .main-content {
+          margin-left: 0;
+          margin-top: 60px;
+        }
+      }
+    </style>
+    <link rel="stylesheet" href="../css/reports.css" />
     <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
     <!-- Chart.js for analytics -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Navbar -->
     <nav class="navbar">
-        <div class="navbar-brand">
-            <i class="fas fa-cube"></i> AllServ Admin
+      <div class="navbar-brand"><i class="fas fa-cube"></i> AllServ Admin</div>
+      <div class="navbar-nav">
+        <div class="nav-item">
+          <i class="fas fa-bell"></i>
+          <span class="badge">3</span>
         </div>
-        <div class="navbar-nav">
-            <div class="nav-item">
-                <i class="fas fa-bell"></i>
-                <span class="badge">3</span>
-            </div>
-            <div class="nav-item">
-                <img src="../images/admin-avatar.png" alt="Admin" class="avatar">
-                <span>Admin User</span>
-            </div>
+        <div class="nav-item">
+          <img src="../images/admin-avatar.png" alt="Admin" class="avatar" />
+          <span>Admin User</span>
         </div>
+      </div>
     </nav>
 
     <!-- Sidebar -->
     <aside class="sidebar">
-        <ul class="sidebar-nav">
-            <li class="sidebar-nav-item">
-                <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
-            </li>
-            <li class="sidebar-nav-item">
-                <a href="provider-verification.html"><i class="fas fa-user-check"></i> Provider Verification</a>
-            </li>
-            <li class="sidebar-nav-item">
-                <a href="user-management.html"><i class="fas fa-users"></i> User Management</a>
-            </li>
-            <li class="sidebar-nav-item active">
-                <a href="reports.html"><i class="fas fa-chart-bar"></i> Reports</a>
-            </li>
-            <li class="sidebar-nav-item">
-                <a href="content-management.html"><i class="fas fa-edit"></i> Content Management</a>
-            </li>
-            <li class="sidebar-nav-item">
-                <a href="support.html"><i class="fas fa-headset"></i> Support</a>
-            </li>
-            <li class="sidebar-nav-item">
-                <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
-            </li>
-        </ul>
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-item">
+          <a href="index.html"><i class="fas fa-home"></i> Dashboard</a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="provider-verification.html"
+            ><i class="fas fa-user-check"></i> Provider Verification</a
+          >
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="user-management.html"
+            ><i class="fas fa-users"></i> User Management</a
+          >
+        </li>
+        <li class="sidebar-nav-item active">
+          <a href="reports.html"><i class="fas fa-chart-bar"></i> Reports</a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="content-management.html"
+            ><i class="fas fa-edit"></i> Content Management</a
+          >
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="support.html"><i class="fas fa-headset"></i> Support</a>
+        </li>
+        <li class="sidebar-nav-item">
+          <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+        </li>
+      </ul>
     </aside>
 
     <!-- Main Content -->
     <main class="main-content">
-        <div class="page-header">
-            <h1>Reports & Analytics</h1>
-            <div class="header-actions">
-                <div class="date-range-picker">
-                    <i class="fas fa-calendar"></i>
-                    <select>
-                        <option>Last 7 Days</option>
-                        <option>Last 30 Days</option>
-                        <option>Last 3 Months</option>
-                        <option>Last Year</option>
-                        <option>Custom Range</option>
-                    </select>
-                </div>
-                <button class="btn btn-primary">
-                    <i class="fas fa-download"></i> Export Report
-                </button>
+      <div class="page-header">
+        <h1>Reports & Analytics</h1>
+        <div class="header-actions">
+          <div class="date-range-picker">
+            <i class="fas fa-calendar"></i>
+            <select>
+              <option>Last 7 Days</option>
+              <option>Last 30 Days</option>
+              <option>Last 3 Months</option>
+              <option>Last Year</option>
+              <option>Custom Range</option>
+            </select>
+          </div>
+          <button class="btn btn-primary">
+            <i class="fas fa-download"></i> Export Report
+          </button>
+        </div>
+      </div>
+
+      <!-- Overview Cards -->
+      <div class="overview-cards">
+        <div class="overview-card">
+          <div class="card-header">
+            <h3>Total Revenue</h3>
+            <span class="trend positive">+15.2%</span>
+          </div>
+          <div class="card-value">₹45,289</div>
+          <div class="card-chart">
+            <canvas id="revenueSparkline"></canvas>
+          </div>
+        </div>
+        <div class="overview-card">
+          <div class="card-header">
+            <h3>New Users</h3>
+            <span class="trend positive">+8.4%</span>
+          </div>
+          <div class="card-value">447</div>
+          <div class="card-chart">
+            <canvas id="usersSparkline"></canvas>
+          </div>
+        </div>
+        <div class="overview-card">
+          <div class="card-header">
+            <h3>Service Bookings</h3>
+            <span class="trend positive">+12.7%</span>
+          </div>
+          <div class="card-value">1,283</div>
+          <div class="card-chart">
+            <canvas id="bookingsSparkline"></canvas>
+          </div>
+        </div>
+        <div class="overview-card">
+          <div class="card-header">
+            <h3>Customer Satisfaction</h3>
+            <span class="trend positive">+2.3%</span>
+          </div>
+          <div class="card-value">4.8/5</div>
+          <div class="card-chart">
+            <canvas id="satisfactionSparkline"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Charts -->
+      <div class="chart-grid">
+        <!-- Revenue Analysis -->
+        <div class="chart-card large">
+          <div class="chart-header">
+            <h3>Revenue Analysis</h3>
+            <div class="chart-actions">
+              <select class="chart-type-select">
+                <option>Line Chart</option>
+                <option>Bar Chart</option>
+              </select>
             </div>
+          </div>
+          <div class="chart-body">
+            <canvas id="revenueChart" height="300"></canvas>
+          </div>
         </div>
 
-        <!-- Overview Cards -->
-        <div class="overview-cards">
-            <div class="overview-card">
-                <div class="card-header">
-                    <h3>Total Revenue</h3>
-                    <span class="trend positive">+15.2%</span>
-                </div>
-                <div class="card-value">₹45,289</div>
-                <div class="card-chart">
-                    <canvas id="revenueSparkline"></canvas>
-                </div>
-            </div>
-            <div class="overview-card">
-                <div class="card-header">
-                    <h3>New Users</h3>
-                    <span class="trend positive">+8.4%</span>
-                </div>
-                <div class="card-value">447</div>
-                <div class="card-chart">
-                    <canvas id="usersSparkline"></canvas>
-                </div>
-            </div>
-            <div class="overview-card">
-                <div class="card-header">
-                    <h3>Service Bookings</h3>
-                    <span class="trend positive">+12.7%</span>
-                </div>
-                <div class="card-value">1,283</div>
-                <div class="card-chart">
-                    <canvas id="bookingsSparkline"></canvas>
-                </div>
-            </div>
-            <div class="overview-card">
-                <div class="card-header">
-                    <h3>Customer Satisfaction</h3>
-                    <span class="trend positive">+2.3%</span>
-                </div>
-                <div class="card-value">4.8/5</div>
-                <div class="card-chart">
-                    <canvas id="satisfactionSparkline"></canvas>
-                </div>
-            </div>
+        <!-- Service Category Distribution -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>Service Categories</h3>
+          </div>
+          <div class="chart-body">
+            <canvas id="categoriesChart" height="300"></canvas>
+          </div>
         </div>
 
-        <!-- Main Charts -->
-        <div class="chart-grid">
-            <!-- Revenue Analysis -->
-            <div class="chart-card large">
-                <div class="chart-header">
-                    <h3>Revenue Analysis</h3>
-                    <div class="chart-actions">
-                        <select class="chart-type-select">
-                            <option>Line Chart</option>
-                            <option>Bar Chart</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="chart-body">
-                    <canvas id="revenueChart" height="300"></canvas>
-                </div>
-            </div>
+        <!-- User Growth -->
+        <div class="chart-card">
+          <div class="chart-header">
+            <h3>User Growth</h3>
+          </div>
+          <div class="chart-body">
+            <canvas id="userGrowthChart" height="300"></canvas>
+          </div>
+        </div>
+      </div>
 
-            <!-- Service Category Distribution -->
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h3>Service Categories</h3>
+      <!-- Detailed Reports -->
+      <div class="reports-grid">
+        <!-- Top Services -->
+        <div class="report-card">
+          <div class="report-header">
+            <h3>Top Services</h3>
+            <button class="btn btn-sm btn-outline">View All</button>
+          </div>
+          <div class="report-body">
+            <div class="report-item">
+              <div class="service-info">
+                <div class="service-name">Home Cleaning</div>
+                <div class="service-stats">
+                  <span>458 bookings</span>
+                  <span>₹12,458 revenue</span>
                 </div>
-                <div class="chart-body">
-                    <canvas id="categoriesChart" height="300"></canvas>
-                </div>
+              </div>
+              <div class="progress-bar">
+                <div class="progress" style="width: 85%"></div>
+              </div>
             </div>
-
-            <!-- User Growth -->
-            <div class="chart-card">
-                <div class="chart-header">
-                    <h3>User Growth</h3>
+            <div class="report-item">
+              <div class="service-info">
+                <div class="service-name">Plumbing</div>
+                <div class="service-stats">
+                  <span>356 bookings</span>
+                  <span>₹9,845 revenue</span>
                 </div>
-                <div class="chart-body">
-                    <canvas id="userGrowthChart" height="300"></canvas>
-                </div>
+              </div>
+              <div class="progress-bar">
+                <div class="progress" style="width: 70%"></div>
+              </div>
             </div>
+            <div class="report-item">
+              <div class="service-info">
+                <div class="service-name">Electrical</div>
+                <div class="service-stats">
+                  <span>285 bookings</span>
+                  <span>₹8,562 revenue</span>
+                </div>
+              </div>
+              <div class="progress-bar">
+                <div class="progress" style="width: 65%"></div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Detailed Reports -->
-        <div class="reports-grid">
-            <!-- Top Services -->
-            <div class="report-card">
-                <div class="report-header">
-                    <h3>Top Services</h3>
-                    <button class="btn btn-sm btn-outline">View All</button>
+        <!-- Customer Satisfaction -->
+        <div class="report-card">
+          <div class="report-header">
+            <h3>Customer Satisfaction</h3>
+            <button class="btn btn-sm btn-outline">View Details</button>
+          </div>
+          <div class="report-body">
+            <div class="satisfaction-stats">
+              <div class="rating-item">
+                <div class="rating-label">5 ★</div>
+                <div class="rating-bar">
+                  <div class="rating-progress" style="width: 75%"></div>
                 </div>
-                <div class="report-body">
-                    <div class="report-item">
-                        <div class="service-info">
-                            <div class="service-name">Home Cleaning</div>
-                            <div class="service-stats">
-                                <span>458 bookings</span>
-                                <span>₹12,458 revenue</span>
-                            </div>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 85%"></div>
-                        </div>
-                    </div>
-                    <div class="report-item">
-                        <div class="service-info">
-                            <div class="service-name">Plumbing</div>
-                            <div class="service-stats">
-                                <span>356 bookings</span>
-                                <span>₹9,845 revenue</span>
-                            </div>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 70%"></div>
-                        </div>
-                    </div>
-                    <div class="report-item">
-                        <div class="service-info">
-                            <div class="service-name">Electrical</div>
-                            <div class="service-stats">
-                                <span>285 bookings</span>
-                                <span>₹8,562 revenue</span>
-                            </div>
-                        </div>
-                        <div class="progress-bar">
-                            <div class="progress" style="width: 65%"></div>
-                        </div>
-                    </div>
+                <div class="rating-count">1,245</div>
+              </div>
+              <div class="rating-item">
+                <div class="rating-label">4 ★</div>
+                <div class="rating-bar">
+                  <div class="rating-progress" style="width: 20%"></div>
                 </div>
+                <div class="rating-count">458</div>
+              </div>
+              <div class="rating-item">
+                <div class="rating-label">3 ★</div>
+                <div class="rating-bar">
+                  <div class="rating-progress" style="width: 3%"></div>
+                </div>
+                <div class="rating-count">89</div>
+              </div>
+              <div class="rating-item">
+                <div class="rating-label">2 ★</div>
+                <div class="rating-bar">
+                  <div class="rating-progress" style="width: 1%"></div>
+                </div>
+                <div class="rating-count">24</div>
+              </div>
+              <div class="rating-item">
+                <div class="rating-label">1 ★</div>
+                <div class="rating-bar">
+                  <div class="rating-progress" style="width: 1%"></div>
+                </div>
+                <div class="rating-count">12</div>
+              </div>
             </div>
-
-            <!-- Customer Satisfaction -->
-            <div class="report-card">
-                <div class="report-header">
-                    <h3>Customer Satisfaction</h3>
-                    <button class="btn btn-sm btn-outline">View Details</button>
-                </div>
-                <div class="report-body">
-                    <div class="satisfaction-stats">
-                        <div class="rating-item">
-                            <div class="rating-label">5 ★</div>
-                            <div class="rating-bar">
-                                <div class="rating-progress" style="width: 75%"></div>
-                            </div>
-                            <div class="rating-count">1,245</div>
-                        </div>
-                        <div class="rating-item">
-                            <div class="rating-label">4 ★</div>
-                            <div class="rating-bar">
-                                <div class="rating-progress" style="width: 20%"></div>
-                            </div>
-                            <div class="rating-count">458</div>
-                        </div>
-                        <div class="rating-item">
-                            <div class="rating-label">3 ★</div>
-                            <div class="rating-bar">
-                                <div class="rating-progress" style="width: 3%"></div>
-                            </div>
-                            <div class="rating-count">89</div>
-                        </div>
-                        <div class="rating-item">
-                            <div class="rating-label">2 ★</div>
-                            <div class="rating-bar">
-                                <div class="rating-progress" style="width: 1%"></div>
-                            </div>
-                            <div class="rating-count">24</div>
-                        </div>
-                        <div class="rating-item">
-                            <div class="rating-label">1 ★</div>
-                            <div class="rating-bar">
-                                <div class="rating-progress" style="width: 1%"></div>
-                            </div>
-                            <div class="rating-count">12</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </main>
 
     <!-- JavaScript -->
     <script src="../js/reports.js"></script>
-</body>
+  </body>
 </html>
