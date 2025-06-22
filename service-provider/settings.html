@@ -3,57 +3,796 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings - AllServ Provider</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="css/settings.css" rel="stylesheet">
+    <title>Settings - ServicePro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Primary Colors */
+            --primary: #0D9488;
+            --primary-light: #5FB4A9;
+            --primary-dark: #0A7369;
+            
+            /* Neutral Colors */
+            --accent: #334155;
+            --accent-light: #64748B;
+            --accent-lighter: #CBD5E1;
+            
+            /* Background Colors */
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            
+            /* Status Colors */
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            
+            /* Text Colors */
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            
+            /* Additional UI Colors */
+            --hover-bg: rgba(13, 148, 136, 0.08);
+            --border-color: #E2E8F0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --sidebar-width: 260px;
+            --sidebar-minimized: 80px;
+            --top-nav-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar.minimized {
+            width: var(--sidebar-minimized);
+        }
+
+        .sidebar.minimized .logo-text,
+        .sidebar.minimized .nav-link span,
+        .sidebar.minimized .sidebar-footer span {
+            display: none;
+        }
+
+        .sidebar.minimized .nav-link {
+            justify-content: center;
+        }
+
+        .sidebar.minimized .badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 3px 6px;
+            font-size: 10px;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            min-height: 70px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            color: var(--accent);
+            font-weight: 700;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+            flex: 1;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.2s;
+            position: relative;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--hover-bg);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+
+        .nav-link i {
+            width: 24px;
+            margin-right: 12px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .badge {
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--border-color);
+            padding: 15px 0 0;
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--primary);
+        }
+
+        .sidebar-footer a.logout {
+            color: var(--danger);
+        }
+
+        .sidebar-footer a.logout:hover {
+            background: rgba(235, 87, 87, 0.08);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.sidebar-minimized {
+            margin-left: var(--sidebar-minimized);
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: var(--card-bg);
+            padding: 0 25px;
+            height: var(--top-nav-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--accent);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .toggle-sidebar:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            color: var(--accent);
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .notification-bell:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .user-profile:hover {
+            background: var(--hover-bg);
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border-color);
+        }
+
+        .user-profile span {
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        /* Settings Content */
+        .settings-content {
+            padding: 25px;
+            flex: 1;
+        }
+
+        .settings-header {
+            margin-bottom: 30px;
+        }
+
+        .settings-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .settings-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* Settings Navigation */
+        .settings-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .settings-tab {
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .settings-tab.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .settings-tab:not(.active):hover {
+            border-color: var(--primary);
+        }
+
+        /* Settings Cards */
+        .settings-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .edit-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-btn:hover {
+            background: var(--hover-bg);
+            border-color: var(--primary);
+        }
+
+        /* Settings Grid */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .setting-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .setting-item label {
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .setting-item p {
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--background);
+            color: var(--text-primary);
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.2);
+        }
+
+        .password-strength {
+            margin-top: 10px;
+        }
+
+        .password-strength-bar {
+            height: 6px;
+            background: var(--accent-lighter);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .password-strength-fill {
+            height: 100%;
+            width: 0;
+            background: var(--success);
+            transition: width 0.3s;
+        }
+
+        .password-strength-text {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--hover-bg);
+            border-color: var(--primary);
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--accent-lighter);
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--success);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        /* Notification Settings */
+        .notification-group {
+            margin-bottom: 25px;
+        }
+
+        .notification-group h5 {
+            font-size: 18px;
+            color: var(--accent);
+            margin-bottom: 15px;
+        }
+
+        .notification-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-info {
+            flex: 1;
+        }
+
+        .notification-info h6 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--accent);
+        }
+
+        .notification-info p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        /* Payment Methods */
+        .payment-method {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .payment-method:last-child {
+            border-bottom: none;
+        }
+
+        .card-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .card-info i {
+            font-size: 28px;
+            color: var(--accent);
+        }
+
+        .card-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-details span {
+            font-weight: 500;
+        }
+
+        .expiry {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .payment-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .sidebar {
+                left: -100%;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .main-content.sidebar-minimized {
+                margin-left: 0;
+            }
+            
+            .toggle-sidebar {
+                display: flex;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .settings-content {
+                padding: 15px;
+            }
+            
+            .settings-nav {
+                flex-direction: column;
+            }
+            
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .payment-method {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .payment-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .top-nav {
+                padding: 0 15px;
+            }
+            
+            .nav-right {
+                gap: 15px;
+            }
+            
+            .user-profile span {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="assets/images/logo.png" alt="AllServ Logo" class="logo">
-                <h1>AllServ</h1>
+                <div class="logo">S</div>
+                <h1 class="logo-text">ServicePro</h1>
             </div>
             
             <nav class="sidebar-nav">
                 <ul>
                     <li>
-                        <a href="dashboard.html">
+                        <a href="dashboard.html" class="nav-link">
                             <i class="fas fa-home"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="service-requests.html">
+                        <a href="service-requests.html" class="nav-link">
                             <i class="fas fa-clipboard-list"></i>
                             <span>Service Requests</span>
-                            <span class="badge bg-primary">5</span>
+                            <span class="badge">5</span>
                         </a>
                     </li>
                     <li>
-                        <a href="service-history.html">
+                        <a href="service-history.html" class="nav-link">
                             <i class="fas fa-history"></i>
                             <span>Service History</span>
                         </a>
                     </li>
                     <li>
-                        <a href="earnings.html">
+                        <a href="earnings.html" class="nav-link">
                             <i class="fas fa-wallet"></i>
                             <span>Earnings</span>
                         </a>
                     </li>
                     <li>
-                        <a href="profile.html">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Schedule</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile.html" class="nav-link">
                             <i class="fas fa-user"></i>
                             <span>Profile</span>
                         </a>
                     </li>
-                    <li class="active">
-                        <a href="settings.html">
+                    <li>
+                        <a href="settings.html" class="nav-link active">
                             <i class="fas fa-cog"></i>
                             <span>Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Analytics</span>
                         </a>
                     </li>
                 </ul>
@@ -64,407 +803,375 @@
                     <i class="fas fa-question-circle"></i>
                     <span>Help & Support</span>
                 </a>
-                <a href="#" class="logout">
+                <a href="../index.html" class="logout">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
             </div>
         </aside>
 
+        <!-- Main Content -->
         <main class="main-content">
             <!-- Top Navigation -->
             <nav class="top-nav">
-                <button class="toggle-sidebar">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <div class="nav-left">
+                    <button class="toggle-sidebar" id="toggleSidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h3>Settings</h3>
+                </div>
                 
                 <div class="nav-right">
-                    <div class="notifications">
-                        <button class="notification-btn">
-                            <i class="fas fa-bell"></i>
-                            <span class="badge bg-danger">3</span>
-                        </button>
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
                     </div>
                     <div class="user-profile">
-                        <img src="assets/images/profile.jpg" alt="Profile Picture">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Picture">
                         <span>John Smith</span>
                     </div>
                 </div>
             </nav>
 
+            <!-- Settings Content -->
             <div class="settings-content">
-                <!-- Settings Header -->
                 <div class="settings-header">
-                    <h1>Settings</h1>
-                    <p class="text-muted">Manage your account settings and preferences</p>
+                    <h1>Account Settings</h1>
+                    <p>Manage your account preferences and security</p>
                 </div>
 
-                <!-- Settings Navigation -->
                 <div class="settings-nav">
-                    <div class="nav-item active" data-tab="account">
-                        <i class="fas fa-user-circle"></i> Account
+                    <div class="settings-tab active" data-tab="account">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Account</span>
                     </div>
-                    <div class="nav-item" data-tab="notifications">
-                        <i class="fas fa-bell"></i> Notifications
+                    <div class="settings-tab" data-tab="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span>Notifications</span>
                     </div>
-                    <div class="nav-item" data-tab="privacy">
-                        <i class="fas fa-shield-alt"></i> Privacy & Security
+                    <div class="settings-tab" data-tab="security">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Security</span>
                     </div>
-                    <div class="nav-item" data-tab="payments">
-                        <i class="fas fa-credit-card"></i> Payments
+                    <div class="settings-tab" data-tab="payments">
+                        <i class="fas fa-credit-card"></i>
+                        <span>Payments</span>
                     </div>
-                    <div class="nav-item" data-tab="preferences">
-                        <i class="fas fa-sliders-h"></i> Preferences
+                    <div class="settings-tab" data-tab="preferences">
+                        <i class="fas fa-sliders-h"></i>
+                        <span>Preferences</span>
                     </div>
                 </div>
 
-                <!-- Settings Content -->
-                <div class="tab-content">
-                    <!-- Account Settings -->
-                    <div id="account" class="tab-pane active">
-                        <div class="settings-card">
-                            <div class="card-header">
-                                <h3>Account Information</h3>
-                                <button class="btn btn-outline-primary btn-sm">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                            </div>
-                            <div class="card-body">
-                                <div class="settings-grid">
-                                    <div class="setting-item">
-                                        <label>Email Address</label>
-                                        <p>john.smith@example.com</p>
-                                    </div>
-                                    <div class="setting-item">
-                                        <label>Phone Number</label>
-                                        <p>+1 (555) 123-4567</p>
-                                    </div>
-                                    <div class="setting-item">
-                                        <label>Business Name</label>
-                                        <p>Smith's Professional Plumbing</p>
-                                    </div>
-                                    <div class="setting-item">
-                                        <label>Business Address</label>
-                                        <p>123 Main Street, New York, NY 10001</p>
-                                    </div>
+                <!-- Account Settings -->
+                <div class="tab-pane active" id="account">
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <h3>Profile Information</h3>
+                            <button class="edit-btn">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="settings-grid">
+                                <div class="setting-item">
+                                    <label>Full Name</label>
+                                    <p>John Smith</p>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="settings-card">
-                            <div class="card-header">
-                                <h3>Password & Security</h3>
-                            </div>
-                            <div class="card-body">
-                                <form id="passwordForm">
-                                    <div class="mb-3">
-                                        <label class="form-label">Current Password</label>
-                                        <input type="password" class="form-control" required>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">New Password</label>
-                                        <input type="password" class="form-control" id="newPassword" required>
-                                        <div class="password-strength mt-2">
-                                            <div class="progress">
-                                                <div class="progress-bar" id="passwordStrength" role="progressbar"></div>
-                                            </div>
-                                            <small class="text-muted">Password strength indicator</small>
-                                        </div>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label">Confirm New Password</label>
-                                        <input type="password" class="form-control" required>
-                                    </div>
-                                    <button type="submit" class="btn btn-primary">Update Password</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Notifications Settings -->
-                    <div id="notifications" class="tab-pane">
-                        <div class="settings-card">
-                            <div class="card-header">
-                                <h3>Notification Preferences</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="notification-settings">
-                                    <div class="notification-group">
-                                        <h5>Email Notifications</h5>
-                                        <div class="notification-item">
-                                            <div class="notification-info">
-                                                <h6>New Booking Alerts</h6>
-                                                <p>Receive notifications when you get new service bookings</p>
-                                            </div>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" checked>
-                                            </div>
-                                        </div>
-                                        <div class="notification-item">
-                                            <div class="notification-info">
-                                                <h6>Booking Updates</h6>
-                                                <p>Get notified about changes or cancellations to your bookings</p>
-                                            </div>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" checked>
-                                            </div>
-                                        </div>
-                                        <div class="notification-item">
-                                            <div class="notification-info">
-                                                <h6>Review Notifications</h6>
-                                                <p>Receive alerts when customers leave reviews</p>
-                                            </div>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" checked>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="notification-group">
-                                        <h5>SMS Notifications</h5>
-                                        <div class="notification-item">
-                                            <div class="notification-info">
-                                                <h6>Urgent Bookings</h6>
-                                                <p>Get SMS alerts for emergency service requests</p>
-                                            </div>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" checked>
-                                            </div>
-                                        </div>
-                                        <div class="notification-item">
-                                            <div class="notification-info">
-                                                <h6>Booking Reminders</h6>
-                                                <p>Receive SMS reminders before scheduled appointments</p>
-                                            </div>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" checked>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="notification-group">
-                                        <h5>Push Notifications</h5>
-                                        <div class="notification-item">
-                                            <div class="notification-info">
-                                                <h6>Mobile App Notifications</h6>
-                                                <p>Enable push notifications on your mobile device</p>
-                                            </div>
-                                            <div class="form-check form-switch">
-                                                <input class="form-check-input" type="checkbox" checked>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="setting-item">
+                                    <label>Email Address</label>
+                                    <p>john.smith@example.com</p>
+                                </div>
+                                <div class="setting-item">
+                                    <label>Phone Number</label>
+                                    <p>+1 (555) 123-4567</p>
+                                </div>
+                                <div class="setting-item">
+                                    <label>Business Name</label>
+                                    <p>Smith's Professional Plumbing</p>
+                                </div>
+                                <div class="setting-item">
+                                    <label>Business Address</label>
+                                    <p>123 Main Street, New York, NY 10001</p>
+                                </div>
+                                <div class="setting-item">
+                                    <label>Service Categories</label>
+                                    <p>Plumbing, Electrical, HVAC</p>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Privacy Settings -->
-                    <div id="privacy" class="tab-pane">
-                        <div class="settings-card">
-                            <div class="card-header">
-                                <h3>Privacy Settings</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="privacy-settings">
-                                    <div class="privacy-item">
-                                        <div class="privacy-info">
-                                            <h6>Profile Visibility</h6>
-                                            <p>Control who can see your profile information</p>
-                                        </div>
-                                        <select class="form-select">
-                                            <option value="public">Public</option>
-                                            <option value="registered">Registered Users Only</option>
-                                            <option value="private">Private</option>
-                                        </select>
+                <!-- Notification Settings -->
+                <div class="tab-pane" id="notifications">
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <h3>Notification Preferences</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="notification-group">
+                                <h5>Service Requests</h5>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <h6>New Service Requests</h6>
+                                        <p>Notify me when I receive new service requests</p>
                                     </div>
-                                    <div class="privacy-item">
-                                        <div class="privacy-info">
-                                            <h6>Contact Information</h6>
-                                            <p>Choose what contact information is visible to customers</p>
-                                        </div>
-                                        <div class="contact-visibility">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" checked>
-                                                <label class="form-check-label">Show email address</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" checked>
-                                                <label class="form-check-label">Show phone number</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" checked>
-                                                <label class="form-check-label">Show business address</label>
-                                            </div>
-                                        </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <h6>Request Updates</h6>
+                                        <p>Notify me about changes to existing requests</p>
                                     </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="settings-card">
-                            <div class="card-header">
-                                <h3>Security Settings</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="security-settings">
-                                    <div class="security-item">
-                                        <div class="security-info">
-                                            <h6>Two-Factor Authentication</h6>
-                                            <p>Add an extra layer of security to your account</p>
-                                        </div>
-                                        <button class="btn btn-primary">Enable 2FA</button>
+                            
+                            <div class="notification-group">
+                                <h5>Payments</h5>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <h6>Payment Received</h6>
+                                        <p>Notify me when payments are received</p>
                                     </div>
-                                    <div class="security-item">
-                                        <div class="security-info">
-                                            <h6>Login History</h6>
-                                            <p>View and manage your recent login sessions</p>
-                                        </div>
-                                        <button class="btn btn-outline-primary">View History</button>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <h6>Payment Issues</h6>
+                                        <p>Notify me about any payment issues</p>
                                     </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- Payment Settings -->
-                    <div id="payments" class="tab-pane">
-                        <div class="settings-card">
-                            <div class="card-header">
-                                <h3>Payment Methods</h3>
-                                <button class="btn btn-primary btn-sm">
-                                    <i class="fas fa-plus"></i> Add Payment Method
-                                </button>
-                            </div>
-                            <div class="card-body">
-                                <div class="payment-methods">
-                                    <div class="payment-method">
-                                        <div class="card-info">
-                                            <i class="fab fa-cc-visa"></i>
-                                            <span>•••• •••• •••• 4242</span>
-                                            <span class="expiry">Expires 12/25</span>
-                                        </div>
-                                        <div class="payment-actions">
-                                            <button class="btn btn-outline-primary btn-sm">Edit</button>
-                                            <button class="btn btn-outline-danger btn-sm">Remove</button>
-                                        </div>
+                            
+                            <div class="notification-group">
+                                <h5>Account Activity</h5>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <h6>Security Alerts</h6>
+                                        <p>Notify me about important security events</p>
                                     </div>
-                                    <div class="payment-method">
-                                        <div class="card-info">
-                                            <i class="fab fa-cc-mastercard"></i>
-                                            <span>•••• •••• •••• 8888</span>
-                                            <span class="expiry">Expires 09/24</span>
-                                        </div>
-                                        <div class="payment-actions">
-                                            <button class="btn btn-outline-primary btn-sm">Edit</button>
-                                            <button class="btn btn-outline-danger btn-sm">Remove</button>
-                                        </div>
-                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="settings-card">
-                            <div class="card-header">
-                                <h3>Payout Settings</h3>
-                            </div>
-                            <div class="card-body">
-                                <div class="payout-settings">
-                                    <div class="payout-method">
-                                        <div class="bank-info">
-                                            <i class="fas fa-university"></i>
-                                            <div>
-                                                <h6>Chase Bank</h6>
-                                                <p>Account ending in 5678</p>
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-outline-primary btn-sm">Change</button>
+                                <div class="notification-item">
+                                    <div class="notification-info">
+                                        <h6>Account Updates</h6>
+                                        <p>Notify me about changes to my account</p>
                                     </div>
-                                    <div class="payout-schedule">
-                                        <h6>Payout Schedule</h6>
-                                        <select class="form-select">
-                                            <option value="weekly">Weekly</option>
-                                            <option value="biweekly">Bi-weekly</option>
-                                            <option value="monthly">Monthly</option>
-                                        </select>
-                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Preferences -->
-                    <div id="preferences" class="tab-pane">
-                        <div class="settings-card">
-                            <div class="card-header">
-                                <h3>General Preferences</h3>
+                <!-- Security Settings -->
+                <div class="tab-pane" id="security">
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <h3>Password & Security</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="currentPassword">Current Password</label>
+                                <input type="password" id="currentPassword" class="form-control" placeholder="Enter current password">
                             </div>
-                            <div class="card-body">
-                                <div class="preferences-settings">
-                                    <div class="preference-item">
-                                        <div class="preference-info">
-                                            <h6>Language</h6>
-                                            <p>Select your preferred language</p>
-                                        </div>
-                                        <select class="form-select">
-                                            <option value="en">English</option>
-                                            <option value="es">Español</option>
-                                            <option value="fr">Français</option>
-                                        </select>
+                            
+                            <div class="form-group">
+                                <label for="newPassword">New Password</label>
+                                <input type="password" id="newPassword" class="form-control" placeholder="Enter new password">
+                                <div class="password-strength">
+                                    <div class="password-strength-bar">
+                                        <div class="password-strength-fill" id="passwordStrength"></div>
                                     </div>
-                                    <div class="preference-item">
-                                        <div class="preference-info">
-                                            <h6>Time Zone</h6>
-                                            <p>Set your local time zone</p>
-                                        </div>
-                                        <select class="form-select">
-                                            <option value="EST">Eastern Time (ET)</option>
-                                            <option value="CST">Central Time (CT)</option>
-                                            <option value="MST">Mountain Time (MT)</option>
-                                            <option value="PST">Pacific Time (PT)</option>
-                                        </select>
+                                    <div class="password-strength-text">Password strength: <span id="strengthText">Weak</span></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm New Password</label>
+                                <input type="password" id="confirmPassword" class="form-control" placeholder="Confirm new password">
+                            </div>
+                            
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save"></i> Update Password
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <h3>Two-Factor Authentication</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="setting-item">
+                                <div class="notification-info">
+                                    <h6>Two-Factor Authentication</h6>
+                                    <p>Add an extra layer of security to your account</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <div class="notification-info">
+                                    <h6>Recovery Options</h6>
+                                    <p>Set up account recovery options</p>
+                                </div>
+                                <button class="btn btn-outline">Set Up</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Settings -->
+                <div class="tab-pane" id="payments">
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <h3>Payment Methods</h3>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-plus"></i> Add Payment Method
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="payment-method">
+                                <div class="card-info">
+                                    <i class="fab fa-cc-visa"></i>
+                                    <div class="card-details">
+                                        <span>Visa ending in 4242</span>
+                                        <span class="expiry">Expires 12/25</span>
                                     </div>
-                                    <div class="preference-item">
-                                        <div class="preference-info">
-                                            <h6>Currency</h6>
-                                            <p>Choose your preferred currency</p>
-                                        </div>
-                                        <select class="form-select">
-                                            <option value="GBP">RUP (₹)</option>
-                                            <option value="USD">USD ($)</option>
-                                            <option value="EUR">EUR (€)</option>
-                                            <option value="GBP">GBP (£)</option>
-                                        </select>
+                                </div>
+                                <div class="payment-actions">
+                                    <button class="btn btn-outline btn-sm">Edit</button>
+                                    <button class="btn btn-outline btn-sm">Remove</button>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-method">
+                                <div class="card-info">
+                                    <i class="fab fa-cc-mastercard"></i>
+                                    <div class="card-details">
+                                        <span>Mastercard ending in 8888</span>
+                                        <span class="expiry">Expires 09/24</span>
                                     </div>
+                                </div>
+                                <div class="payment-actions">
+                                    <button class="btn btn-outline btn-sm">Edit</button>
+                                    <button class="btn btn-outline btn-sm">Remove</button>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="settings-card">
-                            <div class="card-header">
-                                <h3>Appearance</h3>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <h3>Payout Settings</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="payoutMethod">Payout Method</label>
+                                <select id="payoutMethod" class="form-control">
+                                    <option>Bank Transfer</option>
+                                    <option>PayPal</option>
+                                    <option>Payoneer</option>
+                                </select>
                             </div>
-                            <div class="card-body">
-                                <div class="appearance-settings">
-                                    <div class="appearance-item">
-                                        <div class="appearance-info">
-                                            <h6>Theme</h6>
-                                            <p>Choose your preferred theme</p>
-                                        </div>
-                                        <div class="theme-options">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="theme" value="light" checked>
-                                                <label class="form-check-label">Light</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="theme" value="dark">
-                                                <label class="form-check-label">Dark</label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="theme" value="system">
-                                                <label class="form-check-label">System Default</label>
-                                            </div>
-                                        </div>
+                            
+                            <div class="form-group">
+                                <label for="payoutSchedule">Payout Schedule</label>
+                                <select id="payoutSchedule" class="form-control">
+                                    <option>Weekly</option>
+                                    <option>Bi-weekly</option>
+                                    <option>Monthly</option>
+                                </select>
+                            </div>
+                            
+                            <button class="btn btn-primary">
+                                <i class="fas fa-save"></i> Save Settings
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preferences -->
+                <div class="tab-pane" id="preferences">
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <h3>General Preferences</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="language">Language</label>
+                                <select id="language" class="form-control">
+                                    <option>English</option>
+                                    <option>Español</option>
+                                    <option>Français</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="timezone">Time Zone</label>
+                                <select id="timezone" class="form-control">
+                                    <option>(GMT-05:00) Eastern Time</option>
+                                    <option>(GMT-06:00) Central Time</option>
+                                    <option>(GMT-07:00) Mountain Time</option>
+                                    <option>(GMT-08:00) Pacific Time</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="currency">Currency</label>
+                                <select id="currency" class="form-control">
+                                    <option>Indian Rupee (₹)</option>
+                                    <option>US Dollar ($)</option>
+                                    <option>Euro (€)</option>
+                                    <option>British Pound (£)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-card">
+                        <div class="card-header">
+                            <h3>Appearance</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Theme</label>
+                                <div class="theme-options">
+                                    <div class="form-check">
+                                        <input type="radio" id="lightTheme" name="theme" value="light" checked>
+                                        <label for="lightTheme">Light</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" id="darkTheme" name="theme" value="dark">
+                                        <label for="darkTheme">Dark</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input type="radio" id="systemTheme" name="theme" value="system">
+                                        <label for="systemTheme">System Default</label>
                                     </div>
                                 </div>
                             </div>
@@ -475,8 +1182,83 @@
         </main>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/settings.js"></script>
+    <script>
+        // Toggle sidebar between minimized and expanded states
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            sidebar.classList.toggle('minimized');
+            mainContent.classList.toggle('sidebar-minimized');
+            
+            // Change icon based on state
+            const icon = this.querySelector('i');
+            if (sidebar.classList.contains('minimized')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-indent');
+            } else {
+                icon.classList.remove('fa-indent');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Tab switching functionality
+        const settingsTabs = document.querySelectorAll('.settings-tab');
+        
+        settingsTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                // Remove active class from all tabs
+                settingsTabs.forEach(t => t.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                this.classList.add('active');
+            });
+        });
+
+        // Password strength indicator
+        const passwordInput = document.getElementById('newPassword');
+        const passwordStrength = document.getElementById('passwordStrength');
+        const strengthText = document.getElementById('strengthText');
+        
+        passwordInput.addEventListener('input', function() {
+            const password = this.value;
+            let strength = 0;
+            
+            // Check password length
+            if (password.length >= 8) strength += 25;
+            if (password.length >= 12) strength += 25;
+            
+            // Check for uppercase, lowercase, numbers and symbols
+            if (/[A-Z]/.test(password)) strength += 25;
+            if (/[0-9]/.test(password)) strength += 15;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 10;
+            
+            // Update strength bar
+            passwordStrength.style.width = strength + '%';
+            
+            // Update strength text
+            const dangerColor = getComputedStyle(document.documentElement).getPropertyValue('--danger');
+            const warningColor = getComputedStyle(document.documentElement).getPropertyValue('--warning');
+            const successColor = getComputedStyle(document.documentElement).getPropertyValue('--success');
+            if (strength < 50) {
+                passwordStrength.style.backgroundColor = dangerColor;
+                strengthText.textContent = 'Weak';
+            } else if (strength < 75) {
+                passwordStrength.style.backgroundColor = warningColor;
+                strengthText.textContent = 'Medium';
+            } else {
+                passwordStrength.style.backgroundColor = successColor;
+                strengthText.textContent = 'Strong';
+            }
+        });
+
+        // Simulate form submission
+        document.querySelectorAll('.btn-primary').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('Settings saved successfully!');
+            });
+        });
+    </script>
 </body>
 </html>

@@ -3,72 +3,840 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AllServ - Service Requests</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="css/dashboard.css" rel="stylesheet">
-    <link href="css/service-requests.css" rel="stylesheet">
+    <title>ServicePro - Service Requests</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Primary Colors */
+            --primary: #0D9488;
+            --primary-light: #5FB4A9;
+            --primary-dark: #0A7369;
+            
+            /* Neutral Colors */
+            --accent: #334155;
+            --accent-light: #64748B;
+            --accent-lighter: #CBD5E1;
+            
+            /* Background Colors */
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            
+            /* Status Colors */
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            
+            /* Text Colors */
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            
+            /* Additional UI Colors */
+            --hover-bg: rgba(13, 148, 136, 0.08);
+            --border-color: #E2E8F0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --sidebar-width: 260px;
+            --sidebar-minimized: 80px;
+            --top-nav-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar.minimized {
+            width: var(--sidebar-minimized);
+        }
+
+        .sidebar.minimized .logo-text,
+        .sidebar.minimized .nav-link span,
+        .sidebar.minimized .sidebar-footer span {
+            display: none;
+        }
+
+        .sidebar.minimized .nav-link {
+            justify-content: center;
+        }
+
+        .sidebar.minimized .badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 3px 6px;
+            font-size: 10px;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            min-height: 70px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            color: var(--accent);
+            font-weight: 700;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+            flex: 1;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.2s;
+            position: relative;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--hover-bg);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+
+        .nav-link i {
+            width: 24px;
+            margin-right: 12px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .badge {
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--border-color);
+            padding: 15px 0 0;
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--primary);
+        }
+
+        .sidebar-footer a.logout {
+            color: var(--danger);
+        }
+
+        .sidebar-footer a.logout:hover {
+            background: rgba(235, 87, 87, 0.08);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.sidebar-minimized {
+            margin-left: var(--sidebar-minimized);
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: var(--card-bg);
+            padding: 0 25px;
+            height: var(--top-nav-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--accent);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .toggle-sidebar:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            color: var(--accent);
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .notification-bell:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .user-profile:hover {
+            background: var(--hover-bg);
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border-color);
+        }
+
+        .user-profile span {
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        /* Service Requests Content */
+        .service-requests-content {
+            padding: 25px;
+            flex: 1;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-box {
+            background: var(--primary-light);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .filter-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 15px;
+            min-width: 200px;
+            z-index: 100;
+            display: none;
+        }
+
+        .filter-option {
+            padding: 8px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .filter-option:last-child {
+            border-bottom: none;
+        }
+
+        .filter-option:hover {
+            color: var(--primary);
+        }
+
+        .filter-option.active {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--background);
+            color: var(--text-primary);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        /* Request Categories */
+        .request-categories {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .tab-link {
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tab-link.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .tab-link:not(.active):hover {
+            border-color: var(--primary);
+        }
+
+        .badge-count {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2px 10px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .tab-content {
+            padding: 10px;
+        }
+
+        .request-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .request-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            transition: all 0.3s;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow);
+        }
+
+        .request-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .customer-info img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .customer-details h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .customer-details p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-badge.new {
+            background: rgba(59, 130, 246, 0.15);
+            color: var(--info);
+        }
+
+        .status-badge.accepted {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .status-badge.in-progress {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+        }
+
+        .request-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .detail-item i {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(13, 148, 136, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .detail-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .detail-value {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .request-description {
+            background: rgba(13, 148, 136, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .action-btn.primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-btn.primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .action-btn.danger {
+            background: transparent;
+            border: 1px solid var(--danger);
+            color: var(--danger);
+        }
+
+        .action-btn.danger:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .action-btn.secondary {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        .action-btn.secondary:hover {
+            background: var(--hover-bg);
+        }
+
+        .action-btn.success {
+            background: var(--success);
+            color: white;
+        }
+
+        .action-btn.success:hover {
+            background: #0daa74;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .sidebar {
+                left: -100%;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .main-content.sidebar-minimized {
+                margin-left: 0;
+            }
+            
+            .toggle-sidebar {
+                display: flex;
+            }
+            
+            .request-cards {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .service-requests-content {
+                padding: 15px;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .header-stats {
+                width: 100%;
+            }
+            
+            .header-actions {
+                width: 100%;
+            }
+            
+            .search-box {
+                max-width: 100%;
+            }
+            
+            .request-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .request-actions {
+                flex-direction: column;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .top-nav {
+                padding: 0 15px;
+            }
+            
+            .nav-right {
+                gap: 15px;
+            }
+            
+            .user-profile span {
+                display: none;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- Sidebar (Same as dashboard.html) -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="assets/images/logo.png" alt="AllServ Logo" class="logo">
-                <h1>AllServ</h1>
+                <div class="logo">S</div>
+                <h1 class="logo-text">ServicePro</h1>
             </div>
             
             <nav class="sidebar-nav">
                 <ul>
                     <li>
-                        <a href="dashboard.html">
+                        <a href="dashboard.html" class="nav-link">
                             <i class="fas fa-home"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
-                    <li class="active">
-                        <a href="service-requests.html">
+                    <li>
+                        <a href="service-requests.html" class="nav-link active">
                             <i class="fas fa-clipboard-list"></i>
                             <span>Service Requests</span>
-                            <span class="badge bg-primary">5</span>
+                            <span class="badge">5</span>
                         </a>
                     </li>
                     <li>
-                        <a href="service-history.html">
+                        <a href="service-history.html" class="nav-link">
                             <i class="fas fa-history"></i>
                             <span>Service History</span>
                         </a>
                     </li>
                     <li>
-                        <a href="earnings.html">
+                        <a href="earnings.html" class="nav-link">
                             <i class="fas fa-wallet"></i>
                             <span>Earnings</span>
                         </a>
                     </li>
                     <li>
-                        <a href="profile.html">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Schedule</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile.html" class="nav-link">
                             <i class="fas fa-user"></i>
                             <span>Profile</span>
                         </a>
                     </li>
                     <li>
-                        <a href="settings.html">
+                        <a href="settings.html" class="nav-link">
                             <i class="fas fa-cog"></i>
                             <span>Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Analytics</span>
                         </a>
                     </li>
                 </ul>
             </nav>
 
             <div class="sidebar-footer">
-                <a href="support.html">
+                <a href="#">
                     <i class="fas fa-question-circle"></i>
                     <span>Help & Support</span>
                 </a>
-                <a href="#" class="logout">
+                <a href="../index.html" class="logout">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
@@ -79,9 +847,12 @@
         <main class="main-content">
             <!-- Top Navigation -->
             <nav class="top-nav">
-                <button class="toggle-sidebar">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <div class="nav-left">
+                    <button class="toggle-sidebar" id="toggleSidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h3>Service Requests</h3>
+                </div>
                 
                 <div class="nav-right">
                     <div class="notification-bell">
@@ -89,226 +860,458 @@
                         <span class="notification-badge">3</span>
                     </div>
                     <div class="user-profile">
-                        <img src="assets/images/profile-placeholder.jpg" alt="Profile Picture">
-                        <span>John Doe</span>
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Picture">
+                        <span>John Smith</span>
                     </div>
                 </div>
             </nav>
 
             <!-- Service Requests Content -->
             <div class="service-requests-content">
+                <!-- Page Header -->
                 <div class="page-header">
-                    <h2>Service Requests</h2>
-                    <div class="header-actions">
-                        <div class="dropdown">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="filterDropdown" data-bs-toggle="dropdown">
-                                <i class="fas fa-filter"></i> Filter
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">All Requests</a></li>
-                                <li><a class="dropdown-item" href="#">New Requests</a></li>
-                                <li><a class="dropdown-item" href="#">Accepted</a></li>
-                                <li><a class="dropdown-item" href="#">In Progress</a></li>
-                            </ul>
+                    <div>
+                        <h2>Service Requests</h2>
+                        <p class="text-secondary">Manage and respond to customer service requests</p>
+                    </div>
+                    
+                    <div class="header-stats">
+                        <div class="stat-box">
+                            <i class="fas fa-bell"></i>
+                            <span>New: 5</span>
                         </div>
+                        <div class="stat-box" style="background-color: var(--success);">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Accepted: 3</span>
+                        </div>
+                        <div class="stat-box" style="background-color: var(--warning);">
+                            <i class="fas fa-tools"></i>
+                            <span>In Progress: 2</span>
+                        </div>
+                    </div>
+                    
+                    <div class="header-actions">
+                        <div class="filter-btn" id="filterBtn">
+                            <i class="fas fa-filter"></i>
+                            <span>Filter</span>
+                            <div class="filter-dropdown" id="filterDropdown">
+                                <div class="filter-option active">All Requests</div>
+                                <div class="filter-option">New Requests</div>
+                                <div class="filter-option">Accepted</div>
+                                <div class="filter-option">In Progress</div>
+                                <div class="filter-option">Urgent</div>
+                            </div>
+                        </div>
+                        
                         <div class="search-box">
-                            <input type="text" class="form-control" placeholder="Search requests...">
                             <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search requests...">
                         </div>
                     </div>
                 </div>
-
+                
                 <!-- Request Categories -->
                 <div class="request-categories">
-                    <div class="nav nav-tabs">
-                        <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#newRequests">
-                            New Requests <span class="badge bg-primary">5</span>
-                        </button>
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#acceptedRequests">
-                            Accepted <span class="badge bg-success">3</span>
-                        </button>
-                        <button class="nav-link" data-bs-toggle="tab" data-bs-target="#inProgress">
-                            In Progress <span class="badge bg-warning">2</span>
-                        </button>
+                    <div class="nav-tabs">
+                        <div class="tab-link active" data-category="new">
+                            <i class="fas fa-bell"></i>
+                            <span>New Requests</span>
+                            <span class="badge-count">5</span>
+                        </div>
+                        <div class="tab-link" data-category="accepted">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Accepted</span>
+                            <span class="badge-count">3</span>
+                        </div>
+                        <div class="tab-link" data-category="in-progress">
+                            <i class="fas fa-tools"></i>
+                            <span>In Progress</span>
+                            <span class="badge-count">2</span>
+                        </div>
+                        <div class="tab-link" data-category="completed">
+                            <i class="fas fa-check-double"></i>
+                            <span>Completed</span>
+                            <span class="badge-count">42</span>
+                        </div>
                     </div>
-
+                    
                     <div class="tab-content">
-                        <!-- New Requests Tab -->
-                        <div class="tab-pane fade show active" id="newRequests">
+                        <!-- New Requests -->
+                        <div class="tab-pane active" id="new-requests">
                             <div class="request-cards">
                                 <!-- Request Card 1 -->
                                 <div class="request-card">
                                     <div class="request-header">
                                         <div class="customer-info">
-                                            <img src="assets/images/profile-placeholder.jpg" alt="Customer">
-                                            <div>
+                                            <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Sarah Johnson">
+                                            <div class="customer-details">
                                                 <h4>Sarah Johnson</h4>
-                                                <p class="text-muted">Plumbing Service</p>
+                                                <p>Plumbing Service</p>
                                             </div>
                                         </div>
-                                        <span class="badge bg-primary">New</span>
+                                        <span class="status-badge new">New</span>
                                     </div>
+                                    
                                     <div class="request-details">
                                         <div class="detail-item">
                                             <i class="fas fa-map-marker-alt"></i>
-                                            <span>123 Main St, Apt 4B, New York</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Location</span>
+                                                <span class="detail-value">123 Main St, Apt 4B</span>
+                                            </div>
                                         </div>
                                         <div class="detail-item">
                                             <i class="fas fa-calendar"></i>
-                                            <span>Tomorrow, 10:00 AM</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Date & Time</span>
+                                                <span class="detail-value">Tomorrow, 10:00 AM</span>
+                                            </div>
                                         </div>
                                         <div class="detail-item">
                                             <i class="fas fa-tools"></i>
-                                            <span>Leaking Pipe Repair</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Service Type</span>
+                                                <span class="detail-value">Leaking Pipe Repair</span>
+                                            </div>
                                         </div>
                                         <div class="detail-item">
                                             <i class="fas fa-dollar-sign"></i>
-                                            <span>Estimated: ₹80-120</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Estimated Cost</span>
+                                                <span class="detail-value">₹80-120</span>
+                                            </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="request-description">
                                         <p>Kitchen sink pipe is leaking. Water is collecting under the sink. Need urgent repair.</p>
                                     </div>
+                                    
                                     <div class="request-actions">
-                                        <button class="btn btn-primary">Accept Request</button>
-                                        <button class="btn btn-outline-danger">Decline</button>
-                                        <button class="btn btn-outline-secondary">
-                                            <i class="fas fa-info-circle"></i> More Details
+                                        <button class="action-btn primary">
+                                            <i class="fas fa-check"></i> Accept Request
+                                        </button>
+                                        <button class="action-btn danger">
+                                            <i class="fas fa-times"></i> Decline
+                                        </button>
+                                        <button class="action-btn secondary">
+                                            <i class="fas fa-info-circle"></i> Details
                                         </button>
                                     </div>
                                 </div>
-
+                                
                                 <!-- Request Card 2 -->
                                 <div class="request-card">
                                     <div class="request-header">
                                         <div class="customer-info">
-                                            <img src="assets/images/profile-placeholder.jpg" alt="Customer">
-                                            <div>
+                                            <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael Brown">
+                                            <div class="customer-details">
                                                 <h4>Michael Brown</h4>
-                                                <p class="text-muted">Plumbing Service</p>
+                                                <p>Plumbing Service</p>
                                             </div>
                                         </div>
-                                        <span class="badge bg-primary">New</span>
+                                        <span class="status-badge new">New</span>
                                     </div>
+                                    
                                     <div class="request-details">
                                         <div class="detail-item">
                                             <i class="fas fa-map-marker-alt"></i>
-                                            <span>456 Oak Avenue, Brooklyn</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Location</span>
+                                                <span class="detail-value">456 Oak Avenue</span>
+                                            </div>
                                         </div>
                                         <div class="detail-item">
                                             <i class="fas fa-calendar"></i>
-                                            <span>Today, 3:00 PM</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Date & Time</span>
+                                                <span class="detail-value">Today, 3:00 PM</span>
+                                            </div>
                                         </div>
                                         <div class="detail-item">
                                             <i class="fas fa-tools"></i>
-                                            <span>Bathroom Faucet Installation</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Service Type</span>
+                                                <span class="detail-value">Faucet Installation</span>
+                                            </div>
                                         </div>
                                         <div class="detail-item">
                                             <i class="fas fa-dollar-sign"></i>
-                                            <span>Estimated: ₹100-150</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Estimated Cost</span>
+                                                <span class="detail-value">₹100-150</span>
+                                            </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="request-description">
                                         <p>Need to install a new bathroom faucet. Old one is removed and new one is ready for installation.</p>
                                     </div>
+                                    
                                     <div class="request-actions">
-                                        <button class="btn btn-primary">Accept Request</button>
-                                        <button class="btn btn-outline-danger">Decline</button>
-                                        <button class="btn btn-outline-secondary">
-                                            <i class="fas fa-info-circle"></i> More Details
+                                        <button class="action-btn primary">
+                                            <i class="fas fa-check"></i> Accept Request
+                                        </button>
+                                        <button class="action-btn danger">
+                                            <i class="fas fa-times"></i> Decline
+                                        </button>
+                                        <button class="action-btn secondary">
+                                            <i class="fas fa-info-circle"></i> Details
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <!-- Accepted Requests Tab -->
-                        <div class="tab-pane fade" id="acceptedRequests">
-                            <div class="request-cards">
-                                <!-- Accepted Request Card -->
+                                
+                                <!-- Request Card 3 -->
                                 <div class="request-card">
                                     <div class="request-header">
                                         <div class="customer-info">
-                                            <img src="assets/images/profile-placeholder.jpg" alt="Customer">
-                                            <div>
-                                                <h4>Emily Wilson</h4>
-                                                <p class="text-muted">Plumbing Service</p>
+                                            <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Jennifer Lee">
+                                            <div class="customer-details">
+                                                <h4>Jennifer Lee</h4>
+                                                <p>Electrical Service</p>
                                             </div>
                                         </div>
-                                        <span class="badge bg-success">Accepted</span>
+                                        <span class="status-badge new">New</span>
                                     </div>
+                                    
                                     <div class="request-details">
                                         <div class="detail-item">
                                             <i class="fas fa-map-marker-alt"></i>
-                                            <span>789 Pine Road, Queens</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Location</span>
+                                                <span class="detail-value">789 Pine Road</span>
+                                            </div>
                                         </div>
                                         <div class="detail-item">
                                             <i class="fas fa-calendar"></i>
-                                            <span>Tomorrow, 2:00 PM</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Date & Time</span>
+                                                <span class="detail-value">Tomorrow, 9:00 AM</span>
+                                            </div>
                                         </div>
                                         <div class="detail-item">
                                             <i class="fas fa-tools"></i>
-                                            <span>Water Heater Repair</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Service Type</span>
+                                                <span class="detail-value">Outlet Replacement</span>
+                                            </div>
                                         </div>
                                         <div class="detail-item">
                                             <i class="fas fa-dollar-sign"></i>
-                                            <span>Estimated: ₹150-200</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Estimated Cost</span>
+                                                <span class="detail-value">₹120-180</span>
+                                            </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="request-description">
-                                        <p>Water heater not producing hot water. Need diagnostic and repair service.</p>
+                                        <p>Two electrical outlets in the living room stopped working. Need replacement.</p>
                                     </div>
+                                    
                                     <div class="request-actions">
-                                        <button class="btn btn-success">Start Service</button>
-                                        <button class="btn btn-outline-primary">Contact Customer</button>
-                                        <button class="btn btn-outline-secondary">
-                                            <i class="fas fa-map-marked-alt"></i> Get Directions
+                                        <button class="action-btn primary">
+                                            <i class="fas fa-check"></i> Accept Request
+                                        </button>
+                                        <button class="action-btn danger">
+                                            <i class="fas fa-times"></i> Decline
+                                        </button>
+                                        <button class="action-btn secondary">
+                                            <i class="fas fa-info-circle"></i> Details
                                         </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- In Progress Tab -->
-                        <div class="tab-pane fade" id="inProgress">
+                        
+                        <!-- Accepted Requests -->
+                        <div class="tab-pane" id="accepted-requests">
                             <div class="request-cards">
-                                <!-- In Progress Request Card -->
+                                <!-- Request Card 4 -->
                                 <div class="request-card">
                                     <div class="request-header">
                                         <div class="customer-info">
-                                            <img src="assets/images/profile-placeholder.jpg" alt="Customer">
-                                            <div>
-                                                <h4>David Chen</h4>
-                                                <p class="text-muted">Plumbing Service</p>
+                                            <img src="https://randomuser.me/api/portraits/women/35.jpg" alt="Emily Wilson">
+                                            <div class="customer-details">
+                                                <h4>Emily Wilson</h4>
+                                                <p>Plumbing Service</p>
                                             </div>
                                         </div>
-                                        <span class="badge bg-warning">In Progress</span>
+                                        <span class="status-badge accepted">Accepted</span>
                                     </div>
+                                    
                                     <div class="request-details">
                                         <div class="detail-item">
                                             <i class="fas fa-map-marker-alt"></i>
-                                            <span>321 Elm Street, Manhattan</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Location</span>
+                                                <span class="detail-value">789 Pine Road</span>
+                                            </div>
                                         </div>
                                         <div class="detail-item">
-                                            <i class="fas fa-clock"></i>
-                                            <span>Started: 1 hour ago</span>
+                                            <i class="fas fa-calendar"></i>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Date & Time</span>
+                                                <span class="detail-value">Tomorrow, 2:00 PM</span>
+                                            </div>
                                         </div>
                                         <div class="detail-item">
                                             <i class="fas fa-tools"></i>
-                                            <span>Drain Cleaning</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Service Type</span>
+                                                <span class="detail-value">Water Heater Repair</span>
+                                            </div>
                                         </div>
                                         <div class="detail-item">
                                             <i class="fas fa-dollar-sign"></i>
-                                            <span>Quoted: ₹120</span>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Estimated Cost</span>
+                                                <span class="detail-value">₹150-200</span>
+                                            </div>
                                         </div>
                                     </div>
+                                    
+                                    <div class="request-description">
+                                        <p>Water heater not producing hot water. Need diagnostic and repair service.</p>
+                                    </div>
+                                    
+                                    <div class="request-actions">
+                                        <button class="action-btn success">
+                                            <i class="fas fa-play"></i> Start Service
+                                        </button>
+                                        <button class="action-btn secondary">
+                                            <i class="fas fa-phone"></i> Contact
+                                        </button>
+                                        <button class="action-btn secondary">
+                                            <i class="fas fa-map-marked-alt"></i> Directions
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <!-- Request Card 5 -->
+                                <div class="request-card">
+                                    <div class="request-header">
+                                        <div class="customer-info">
+                                            <img src="https://randomuser.me/api/portraits/men/68.jpg" alt="Robert Taylor">
+                                            <div class="customer-details">
+                                                <h4>Robert Taylor</h4>
+                                                <p>Electrical Service</p>
+                                            </div>
+                                        </div>
+                                        <span class="status-badge accepted">Accepted</span>
+                                    </div>
+                                    
+                                    <div class="request-details">
+                                        <div class="detail-item">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Location</span>
+                                                <span class="detail-value">101 Maple Street</span>
+                                            </div>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-calendar"></i>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Date & Time</span>
+                                                <span class="detail-value">Tomorrow, 4:00 PM</span>
+                                            </div>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-tools"></i>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Service Type</span>
+                                                <span class="detail-value">Light Fixture Installation</span>
+                                            </div>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-dollar-sign"></i>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Estimated Cost</span>
+                                                <span class="detail-value">₹200-250</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="request-description">
+                                        <p>Need to install 4 new light fixtures in living room and dining area.</p>
+                                    </div>
+                                    
+                                    <div class="request-actions">
+                                        <button class="action-btn success">
+                                            <i class="fas fa-play"></i> Start Service
+                                        </button>
+                                        <button class="action-btn secondary">
+                                            <i class="fas fa-phone"></i> Contact
+                                        </button>
+                                        <button class="action-btn secondary">
+                                            <i class="fas fa-map-marked-alt"></i> Directions
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- In Progress Requests -->
+                        <div class="tab-pane" id="in-progress-requests">
+                            <div class="request-cards">
+                                <!-- Request Card 6 -->
+                                <div class="request-card">
+                                    <div class="request-header">
+                                        <div class="customer-info">
+                                            <img src="https://randomuser.me/api/portraits/men/52.jpg" alt="David Chen">
+                                            <div class="customer-details">
+                                                <h4>David Chen</h4>
+                                                <p>Plumbing Service</p>
+                                            </div>
+                                        </div>
+                                        <span class="status-badge in-progress">In Progress</span>
+                                    </div>
+                                    
+                                    <div class="request-details">
+                                        <div class="detail-item">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Location</span>
+                                                <span class="detail-value">321 Elm Street</span>
+                                            </div>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-clock"></i>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Started</span>
+                                                <span class="detail-value">1 hour ago</span>
+                                            </div>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-tools"></i>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Service Type</span>
+                                                <span class="detail-value">Drain Cleaning</span>
+                                            </div>
+                                        </div>
+                                        <div class="detail-item">
+                                            <i class="fas fa-dollar-sign"></i>
+                                            <div class="detail-text">
+                                                <span class="detail-label">Quoted Price</span>
+                                                <span class="detail-value">₹120</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
                                     <div class="request-description">
                                         <p>Main bathroom drain clogged. Currently working on snake cleaning.</p>
                                     </div>
+                                    
                                     <div class="request-actions">
-                                        <button class="btn btn-success">Complete Service</button>
-                                        <button class="btn btn-outline-warning">Report Issue</button>
-                                        <button class="btn btn-outline-primary">Update Status</button>
+                                        <button class="action-btn success">
+                                            <i class="fas fa-check-circle"></i> Complete Service
+                                        </button>
+                                        <button class="action-btn danger">
+                                            <i class="fas fa-exclamation-triangle"></i> Report Issue
+                                        </button>
+                                        <button class="action-btn secondary">
+                                            <i class="fas fa-edit"></i> Update Status
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -319,10 +1322,116 @@
         </main>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
-    <script src="js/dashboard.js"></script>
-    <script src="js/service-requests.js"></script>
+    <script>
+        // Toggle sidebar between minimized and expanded states
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            sidebar.classList.toggle('minimized');
+            mainContent.classList.toggle('sidebar-minimized');
+            
+            // Change icon based on state
+            const icon = this.querySelector('i');
+            if (sidebar.classList.contains('minimized')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-indent');
+            } else {
+                icon.classList.remove('fa-indent');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Filter dropdown functionality
+        const filterBtn = document.getElementById('filterBtn');
+        const filterDropdown = document.getElementById('filterDropdown');
+        
+        filterBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            filterDropdown.style.display = filterDropdown.style.display === 'block' ? 'none' : 'block';
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!filterBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
+                filterDropdown.style.display = 'none';
+            }
+        });
+        
+        // Filter option selection
+        const filterOptions = document.querySelectorAll('.filter-option');
+        filterOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                filterOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                filterBtn.querySelector('span').textContent = this.textContent;
+                filterDropdown.style.display = 'none';
+            });
+        });
+        
+        // Tab switching functionality
+        const tabLinks = document.querySelectorAll('.tab-link');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+        
+        tabLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                // Remove active class from all nav links and panes
+                tabLinks.forEach(nav => nav.classList.remove('active'));
+                tabPanes.forEach(pane => pane.classList.remove('active'));
+                
+                // Add active class to clicked nav link
+                this.classList.add('active');
+                
+                // Show corresponding tab pane
+                const category = this.getAttribute('data-category');
+                document.getElementById(`${category}-requests`).classList.add('active');
+            });
+        });
+        
+        // Action buttons functionality
+        const acceptButtons = document.querySelectorAll('.action-btn.primary');
+        acceptButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const card = this.closest('.request-card');
+                const customerName = card.querySelector('h4').textContent;
+                
+                // Update UI
+                const badge = card.querySelector('.status-badge');
+                badge.classList.remove('new');
+                badge.classList.add('accepted');
+                badge.textContent = 'Accepted';
+                
+                // Show notification
+                alert(`Request from ${customerName} has been accepted!`);
+            });
+        });
+        
+        const startButtons = document.querySelectorAll('.action-btn.success .fa-play');
+        startButtons.forEach(btn => {
+            btn.closest('.action-btn').addEventListener('click', function() {
+                const card = this.closest('.request-card');
+                const customerName = card.querySelector('h4').textContent;
+                
+                // Update UI
+                const badge = card.querySelector('.status-badge');
+                badge.classList.remove('accepted');
+                badge.classList.add('in-progress');
+                badge.textContent = 'In Progress';
+                
+                alert(`Service for ${customerName} has been started!`);
+            });
+        });
+        
+        const completeButtons = document.querySelectorAll('.action-btn.success .fa-check-circle');
+        completeButtons.forEach(btn => {
+            btn.closest('.action-btn').addEventListener('click', function() {
+                const card = this.closest('.request-card');
+                const customerName = card.querySelector('h4').textContent;
+                alert(`Service for ${customerName} has been completed!`);
+                
+                // Remove card from UI
+                card.style.display = 'none';
+            });
+        });
+    </script>
 </body>
 </html>

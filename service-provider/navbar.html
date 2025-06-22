@@ -1,0 +1,283 @@
+<style>
+  :root {
+    /* Primary Colors */
+    --primary: #0d9488;
+    --primary-light: #5fb4a9;
+    --primary-dark: #0a7369;
+
+    /* Neutral Colors */
+    --accent: #334155;
+    --accent-light: #64748b;
+    --accent-lighter: #cbd5e1;
+
+    /* Background Colors */
+    --background: #f8fafc;
+    --card-bg: #ffffff;
+
+    /* Status Colors */
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #3b82f6;
+
+    /* Text Colors */
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+
+    /* Additional UI Colors */
+    --hover-bg: rgba(13, 148, 136, 0.08);
+    --border-color: #e2e8f0;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    --sidebar-width: 260px;
+    --sidebar-minimized: 80px;
+    --top-nav-height: 70px;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    overflow-x: hidden;
+  }
+  /* Sidebar Styles */
+  .sidebar {
+    width: var(--sidebar-width);
+    background: var(--card-bg);
+    box-shadow: var(--shadow);
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
+  }
+
+  .sidebar.minimized {
+    width: var(--sidebar-minimized);
+  }
+
+  .sidebar.minimized .logo-text,
+  .sidebar.minimized .nav-link span,
+  .sidebar.minimized .sidebar-footer span {
+    display: none;
+  }
+
+  .sidebar.minimized .nav-link {
+    justify-content: center;
+  }
+
+  .sidebar.minimized .badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 3px 6px;
+    font-size: 10px;
+  }
+
+  .sidebar-header {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    min-height: 70px;
+  }
+
+  .logo {
+    width: 40px;
+    height: 40px;
+    background: var(--primary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    margin-right: 15px;
+  }
+
+  .logo-text {
+    font-size: 22px;
+    color: var(--accent);
+    font-weight: 700;
+    transition: opacity 0.3s;
+  }
+
+  .sidebar-nav {
+    padding: 20px 0;
+    flex: 1;
+  }
+
+  .sidebar-nav ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .sidebar-nav li {
+    margin-bottom: 5px;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--accent);
+    text-decoration: none;
+    transition: all 0.2s;
+    position: relative;
+    font-weight: 500;
+    border-left: 4px solid transparent;
+  }
+
+  .nav-link:hover {
+    background: var(--hover-bg);
+    color: var(--primary);
+  }
+
+  .nav-link.active {
+    background: var(--hover-bg);
+    color: var(--primary);
+    border-left: 4px solid var(--primary);
+  }
+
+  .nav-link i {
+    width: 24px;
+    margin-right: 12px;
+    font-size: 18px;
+    text-align: center;
+  }
+
+  .badge {
+    background: var(--primary);
+    color: white;
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: auto;
+  }
+
+  .sidebar-footer {
+    border-top: 1px solid var(--border-color);
+    padding: 15px 0 0;
+  }
+
+  .sidebar-footer a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: var(--accent);
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .sidebar-footer a:hover {
+    color: var(--primary);
+  }
+
+  .sidebar-footer a.logout {
+    color: var(--danger);
+  }
+
+  .sidebar-footer a.logout:hover {
+    background: rgba(235, 87, 87, 0.08);
+  }
+  /* Main Content Area */
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin-left: var(--sidebar-width);
+    transition: margin-left 0.3s ease;
+  }
+
+  .main-content.sidebar-minimized {
+    margin-left: var(--sidebar-minimized);
+  }
+</style>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="logo">S</div>
+    <h1 class="logo-text">ServicePro</h1>
+  </div>
+
+  <nav class="sidebar-nav">
+    <ul>
+      <li>
+        <a href="dashboard.html" class="nav-link active">
+          <i class="fas fa-home"></i>
+          <span>Dashboard</span>
+        </a>
+      </li>
+      <li>
+        <a href="service-requests.html" class="nav-link">
+          <i class="fas fa-clipboard-list"></i>
+          <span>Service Requests</span>
+          <span class="badge">5</span>
+        </a>
+      </li>
+      <li>
+        <a href="service-history.html" class="nav-link">
+          <i class="fas fa-history"></i>
+          <span>Service History</span>
+        </a>
+      </li>
+      <li>
+        <a href="earnings.html" class="nav-link">
+          <i class="fas fa-wallet"></i>
+          <span>Earnings</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link">
+          <i class="fas fa-calendar-alt"></i>
+          <span>Schedule</span>
+        </a>
+      </li>
+      <li>
+        <a href="profile.html" class="nav-link">
+          <i class="fas fa-user"></i>
+          <span>Profile</span>
+        </a>
+      </li>
+      <li>
+        <a href="settings.html" class="nav-link">
+          <i class="fas fa-cog"></i>
+          <span>Settings</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link">
+          <i class="fas fa-chart-line"></i>
+          <span>Analytics</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a href="#">
+      <i class="fas fa-question-circle"></i>
+      <span>Help & Support</span>
+    </a>
+    <a href="../index.html" class="logout">
+      <i class="fas fa-sign-out-alt"></i>
+      <span>Logout</span>
+    </a>
+  </div>
+</aside>

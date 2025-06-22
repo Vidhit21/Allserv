@@ -4,72 +4,1204 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AllServ - Earnings</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Chart.js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Custom CSS -->
-    <link href="css/dashboard.css" rel="stylesheet">
-    <link href="css/earnings.css" rel="stylesheet">
+    <style>
+        :root {
+            /* Professional Teal Theme */
+            --primary: #0D9488;
+            --primary-light: #5FB4A9;
+            --primary-dark: #0A7369;
+            --accent: #334155;
+            --accent-light: #64748B;
+            --accent-lighter: #CBD5E1;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            --hover-bg: rgba(13, 148, 136, 0.08);
+            --border-color: #E2E8F0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --sidebar-width: 260px;
+            --sidebar-minimized: 80px;
+            --top-nav-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar.minimized {
+            width: var(--sidebar-minimized);
+        }
+
+        .sidebar.minimized .logo-text,
+        .sidebar.minimized .nav-link span,
+        .sidebar.minimized .sidebar-footer span {
+            display: none;
+        }
+
+        .sidebar.minimized .nav-link {
+            justify-content: center;
+        }
+
+        .sidebar.minimized .badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 3px 6px;
+            font-size: 10px;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            min-height: 70px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            color: var(--accent);
+            font-weight: 700;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+            flex: 1;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.2s;
+            position: relative;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--hover-bg);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+
+        .nav-link i {
+            width: 24px;
+            margin-right: 12px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .badge {
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--border-color);
+            padding: 15px 0 0;
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--primary);
+        }
+
+        .sidebar-footer a.logout {
+            color: var(--danger);
+        }
+
+        .sidebar-footer a.logout:hover {
+            background: rgba(235, 87, 87, 0.08);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.sidebar-minimized {
+            margin-left: var(--sidebar-minimized);
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: var(--card-bg);
+            padding: 0 25px;
+            height: var(--top-nav-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--accent);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .toggle-sidebar:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            color: var(--accent);
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .notification-bell:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .user-profile:hover {
+            background: var(--hover-bg);
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border-color);
+        }
+
+        .user-profile span {
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        /* Earnings Content */
+        .earnings-content {
+            padding: 25px;
+            flex: 1;
+        }
+
+        .welcome-section {
+            margin-bottom: 30px;
+        }
+
+        .welcome-section h2 {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 8px;
+            font-size: 28px;
+        }
+
+        .welcome-section p {
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        /* Earnings Overview */
+        .earnings-overview {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .overview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .overview-header h2 {
+            font-size: 22px;
+            color: var(--accent);
+        }
+
+        .period-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .period-btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--background);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .period-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .period-btn:hover {
+            border-color: var(--primary);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            display: flex;
+            transition: transform 0.3s;
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+            font-size: 24px;
+        }
+
+        .stat-icon.bg-primary {
+            background: var(--primary);
+        }
+
+        .stat-icon.bg-success {
+            background: var(--success);
+        }
+
+        .stat-icon.bg-info {
+            background: var(--info);
+        }
+
+        .stat-icon.bg-warning {
+            background: var(--warning);
+        }
+
+        .stat-info h3 {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .amount {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .trend {
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 500;
+        }
+
+        .trend.up {
+            color: var(--success);
+        }
+
+        .trend.down {
+            color: var(--danger);
+        }
+
+        .status {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--warning);
+        }
+
+        /* Charts Section */
+        .earnings-charts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .chart-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chart-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .chart-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chart-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--background);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .chart-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .chart-container {
+            height: 250px;
+            position: relative;
+        }
+
+        /* Transaction History */
+        .transaction-history {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding: 8px 15px 8px 35px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--background);
+            color: var(--text-primary);
+            width: 220px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--accent-light);
+        }
+
+        .export-btn {
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .export-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .transaction-table-container {
+            overflow-x: auto;
+        }
+
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .transaction-table th {
+            background: var(--background);
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .transaction-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .transaction-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .transaction-table tr:hover {
+            background: var(--hover-bg);
+        }
+
+        .th-content {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .transaction-date {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .date {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .time {
+            font-size: 13px;
+            color: var(--accent-light);
+        }
+
+        .transaction-id {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .transaction-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .customer {
+            font-size: 14px;
+            color: var(--accent-light);
+        }
+
+        .amount.positive {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .amount.negative {
+            color: var(--danger);
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .status-badge.completed {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .status-badge.processing {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--background);
+            border: none;
+            color: var(--accent);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-icon:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination-info {
+            color: var(--accent-light);
+            font-size: 14px;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 5px;
+            list-style: none;
+        }
+
+        .page-item {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-item:hover {
+            background: var(--hover-bg);
+        }
+
+        .page-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .page-link {
+            text-decoration: none;
+            color: var(--accent);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-item.active .page-link {
+            color: white;
+        }
+
+        /* Withdrawal Section */
+        .withdrawal-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+        }
+
+        .withdrawal-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 12px;
+            padding: 25px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .balance-info h4 {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .balance-amount {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .update-time {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .withdraw-btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            background: white;
+            color: var(--primary);
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+        }
+
+        .withdraw-btn:hover {
+            background: var(--hover-bg);
+        }
+
+        .payment-methods h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 20px;
+        }
+
+        .method-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .method-card {
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            transition: all 0.3s;
+        }
+
+        .method-card.active {
+            border-color: var(--primary);
+            background: rgba(13, 148, 136, 0.05);
+        }
+
+        .method-card.add-new {
+            border: 2px dashed var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            color: var(--accent-light);
+            transition: all 0.3s;
+        }
+
+        .method-card.add-new:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .card-header i {
+            font-size: 20px;
+            color: var(--primary);
+        }
+
+        .method-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .account-number {
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 5px;
+        }
+
+        .bank-name {
+            font-size: 14px;
+            color: var(--accent-light);
+        }
+
+        /* Modal */
+        .modal-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            display: none;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 20px 25px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h5 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .input-group {
+            display: flex;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .input-group-text {
+            padding: 10px 15px;
+            background: var(--background);
+            color: var(--text-secondary);
+        }
+
+        .form-control {
+            padding: 10px 15px;
+            border: none;
+            flex: 1;
+            background: transparent;
+        }
+
+        .form-control:focus {
+            outline: none;
+        }
+
+        .form-text {
+            display: block;
+            font-size: 13px;
+            color: var(--accent-light);
+            margin-top: 5px;
+        }
+
+        .withdrawal-summary {
+            background: var(--background);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            color: var(--text-secondary);
+        }
+
+        .summary-row.total {
+            font-weight: 600;
+            color: var(--text-primary);
+            border-top: 1px solid var(--border-color);
+            margin-top: 8px;
+            padding-top: 12px;
+        }
+
+        .modal-footer {
+            padding: 20px 25px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-secondary {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-secondary:hover {
+            background: var(--background);
+        }
+
+        .btn-primary {
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 1px solid var(--primary);
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .sidebar {
+                left: -100%;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .main-content.sidebar-minimized {
+                margin-left: 0;
+            }
+            
+            .toggle-sidebar {
+                display: flex;
+            }
+            
+            .earnings-charts {
+                grid-template-columns: 1fr;
+            }
+            
+            .withdrawal-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .earnings-content {
+                padding: 15px;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .overview-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .period-selector {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .search-box input {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .top-nav {
+                padding: 0 15px;
+            }
+            
+            .nav-right {
+                gap: 15px;
+            }
+            
+            .user-profile span {
+                display: none;
+            }
+            
+            .welcome-section h2 {
+                font-size: 24px;
+            }
+            
+            .transaction-table {
+                min-width: 700px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- Sidebar (Same as dashboard.html) -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="assets/images/logo.png" alt="AllServ Logo" class="logo">
-                <h1>AllServ</h1>
+                <div class="logo">A</div>
+                <h1 class="logo-text">AllServ</h1>
             </div>
             
             <nav class="sidebar-nav">
                 <ul>
                     <li>
-                        <a href="dashboard.html">
+                        <a href="dashboard.html" class="nav-link">
                             <i class="fas fa-home"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="service-requests.html">
+                        <a href="service-requests.html" class="nav-link">
                             <i class="fas fa-clipboard-list"></i>
                             <span>Service Requests</span>
+                            <span class="badge">5</span>
                         </a>
                     </li>
                     <li>
-                        <a href="service-history.html">
+                        <a href="service-history.html" class="nav-link">
                             <i class="fas fa-history"></i>
                             <span>Service History</span>
                         </a>
                     </li>
-                    <li class="active">
-                        <a href="earnings.html">
+                    <li>
+                        <a href="earnings.html" class="nav-link active">
                             <i class="fas fa-wallet"></i>
                             <span>Earnings</span>
                         </a>
                     </li>
                     <li>
-                        <a href="profile.html">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Schedule</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile.html" class="nav-link">
                             <i class="fas fa-user"></i>
                             <span>Profile</span>
                         </a>
                     </li>
                     <li>
-                        <a href="settings.html">
+                        <a href="settings.html" class="nav-link">
                             <i class="fas fa-cog"></i>
                             <span>Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Analytics</span>
                         </a>
                     </li>
                 </ul>
             </nav>
 
             <div class="sidebar-footer">
-                <a href="support.html">
+                <a href="#">
                     <i class="fas fa-question-circle"></i>
                     <span>Help & Support</span>
                 </a>
-                <a href="#" class="logout">
+                <a href="../index.html" class="logout">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
@@ -80,9 +1212,12 @@
         <main class="main-content">
             <!-- Top Navigation -->
             <nav class="top-nav">
-                <button class="toggle-sidebar">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <div class="nav-left">
+                    <button class="toggle-sidebar" id="toggleSidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h3>Earnings</h3>
+                </div>
                 
                 <div class="nav-right">
                     <div class="notification-bell">
@@ -90,27 +1225,34 @@
                         <span class="notification-badge">3</span>
                     </div>
                     <div class="user-profile">
-                        <img src="assets/images/profile-placeholder.jpg" alt="Profile Picture">
-                        <span>John Doe</span>
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Picture">
+                        <span>John Smith</span>
                     </div>
                 </div>
             </nav>
 
             <!-- Earnings Content -->
             <div class="earnings-content">
+                <!-- Welcome Section -->
+                <div class="welcome-section">
+                    <h2>Earnings Overview</h2>
+                    <p>Track and manage your service earnings</p>
+                </div>
+
                 <!-- Earnings Overview -->
                 <div class="earnings-overview">
                     <div class="overview-header">
                         <h2>Earnings Overview</h2>
                         <div class="period-selector">
-                            <button class="btn btn-outline-secondary dropdown-toggle">
-                                <i class="fas fa-calendar"></i> Last 30 Days
-                            </button>
+                            <button class="period-btn">Today</button>
+                            <button class="period-btn active">Week</button>
+                            <button class="period-btn">Month</button>
+                            <button class="period-btn">Year</button>
                         </div>
                     </div>
 
                     <!-- Quick Stats -->
-                    <div class="earnings-stats">
+                    <div class="stats-grid">
                         <div class="stat-card">
                             <div class="stat-icon bg-primary">
                                 <i class="fas fa-dollar-sign"></i>
@@ -169,25 +1311,29 @@
                             <div class="chart-header">
                                 <h3>Monthly Earnings</h3>
                                 <div class="chart-actions">
-                                    <button class="btn btn-sm btn-outline-secondary active">Daily</button>
-                                    <button class="btn btn-sm btn-outline-secondary">Weekly</button>
-                                    <button class="btn btn-sm btn-outline-secondary">Monthly</button>
+                                    <button class="chart-btn active">Daily</button>
+                                    <button class="chart-btn">Weekly</button>
+                                    <button class="chart-btn">Monthly</button>
                                 </div>
                             </div>
-                            <canvas id="monthlyEarningsChart"></canvas>
+                            <div class="chart-container">
+                                <canvas id="monthlyEarningsChart"></canvas>
+                            </div>
                         </div>
 
                         <!-- Service Category Distribution -->
                         <div class="chart-card">
                             <div class="chart-header">
                                 <h3>Earnings by Service Type</h3>
-                                <select class="form-select form-select-sm" style="width: 120px;">
+                                <select class="chart-btn" style="padding: 6px 12px;">
                                     <option>This Month</option>
                                     <option>Last Month</option>
                                     <option>Last 3 Months</option>
                                 </select>
                             </div>
-                            <canvas id="serviceDistributionChart"></canvas>
+                            <div class="chart-container">
+                                <canvas id="serviceDistributionChart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -198,10 +1344,10 @@
                         <h3>Transaction History</h3>
                         <div class="header-actions">
                             <div class="search-box">
-                                <input type="text" class="form-control" placeholder="Search transactions...">
+                                <input type="text" placeholder="Search transactions...">
                                 <i class="fas fa-search"></i>
                             </div>
-                            <button class="btn btn-outline-primary">
+                            <button class="export-btn">
                                 <i class="fas fa-download"></i> Export
                             </button>
                         </div>
@@ -264,10 +1410,10 @@
                                     </td>
                                     <td>
                                         <div class="actions">
-                                            <button class="btn btn-icon" data-bs-toggle="tooltip" title="View Details">
+                                            <button class="btn-icon" title="View Details">
                                                 <i class="fas fa-eye"></i>
                                             </button>
-                                            <button class="btn btn-icon" data-bs-toggle="tooltip" title="Download Invoice">
+                                            <button class="btn-icon" title="Download Invoice">
                                                 <i class="fas fa-file-invoice"></i>
                                             </button>
                                         </div>
@@ -298,8 +1444,76 @@
                                     </td>
                                     <td>
                                         <div class="actions">
-                                            <button class="btn btn-icon" data-bs-toggle="tooltip" title="View Details">
+                                            <button class="btn-icon" title="View Details">
                                                 <i class="fas fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <div class="transaction-date">
+                                            <span class="date">Jan 28, 2025</span>
+                                            <span class="time">4:45 PM</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="transaction-id">#TRX-2456</span>
+                                    </td>
+                                    <td>
+                                        <div class="transaction-info">
+                                            <span class="service">AC Installation</span>
+                                            <span class="customer">Robert Chen</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="amount positive">+₹350.00</div>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge completed">Completed</span>
+                                    </td>
+                                    <td>
+                                        <div class="actions">
+                                            <button class="btn-icon" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn-icon" title="Download Invoice">
+                                                <i class="fas fa-file-invoice"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                                <tr>
+                                    <td>
+                                        <div class="transaction-date">
+                                            <span class="date">Jan 26, 2025</span>
+                                            <span class="time">11:20 AM</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="transaction-id">#TRX-2421</span>
+                                    </td>
+                                    <td>
+                                        <div class="transaction-info">
+                                            <span class="service">Electrical Repair</span>
+                                            <span class="customer">Amanda Patel</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="amount positive">+₹95.00</div>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge completed">Completed</span>
+                                    </td>
+                                    <td>
+                                        <div class="actions">
+                                            <button class="btn-icon" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn-icon" title="Download Invoice">
+                                                <i class="fas fa-file-invoice"></i>
                                             </button>
                                         </div>
                                     </td>
@@ -311,25 +1525,23 @@
                     <!-- Pagination -->
                     <div class="pagination-container">
                         <div class="pagination-info">
-                            Showing 1-2 of 48 transactions
+                            Showing 1-4 of 48 transactions
                         </div>
-                        <nav aria-label="Transaction history pagination">
-                            <ul class="pagination">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" aria-label="Previous">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#" aria-label="Next">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
@@ -345,7 +1557,7 @@
                                 <p class="balance-amount">₹750.00</p>
                                 <span class="update-time">Last updated: 5 minutes ago</span>
                             </div>
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#withdrawalModal">
+                            <button class="withdraw-btn" id="openWithdrawalModal">
                                 Withdraw Funds
                             </button>
                         </div>
@@ -375,57 +1587,178 @@
     </div>
 
     <!-- Withdrawal Modal -->
-    <div class="modal fade" id="withdrawalModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Withdraw Funds</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+    <div class="modal-container" id="withdrawalModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5>Withdraw Funds</h5>
+                <button class="btn-icon" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Withdrawal Amount</label>
+                    <div class="input-group">
+                        <span class="input-group-text">₹</span>
+                        <input type="number" class="form-control" placeholder="Enter amount" min="50" max="750" value="750">
+                    </div>
+                    <small class="form-text">Minimum withdrawal: ₹50</small>
                 </div>
-                <div class="modal-body">
-                    <form id="withdrawalForm">
-                        <div class="mb-3">
-                            <label class="form-label">Withdrawal Amount</label>
-                            <div class="input-group">
-                                <span class="input-group-text">₹</span>
-                                <input type="number" class="form-control" placeholder="Enter amount" min="50" max="750">
-                            </div>
-                            <small class="text-muted">Minimum withdrawal: ₹50</small>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Select Payment Method</label>
-                            <select class="form-select">
-                                <option value="bank">Bank Account (Chase Bank - XX4585)</option>
-                            </select>
-                        </div>
-                        <div class="withdrawal-summary">
-                            <div class="summary-row">
-                                <span>Amount</span>
-                                <span>₹0.00</span>
-                            </div>
-                            <div class="summary-row">
-                                <span>Processing Fee</span>
-                                <span>₹0.00</span>
-                            </div>
-                            <div class="summary-row total">
-                                <span>Total Amount</span>
-                                <span>₹0.00</span>
-                            </div>
-                        </div>
-                    </form>
+                <div class="form-group">
+                    <label class="form-label">Select Payment Method</label>
+                    <select class="chart-btn" style="width: 100%; padding: 10px 15px;">
+                        <option>Bank Account (Chase Bank - XX4585)</option>
+                        <option>PayPal</option>
+                        <option>Paytm Wallet</option>
+                    </select>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary">Confirm Withdrawal</button>
+                <div class="withdrawal-summary">
+                    <div class="summary-row">
+                        <span>Amount</span>
+                        <span>₹750.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Processing Fee</span>
+                        <span>₹0.00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total Amount</span>
+                        <span>₹750.00</span>
+                    </div>
                 </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelWithdrawal">Cancel</button>
+                <button class="btn-primary">Confirm Withdrawal</button>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
-    <script src="js/dashboard.js"></script>
-    <script src="js/earnings.js"></script>
+    <script>
+        // Toggle sidebar between minimized and expanded states
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            sidebar.classList.toggle('minimized');
+            mainContent.classList.toggle('sidebar-minimized');
+            
+            // Change icon based on state
+            const icon = this.querySelector('i');
+            if (sidebar.classList.contains('minimized')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-indent');
+            } else {
+                icon.classList.remove('fa-indent');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Withdrawal modal functionality
+        const modal = document.getElementById('withdrawalModal');
+        const openModalBtn = document.getElementById('openWithdrawalModal');
+        const closeModalBtn = document.getElementById('closeModal');
+        const cancelBtn = document.getElementById('cancelWithdrawal');
+
+        openModalBtn.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Initialize charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Monthly Earnings Chart
+            const earningsCtx = document.getElementById('monthlyEarningsChart').getContext('2d');
+            const earningsChart = new Chart(earningsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15'],
+                    datasets: [{
+                        label: 'Daily Earnings (₹)',
+                        data: [120, 95, 150, 80, 200, 180, 220, 140, 160, 190, 210, 240, 180, 250, 280],
+                        borderColor: '#0D9488',
+                        backgroundColor: 'rgba(13, 148, 136, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.3,
+                        fill: true,
+                        pointBackgroundColor: '#FFFFFF',
+                        pointBorderColor: '#0D9488',
+                        pointBorderWidth: 2,
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Service Distribution Chart
+            const distCtx = document.getElementById('serviceDistributionChart').getContext('2d');
+            const distChart = new Chart(distCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Plumbing', 'Electrical', 'AC Service', 'Carpentry', 'Cleaning'],
+                    datasets: [{
+                        data: [35, 25, 20, 12, 8],
+                        backgroundColor: [
+                            '#0D9488',
+                            '#10B981',
+                            '#3B82F6',
+                            '#F59E0B',
+                            '#EF4444'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        });
+    </script>
 </body>
 </html>

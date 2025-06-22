@@ -3,67 +3,1113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AllServ - Profile</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="css/dashboard.css" rel="stylesheet">
-    <link href="css/profile.css" rel="stylesheet">
+    <title>AllServ - Professional Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Professional Teal Theme */
+            --primary: #0D9488;
+            --primary-light: #5FB4A9;
+            --primary-dark: #0A7369;
+            --accent: #334155;
+            --accent-light: #64748B;
+            --accent-lighter: #CBD5E1;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            --hover-bg: rgba(13, 148, 136, 0.08);
+            --border-color: #E2E8F0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --sidebar-width: 260px;
+            --sidebar-minimized: 80px;
+            --top-nav-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar.minimized {
+            width: var(--sidebar-minimized);
+        }
+
+        .sidebar.minimized .logo-text,
+        .sidebar.minimized .nav-link span,
+        .sidebar.minimized .sidebar-footer span {
+            display: none;
+        }
+
+        .sidebar.minimized .nav-link {
+            justify-content: center;
+        }
+
+        .sidebar.minimized .badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 3px 6px;
+            font-size: 10px;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            min-height: 70px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            color: var(--accent);
+            font-weight: 700;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+            flex: 1;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.2s;
+            position: relative;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--hover-bg);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+
+        .nav-link i {
+            width: 24px;
+            margin-right: 12px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .badge {
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--border-color);
+            padding: 15px 0 0;
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--primary);
+        }
+
+        .sidebar-footer a.logout {
+            color: var(--danger);
+        }
+
+        .sidebar-footer a.logout:hover {
+            background: rgba(235, 87, 87, 0.08);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.sidebar-minimized {
+            margin-left: var(--sidebar-minimized);
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: var(--card-bg);
+            padding: 0 25px;
+            height: var(--top-nav-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--accent);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .toggle-sidebar:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            color: var(--accent);
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .notification-bell:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .user-profile:hover {
+            background: var(--hover-bg);
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border-color);
+        }
+
+        .user-profile span {
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        /* Profile Content */
+        .profile-content {
+            padding: 25px;
+            flex: 1;
+        }
+
+        /* Profile Header */
+        .profile-header-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .cover-photo {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            position: relative;
+        }
+
+        .edit-cover {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.9);
+            color: var(--primary);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-cover:hover {
+            background: white;
+        }
+
+        .profile-info-section {
+            padding: 0 30px 30px;
+            display: flex;
+            align-items: flex-end;
+            gap: 30px;
+            margin-top: -60px;
+        }
+
+        .profile-photo {
+            position: relative;
+            z-index: 10;
+        }
+
+        .profile-photo img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: var(--shadow);
+            object-fit: cover;
+        }
+
+        .edit-photo {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-photo:hover {
+            background: var(--primary-dark);
+        }
+
+        .profile-details {
+            flex: 1;
+        }
+
+        .profile-details h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .profession {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 30px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+        }
+
+        .stat-item i {
+            color: var(--primary);
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        .action-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-btn.primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+        }
+
+        .action-btn.primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .action-btn.outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .action-btn.outline:hover {
+            background: var(--hover-bg);
+        }
+
+        /* Profile Navigation */
+        .profile-nav {
+            display: flex;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .nav-item {
+            flex: 1;
+            padding: 18px 0;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-bottom: 3px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-item.active {
+            border-bottom: 3px solid var(--primary);
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .nav-item:hover:not(.active) {
+            background: var(--hover-bg);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+        }
+
+        .tab-pane {
+            display: none;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        /* About Tab */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .info-card {
+            background: var(--background);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .edit-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            color: var(--accent);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .edit-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+        }
+
+        .info-item p {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .info-item.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .skill-tag {
+            background: var(--primary-light);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Services Tab */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .service-card {
+            background: var(--background);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+        }
+
+        .service-card h4 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+
+        .service-price {
+            border-top: 1px solid var(--border-color);
+            padding-top: 15px;
+        }
+
+        .service-price span {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .service-price h5 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 5px;
+        }
+
+        /* Reviews Tab */
+        .reviews-header {
+            display: flex;
+            gap: 50px;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .overall-rating {
+            text-align: center;
+        }
+
+        .overall-rating h1 {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+        }
+
+        .stars {
+            color: var(--warning);
+            font-size: 20px;
+            margin: 10px 0;
+        }
+
+        .overall-rating p {
+            color: var(--text-secondary);
+        }
+
+        .rating-bars {
+            flex: 1;
+        }
+
+        .reviews-list {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .review-card {
+            background: var(--background);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .review-header {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .review-header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .review-info {
+            flex: 1;
+        }
+
+        .review-info h6 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .review-stars {
+            color: var(--warning);
+            margin: 5px 0;
+        }
+
+        .review-date {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .review-text {
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .review-photos {
+            display: flex;
+            gap: 10px;
+        }
+
+        .review-photos img {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        /* Documents Tab */
+        .documents-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .documents-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .upload-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .upload-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        .documents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .document-card {
+            background: var(--background);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .document-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .document-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .document-name {
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+
+        .document-type {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .document-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .doc-action {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--accent);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .doc-action:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Schedule Tab */
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .day-card {
+            background: var(--background);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .day-title {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .add-slot {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .time-slots {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .time-slot {
+            background: var(--card-bg);
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .slot-time {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .slot-action {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .sidebar {
+                left: -100%;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .main-content.sidebar-minimized {
+                margin-left: 0;
+            }
+            
+            .toggle-sidebar {
+                display: flex;
+            }
+            
+            .profile-info-section {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+            }
+            
+            .profile-actions {
+                justify-content: center;
+            }
+            
+            .profile-nav {
+                overflow-x: auto;
+            }
+            
+            .nav-item {
+                min-width: 120px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .profile-content {
+                padding: 15px;
+            }
+            
+            .cover-photo {
+                height: 160px;
+            }
+            
+            .profile-info-section {
+                padding: 0 15px 20px;
+                margin-top: -40px;
+            }
+            
+            .profile-photo img {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .reviews-header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .rating-bars {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .top-nav {
+                padding: 0 15px;
+            }
+            
+            .nav-right {
+                gap: 15px;
+            }
+            
+            .user-profile span {
+                display: none;
+            }
+            
+            .profile-stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .profile-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- Sidebar (Same as dashboard.html) -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="assets/images/logo.png" alt="AllServ Logo" class="logo">
-                <h1>AllServ</h1>
+                <div class="logo">A</div>
+                <h1 class="logo-text">AllServ</h1>
             </div>
             
             <nav class="sidebar-nav">
                 <ul>
                     <li>
-                        <a href="dashboard.html">
+                        <a href="dashboard.html" class="nav-link">
                             <i class="fas fa-home"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="service-requests.html">
+                        <a href="service-requests.html" class="nav-link">
                             <i class="fas fa-clipboard-list"></i>
                             <span>Service Requests</span>
+                            <span class="badge">5</span>
                         </a>
                     </li>
                     <li>
-                        <a href="service-history.html">
+                        <a href="service-history.html" class="nav-link">
                             <i class="fas fa-history"></i>
                             <span>Service History</span>
                         </a>
                     </li>
                     <li>
-                        <a href="earnings.html">
+                        <a href="earnings.html" class="nav-link">
                             <i class="fas fa-wallet"></i>
                             <span>Earnings</span>
                         </a>
                     </li>
-                    <li class="active">
-                        <a href="profile.html">
+                    <li>
+                        <a href="profile.html" class="nav-link active">
                             <i class="fas fa-user"></i>
                             <span>Profile</span>
                         </a>
                     </li>
                     <li>
-                        <a href="settings.html">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Schedule</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="settings.html" class="nav-link">
                             <i class="fas fa-cog"></i>
                             <span>Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-chart-line"></i>
+                            <span>Analytics</span>
                         </a>
                     </li>
                 </ul>
             </nav>
 
             <div class="sidebar-footer">
-                <a href="support.html">
+                <a href="#">
                     <i class="fas fa-question-circle"></i>
                     <span>Help & Support</span>
                 </a>
@@ -78,9 +1124,12 @@
         <main class="main-content">
             <!-- Top Navigation -->
             <nav class="top-nav">
-                <button class="toggle-sidebar">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <div class="nav-left">
+                    <button class="toggle-sidebar" id="toggleSidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h3>Profile</h3>
+                </div>
                 
                 <div class="nav-right">
                     <div class="notification-bell">
@@ -88,8 +1137,8 @@
                         <span class="notification-badge">3</span>
                     </div>
                     <div class="user-profile">
-                        <img src="assets/images/provider/person.png" alt="Profile Picture">
-                        <span>John Doe</span>
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Picture">
+                        <span>John Smith</span>
                     </div>
                 </div>
             </nav>
@@ -99,23 +1148,20 @@
                 <!-- Profile Header -->
                 <div class="profile-header-card">
                     <div class="cover-photo">
-                        <img src="assets/images/provider/cover.png" alt="Cover Photo">
                         <button class="edit-cover">
                             <i class="fas fa-camera"></i>
                             <span>Change Cover</span>
                         </button>
-                        <input type="file" id="coverImageInput" hidden accept="image/*">
                     </div>
                     <div class="profile-info-section">
                         <div class="profile-photo">
-                            <img src="assets/images/provider/person.png" alt="Profile Picture">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Picture">
                             <button class="edit-photo">
                                 <i class="fas fa-camera"></i>
                             </button>
-                            <input type="file" id="profileImageInput" hidden accept="image/*">
                         </div>
                         <div class="profile-details">
-                            <h2>John Doe</h2>
+                            <h2>John Smith</h2>
                             <p class="profession">Professional Plumber</p>
                             <div class="profile-stats">
                                 <div class="stat-item">
@@ -133,10 +1179,10 @@
                             </div>
                         </div>
                         <div class="profile-actions">
-                            <button class="btn btn-primary">
+                            <button class="action-btn primary">
                                 <i class="fas fa-edit"></i> Edit Profile
                             </button>
-                            <button class="btn btn-outline-primary">
+                            <button class="action-btn outline">
                                 <i class="fas fa-share"></i> Share Profile
                             </button>
                         </div>
@@ -176,7 +1222,7 @@
                             <div class="info-card">
                                 <div class="card-header">
                                     <h3>Personal Information</h3>
-                                    <button class="btn btn-link">
+                                    <button class="edit-btn">
                                         <i class="fas fa-pen"></i>
                                     </button>
                                 </div>
@@ -184,11 +1230,11 @@
                                     <div class="info-grid">
                                         <div class="info-item">
                                             <label>Full Name</label>
-                                            <p>John Michael Doe</p>
+                                            <p>John Michael Smith</p>
                                         </div>
                                         <div class="info-item">
                                             <label>Email</label>
-                                            <p>john.doe@example.com</p>
+                                            <p>john.smith@example.com</p>
                                         </div>
                                         <div class="info-item">
                                             <label>Phone</label>
@@ -214,7 +1260,7 @@
                             <div class="info-card">
                                 <div class="card-header">
                                     <h3>Professional Details</h3>
-                                    <button class="btn btn-link">
+                                    <button class="edit-btn">
                                         <i class="fas fa-pen"></i>
                                     </button>
                                 </div>
@@ -222,7 +1268,7 @@
                                     <div class="info-grid">
                                         <div class="info-item full-width">
                                             <label>Bio</label>
-                                            <p>Professional plumber with over 10 years of experience in residential and commercial plumbing services. Specialized in emergency repairs, installations, and maintenance.</p>
+                                            <p>Professional plumber with over 10 years of experience in residential and commercial plumbing services. Specialized in emergency repairs, installations, and maintenance. Committed to providing top-quality service with a focus on customer satisfaction.</p>
                                         </div>
                                         <div class="info-item">
                                             <label>Experience</label>
@@ -244,7 +1290,7 @@
                             <div class="info-card">
                                 <div class="card-header">
                                     <h3>Skills & Expertise</h3>
-                                    <button class="btn btn-link">
+                                    <button class="edit-btn">
                                         <i class="fas fa-plus"></i>
                                     </button>
                                 </div>
@@ -258,6 +1304,8 @@
                                         <div class="skill-tag">Fixture Installation</div>
                                         <div class="skill-tag">Maintenance</div>
                                         <div class="skill-tag">Troubleshooting</div>
+                                        <div class="skill-tag">Pipe Replacement</div>
+                                        <div class="skill-tag">Water Pressure</div>
                                     </div>
                                 </div>
                             </div>
@@ -272,7 +1320,7 @@
                                     <i class="fas fa-wrench"></i>
                                 </div>
                                 <h4>Emergency Repairs</h4>
-                                <p>24/7 emergency plumbing repair services for urgent issues</p>
+                                <p>24/7 emergency plumbing repair services for urgent issues like leaks, burst pipes, and clogged drains.</p>
                                 <div class="service-price">
                                     <span>Starting from</span>
                                     <h5>₹85/hour</h5>
@@ -282,8 +1330,8 @@
                                 <div class="service-icon">
                                     <i class="fas fa-tint"></i>
                                 </div>
-                                <h4>Emergency Plumbing</h4>
-                                <p>24/7 emergency plumbing services for urgent issues like burst pipes, severe leaks, or flooding.</p>
+                                <h4>Pipe Installation</h4>
+                                <p>Professional installation of water supply lines, drainage systems, and gas lines.</p>
                                 <div class="service-price">
                                     <span>Starting at</span>
                                     <h5>₹150/hour</h5>
@@ -294,7 +1342,7 @@
                                     <i class="fas fa-home"></i>
                                 </div>
                                 <h4>Home Inspection</h4>
-                                <p>Comprehensive plumbing inspection for home buyers, sellers, or maintenance.</p>
+                                <p>Comprehensive plumbing inspection for home buyers, sellers, or maintenance purposes.</p>
                                 <div class="service-price">
                                     <span>Flat Rate</span>
                                     <h5>₹199</h5>
@@ -317,49 +1365,103 @@
                     <!-- Reviews Tab -->
                     <div class="tab-pane" id="reviews">
                         <div class="reviews-header">
-                            <div class="rating-summary">
-                                <div class="overall-rating">
-                                    <h1>4.8</h1>
-                                    <div class="stars">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                    <p>Based on 156 reviews</p>
+                            <div class="overall-rating">
+                                <h1>4.8</h1>
+                                <div class="stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
                                 </div>
-                                <div class="rating-bars">
-                                    <!-- Rating distribution bars -->
+                                <p>Based on 156 reviews</p>
+                            </div>
+                            <div class="rating-bars">
+                                <div class="rating-bar">
+                                    <div class="bar-label">
+                                        <span>5 Stars</span>
+                                        <span>128</span>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar" style="width: 82%"></div>
+                                    </div>
+                                </div>
+                                <div class="rating-bar">
+                                    <div class="bar-label">
+                                        <span>4 Stars</span>
+                                        <span>24</span>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar" style="width: 15%"></div>
+                                    </div>
+                                </div>
+                                <div class="rating-bar">
+                                    <div class="bar-label">
+                                        <span>3 Stars</span>
+                                        <span>3</span>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar" style="width: 2%"></div>
+                                    </div>
+                                </div>
+                                <div class="rating-bar">
+                                    <div class="bar-label">
+                                        <span>2 Stars</span>
+                                        <span>1</span>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar" style="width: 1%"></div>
+                                    </div>
+                                </div>
+                                <div class="rating-bar">
+                                    <div class="bar-label">
+                                        <span>1 Star</span>
+                                        <span>0</span>
+                                    </div>
+                                    <div class="bar-container">
+                                        <div class="bar" style="width: 0%"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="reviews-list">
-                            <div class="review-card" data-rating="4">
+                            <div class="review-card">
                                 <div class="review-header">
-                                    <img src="assets/images/user3.jpg" alt="David Wilson">
+                                    <img src="https://randomuser.me/api/portraits/men/41.jpg" alt="David Wilson">
                                     <div class="review-info">
                                         <h6>David Wilson</h6>
-                                        <div class="stars">★★★★☆</div>
+                                        <div class="review-stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
                                         <span class="review-date">January 28, 2025</span>
                                     </div>
                                 </div>
-                                <p class="review-text">Very professional service. Fixed our kitchen sink and garbage disposal. Would recommend.</p>
+                                <p class="review-text">Very professional service. Fixed our kitchen sink and garbage disposal efficiently. Would definitely recommend John to anyone needing plumbing services.</p>
                                 <div class="review-photos">
-                                    <img src="assets/images/review1.jpg" alt="Kitchen Sink">
-                                    <img src="assets/images/review2.jpg" alt="Garbage Disposal">
+                                    <img src="https://images.unsplash.com/photo-1594818379496-da1e345b0ded?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Kitchen Sink">
+                                    <img src="https://images.unsplash.com/photo-1598387993053-54f5a8a4a38e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Garbage Disposal">
                                 </div>
                             </div>
-                            <div class="review-card" data-rating="5">
+                            <div class="review-card">
                                 <div class="review-header">
-                                    <img src="assets/images/user4.jpg" alt="Emily Chen">
+                                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Emily Chen">
                                     <div class="review-info">
                                         <h6>Emily Chen</h6>
-                                        <div class="stars">★★★★★</div>
+                                        <div class="review-stars">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
                                         <span class="review-date">January 25, 2025</span>
                                     </div>
                                 </div>
-                                <p class="review-text">John came for an emergency pipe burst at 2 AM! Saved us from a disaster. Extremely grateful for the quick response.</p>
+                                <p class="review-text">John came for an emergency pipe burst at 2 AM! Saved us from a disaster. Extremely grateful for the quick response and professional work. Will call him again for any plumbing issues.</p>
                             </div>
                         </div>
                     </div>
@@ -368,19 +1470,203 @@
                     <div class="tab-pane" id="documents">
                         <div class="documents-header">
                             <h3>Verification Documents</h3>
-                            <button class="btn btn-primary">
+                            <button class="upload-btn">
                                 <i class="fas fa-upload"></i> Upload Document
                             </button>
                         </div>
                         <div class="documents-grid">
-                            <!-- Document cards will go here -->
+                            <div class="document-card">
+                                <div class="document-icon">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="document-name">Plumbing License</div>
+                                <div class="document-type">License</div>
+                                <div class="document-actions">
+                                    <button class="doc-action">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="doc-action">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="document-card">
+                                <div class="document-icon">
+                                    <i class="fas fa-id-card"></i>
+                                </div>
+                                <div class="document-name">ID Verification</div>
+                                <div class="document-type">Identification</div>
+                                <div class="document-actions">
+                                    <button class="doc-action">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="doc-action">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="document-card">
+                                <div class="document-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <div class="document-name">Insurance Policy</div>
+                                <div class="document-type">Insurance</div>
+                                <div class="document-actions">
+                                    <button class="doc-action">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="doc-action">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="document-card">
+                                <div class="document-icon">
+                                    <i class="fas fa-certificate"></i>
+                                </div>
+                                <div class="document-name">Master Certification</div>
+                                <div class="document-type">Certification</div>
+                                <div class="document-actions">
+                                    <button class="doc-action">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="doc-action">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Schedule Tab -->
                     <div class="tab-pane" id="schedule">
                         <div class="schedule-grid">
-                            <!-- Availability schedule will go here -->
+                            <div class="day-card">
+                                <div class="day-header">
+                                    <div class="day-title">Monday</div>
+                                    <button class="add-slot">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="time-slots">
+                                    <div class="time-slot">
+                                        <div class="slot-time">9:00 AM - 12:00 PM</div>
+                                        <button class="slot-action">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div class="time-slot">
+                                        <div class="slot-time">1:00 PM - 5:00 PM</div>
+                                        <button class="slot-action">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="day-card">
+                                <div class="day-header">
+                                    <div class="day-title">Tuesday</div>
+                                    <button class="add-slot">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="time-slots">
+                                    <div class="time-slot">
+                                        <div class="slot-time">10:00 AM - 1:00 PM</div>
+                                        <button class="slot-action">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div class="time-slot">
+                                        <div class="slot-time">2:00 PM - 6:00 PM</div>
+                                        <button class="slot-action">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="day-card">
+                                <div class="day-header">
+                                    <div class="day-title">Wednesday</div>
+                                    <button class="add-slot">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="time-slots">
+                                    <div class="time-slot">
+                                        <div class="slot-time">9:00 AM - 12:00 PM</div>
+                                        <button class="slot-action">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div class="time-slot">
+                                        <div class="slot-time">1:00 PM - 5:00 PM</div>
+                                        <button class="slot-action">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="day-card">
+                                <div class="day-header">
+                                    <div class="day-title">Thursday</div>
+                                    <button class="add-slot">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="time-slots">
+                                    <div class="time-slot">
+                                        <div class="slot-time">10:00 AM - 2:00 PM</div>
+                                        <button class="slot-action">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div class="time-slot">
+                                        <div class="slot-time">3:00 PM - 7:00 PM</div>
+                                        <button class="slot-action">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="day-card">
+                                <div class="day-header">
+                                    <div class="day-title">Friday</div>
+                                    <button class="add-slot">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="time-slots">
+                                    <div class="time-slot">
+                                        <div class="slot-time">9:00 AM - 1:00 PM</div>
+                                        <button class="slot-action">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                    <div class="time-slot">
+                                        <div class="slot-time">2:00 PM - 5:00 PM</div>
+                                        <button class="slot-action">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="day-card">
+                                <div class="day-header">
+                                    <div class="day-title">Saturday</div>
+                                    <button class="add-slot">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="time-slots">
+                                    <div class="time-slot">
+                                        <div class="slot-time">10:00 AM - 2:00 PM</div>
+                                        <button class="slot-action">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -388,121 +1674,64 @@
         </main>
     </div>
 
-    <!-- Modals -->
-    <!-- Time Slot Modal -->
-    <div class="modal fade" id="addTimeSlotModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add Time Slot</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="timeSlotForm">
-                        <div class="mb-3">
-                            <label class="form-label">Start Time</label>
-                            <input type="time" class="form-control" id="startTime" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">End Time</label>
-                            <input type="time" class="form-control" id="endTime" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Add Slot</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    <script>
+        // Toggle sidebar between minimized and expanded states
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            sidebar.classList.toggle('minimized');
+            mainContent.classList.toggle('sidebar-minimized');
+            
+            // Change icon based on state
+            const icon = this.querySelector('i');
+            if (sidebar.classList.contains('minimized')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-indent');
+            } else {
+                icon.classList.remove('fa-indent');
+                icon.classList.add('fa-bars');
+            }
+        });
 
-    <!-- Document Preview Modal -->
-    <div class="modal fade" id="documentPreviewModal">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <!-- Preview content will be dynamically inserted -->
-                </div>
-            </div>
-        </div>
-    </div>
+        // Tab switching functionality
+        const navItems = document.querySelectorAll('.nav-item');
+        const tabPanes = document.querySelectorAll('.tab-pane');
+        
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                // Remove active class from all nav items and panes
+                navItems.forEach(nav => nav.classList.remove('active'));
+                tabPanes.forEach(pane => pane.classList.remove('active'));
+                
+                // Add active class to clicked nav item
+                item.classList.add('active');
+                
+                // Show corresponding tab pane
+                const tabId = item.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
 
-    <!-- Quick Book Modal -->
-    <div class="modal fade" id="quickBookModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Quick Book Service</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="quickBookForm">
-                        <h6 id="bookingServiceName" class="mb-4"></h6>
-                        <div class="mb-3">
-                            <label class="form-label">Select Date</label>
-                            <input type="date" class="form-control" id="bookingDate" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Available Time Slots</label>
-                            <select class="form-select" id="bookingTime" required></select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Notes (Optional)</label>
-                            <textarea class="form-control" rows="3" placeholder="Any special instructions or requirements?"></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Confirm Booking</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+        // Add time slot functionality
+        const addSlotButtons = document.querySelectorAll('.add-slot');
+        addSlotButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                alert('Add time slot functionality would open a modal here');
+            });
+        });
 
-    <!-- Document Upload Modal -->
-    <div class="modal fade" id="documentUploadModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Upload Document</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="documentUploadForm">
-                        <div class="mb-3">
-                            <label class="form-label">Document Type</label>
-                            <select class="form-select" required>
-                                <option value="">Select document type</option>
-                                <option value="license">License</option>
-                                <option value="certification">Certification</option>
-                                <option value="insurance">Insurance</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Document Title</label>
-                            <input type="text" class="form-control" required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Expiry Date (if applicable)</label>
-                            <input type="date" class="form-control">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Upload File</label>
-                            <input type="file" class="form-control" required>
-                            <small class="text-muted">Supported formats: PDF, JPG, PNG (Max size: 5MB)</small>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Upload Document</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
-    <script src="js/dashboard.js"></script>
-    <script src="js/profile.js"></script>
+        // Delete time slot functionality
+        const deleteSlotButtons = document.querySelectorAll('.slot-action');
+        deleteSlotButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const slot = button.closest('.time-slot');
+                slot.style.opacity = '0';
+                setTimeout(() => {
+                    slot.remove();
+                }, 300);
+            });
+        });
+    </script>
 </body>
 </html>

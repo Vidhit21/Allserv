@@ -3,226 +3,1069 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Help & Support - AllServ Provider</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="css/support.css" rel="stylesheet">
-    <link href="css/dashboard.css" rel="stylesheet">
+    <title>Help & Support - ServicePro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Primary Colors */
+            --primary: #0D9488;
+            --primary-light: #5FB4A9;
+            --primary-dark: #0A7369;
+            
+            /* Neutral Colors */
+            --accent: #334155;
+            --accent-light: #64748B;
+            --accent-lighter: #CBD5E1;
+            
+            /* Background Colors */
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            
+            /* Status Colors */
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            
+            /* Text Colors */
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            
+            /* Additional UI Colors */
+            --hover-bg: rgba(13, 148, 136, 0.08);
+            --border-color: #E2E8F0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --sidebar-width: 260px;
+            --sidebar-minimized: 80px;
+            --top-nav-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar.minimized {
+            width: var(--sidebar-minimized);
+        }
+
+        .sidebar.minimized .logo-text,
+        .sidebar.minimized .nav-link span,
+        .sidebar.minimized .sidebar-footer span {
+            display: none;
+        }
+
+        .sidebar.minimized .nav-link {
+            justify-content: center;
+        }
+
+        .sidebar.minimized .badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 3px 6px;
+            font-size: 10px;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            min-height: 70px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            color: var(--accent);
+            font-weight: 700;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+            flex: 1;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.2s;
+            position: relative;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--hover-bg);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+
+        .nav-link i {
+            width: 24px;
+            margin-right: 12px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .badge {
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--border-color);
+            padding: 15px 0 0;
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--primary);
+        }
+
+        .sidebar-footer a.logout {
+            color: var(--danger);
+        }
+
+        .sidebar-footer a.logout:hover {
+            background: rgba(235, 87, 87, 0.08);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.sidebar-minimized {
+            margin-left: var(--sidebar-minimized);
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: var(--card-bg);
+            padding: 0 25px;
+            height: var(--top-nav-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--accent);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .toggle-sidebar:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            color: var(--accent);
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .notification-bell:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .user-profile:hover {
+            background: var(--hover-bg);
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border-color);
+        }
+
+        .user-profile span {
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        /* Support Content */
+        .support-content {
+            padding: 25px;
+            flex: 1;
+        }
+
+        /* Quick Help Section */
+        .quick-help-section {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 0;
+        }
+
+        .quick-help-section h1 {
+            font-size: 36px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .quick-help-section p {
+            color: var(--text-secondary);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .search-container {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 16px 20px 16px 55px;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            font-size: 16px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 20px;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .quick-link-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            text-align: center;
+            border: 1px solid transparent;
+        }
+
+        .quick-link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            border-color: var(--primary);
+        }
+
+        .quick-link-card i {
+            width: 70px;
+            height: 70px;
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 20px;
+        }
+
+        .quick-link-card h3 {
+            font-size: 20px;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .quick-link-card p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .section-header h2 {
+            font-size: 24px;
+            color: var(--accent);
+            font-weight: 700;
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
+        .accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .accordion-item {
+            background: var(--background);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .accordion-header {
+            padding: 20px;
+            font-weight: 600;
+            color: var(--accent);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-header i {
+            transition: transform 0.3s;
+        }
+
+        .accordion-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .accordion-body {
+            padding: 0 0 20px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 300px;
+        }
+
+        .accordion-item.active .accordion-header i {
+            transform: rotate(180deg);
+        }
+
+        /* Contact Support Section */
+        .contact-support-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .contact-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .contact-card {
+            background: var(--background);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .contact-card i {
+            width: 70px;
+            height: 70px;
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 20px;
+        }
+
+        .contact-card h3 {
+            font-size: 20px;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .contact-card p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--hover-bg);
+        }
+
+        /* Help Articles */
+        .help-articles-section {
+            margin-bottom: 40px;
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .help-article {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .help-article:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+            border-color: var(--primary);
+        }
+
+        .article-image {
+            height: 180px;
+            background: linear-gradient(120deg, var(--primary-light), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 50px;
+        }
+
+        .article-content {
+            padding: 25px;
+        }
+
+        .article-category {
+            display: inline-block;
+            background: rgba(13, 148, 136, 0.1);
+            color: var(--primary);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .help-article h3 {
+            font-size: 18px;
+            color: var(--accent);
+            margin-bottom: 12px;
+        }
+
+        .help-article p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .sidebar {
+                left: -100%;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .main-content.sidebar-minimized {
+                margin-left: 0;
+            }
+            
+            .toggle-sidebar {
+                display: flex;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .support-content {
+                padding: 15px;
+            }
+            
+            .quick-help-section h1 {
+                font-size: 28px;
+            }
+            
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .top-nav {
+                padding: 0 15px;
+            }
+            
+            .nav-right {
+                gap: 15px;
+            }
+            
+            .user-profile span {
+                display: none;
+            }
+            
+            .contact-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="assets/images/logo.png" alt="AllServ Logo" class="logo">
-                <h1>AllServ</h1>
+                <div class="logo">S</div>
+                <h1 class="logo-text">ServicePro</h1>
             </div>
             
             <nav class="sidebar-nav">
                 <ul>
                     <li>
-                        <a href="dashboard.html">
+                        <a href="dashboard.html" class="nav-link">
                             <i class="fas fa-home"></i>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="service-requests.html">
+                        <a href="service-requests.html" class="nav-link">
                             <i class="fas fa-clipboard-list"></i>
                             <span>Service Requests</span>
-                            <span class="badge bg-primary">5</span>
+                            <span class="badge">5</span>
                         </a>
                     </li>
                     <li>
-                        <a href="service-history.html">
+                        <a href="service-history.html" class="nav-link">
                             <i class="fas fa-history"></i>
                             <span>Service History</span>
                         </a>
                     </li>
                     <li>
-                        <a href="earnings.html">
+                        <a href="earnings.html" class="nav-link">
                             <i class="fas fa-wallet"></i>
                             <span>Earnings</span>
                         </a>
                     </li>
                     <li>
-                        <a href="profile.html">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>Schedule</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="profile.html" class="nav-link">
                             <i class="fas fa-user"></i>
                             <span>Profile</span>
                         </a>
                     </li>
                     <li>
-                        <a href="settings.html">
+                        <a href="settings.html" class="nav-link">
                             <i class="fas fa-cog"></i>
                             <span>Settings</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="support.html" class="nav-link active">
+                            <i class="fas fa-question-circle"></i>
+                            <span>Help & Support</span>
                         </a>
                     </li>
                 </ul>
             </nav>
 
             <div class="sidebar-footer">
-                <a href="support.html" class="active">
-                    <i class="fas fa-question-circle"></i>
-                    <span>Help & Support</span>
-                </a>
-                <a href="#" class="logout">
+                <a href="../index.html" class="logout">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Logout</span>
                 </a>
             </div>
         </aside>
 
+        <!-- Main Content -->
         <main class="main-content">
             <!-- Top Navigation -->
             <nav class="top-nav">
-                <button class="toggle-sidebar">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <div class="nav-left">
+                    <button class="toggle-sidebar" id="toggleSidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h3>Help & Support</h3>
+                </div>
                 
                 <div class="nav-right">
-                    <div class="notifications">
-                        <button class="notification-btn">
-                            <i class="fas fa-bell"></i>
-                            <span class="badge bg-danger">3</span>
-                        </button>
+                    <div class="notification-bell">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
                     </div>
                     <div class="user-profile">
-                        <img src="assets/images/profile.jpg" alt="Profile Picture">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Picture">
                         <span>John Smith</span>
                     </div>
                 </div>
             </nav>
 
+            <!-- Support Content -->
             <div class="support-content">
                 <!-- Quick Help Section -->
                 <div class="quick-help-section">
                     <h1>How can we help you?</h1>
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search for help articles, topics, or questions" class="form-control">
+                    <p>Find answers to common questions, get troubleshooting tips, or contact our support team</p>
+                    
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" class="search-box" placeholder="Search for help articles, topics, or questions">
                     </div>
+                    
                     <div class="quick-links">
                         <div class="quick-link-card">
                             <i class="fas fa-book"></i>
                             <h3>Getting Started</h3>
-                            <p>Learn the basics of using AllServ</p>
+                            <p>Learn the basics of using ServicePro</p>
                         </div>
                         <div class="quick-link-card">
                             <i class="fas fa-dollar-sign"></i>
-                            <h3>Payments</h3>
+                            <h3>Payments & Earnings</h3>
                             <p>Manage your earnings and payouts</p>
                         </div>
                         <div class="quick-link-card">
                             <i class="fas fa-shield-alt"></i>
                             <h3>Account Security</h3>
-                            <p>Keep your account safe</p>
+                            <p>Keep your account safe and secure</p>
                         </div>
                         <div class="quick-link-card">
                             <i class="fas fa-star"></i>
                             <h3>Best Practices</h3>
-                            <p>Tips for success on AllServ</p>
+                            <p>Tips for success on ServicePro</p>
                         </div>
                     </div>
                 </div>
-
+                
                 <!-- FAQ Section -->
                 <div class="faq-section">
-                    <h2>Frequently Asked Questions</h2>
-                    <div class="accordion" id="faqAccordion">
-                        <div class="accordion-item">
-                            <h3 class="accordion-header">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                                    How do I get paid for my services?
-                                </button>
-                            </h3>
-                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                    <div class="section-header">
+                        <h2>Frequently Asked Questions</h2>
+                        <a href="#" class="view-all">View all FAQs <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
+                    <div class="accordion">
+                        <div class="accordion-item active">
+                            <div class="accordion-header">
+                                <span>How do I get paid for my services?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="accordion-content">
                                 <div class="accordion-body">
-                                    Payments are processed automatically after service completion. You can choose weekly, bi-weekly, or monthly payouts through direct deposit to your bank account. All earnings can be tracked in real-time through your dashboard.
+                                    <p>Payments are processed automatically after service completion. You can choose weekly, bi-weekly, or monthly payouts through direct deposit to your bank account. All earnings can be tracked in real-time through your dashboard.</p>
+                                    <p>ServicePro charges a 15% platform fee on each completed service. This fee covers payment processing, platform maintenance, and customer support services.</p>
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="accordion-item">
-                            <h3 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                                    What happens if I need to cancel a booking?
-                                </button>
-                            </h3>
-                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-header">
+                                <span>What happens if I need to cancel a booking?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="accordion-content">
                                 <div class="accordion-body">
-                                    If you need to cancel a booking, please do so at least 24 hours in advance. Go to "Service Requests," find the booking, and click "Cancel." Be sure to provide a reason for cancellation to maintain good customer relations.
+                                    <p>If you need to cancel a booking, please do so at least 24 hours in advance. Go to "Service Requests," find the booking, and click "Cancel." Be sure to provide a reason for cancellation to maintain good customer relations.</p>
+                                    <p>Frequent cancellations may affect your provider rating. We recommend canceling only in unavoidable circumstances to maintain a high service rating.</p>
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="accordion-item">
-                            <h3 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                                    How can I improve my visibility in search results?
-                                </button>
-                            </h3>
-                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-header">
+                                <span>How can I improve my visibility in search results?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="accordion-content">
                                 <div class="accordion-body">
-                                    To improve visibility: maintain a high rating, respond quickly to requests, complete your profile with detailed information, add high-quality photos, and keep your availability calendar up to date.
+                                    <p>To improve visibility: maintain a high rating, respond quickly to requests, complete your profile with detailed information, add high-quality photos, and keep your availability calendar up to date.</p>
+                                    <p>Providers with complete profiles and excellent ratings appear higher in customer searches. Consider offering special promotions during slower periods to attract more customers.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <span>How do I handle customer disputes?</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    <p>If a dispute arises with a customer, first try to resolve it directly through polite communication. If you can't reach an agreement, contact ServicePro support within 48 hours of service completion.</p>
+                                    <p>Our support team will review the case and mediate a resolution. Be prepared to provide photos, communication logs, and any other relevant documentation to support your position.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                
                 <!-- Contact Support Section -->
                 <div class="contact-support-section">
-                    <h2>Still need help?</h2>
+                    <div class="section-header">
+                        <h2>Contact Support</h2>
+                        <p>Our team is ready to assist you 7 days a week</p>
+                    </div>
+                    
                     <div class="contact-options">
                         <div class="contact-card">
                             <i class="fas fa-comments"></i>
                             <h3>Live Chat</h3>
-                            <p>Chat with our support team</p>
-                            <button class="btn btn-primary">Start Chat</button>
+                            <p>Chat with our support team in real-time</p>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-comment"></i> Start Chat
+                            </button>
                         </div>
+                        
                         <div class="contact-card">
                             <i class="fas fa-envelope"></i>
                             <h3>Email Support</h3>
-                            <p>Get help via email</p>
-                            <button class="btn btn-outline-primary">Send Email</button>
+                            <p>Get help via email with detailed responses</p>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-envelope"></i> Send Email
+                            </button>
                         </div>
+                        
                         <div class="contact-card">
                             <i class="fas fa-phone"></i>
                             <h3>Phone Support</h3>
-                            <p>Talk to a representative</p>
-                            <button class="btn btn-outline-primary">Call Now</button>
+                            <p>Talk to a representative directly</p>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-phone"></i> Call Now
+                            </button>
                         </div>
                     </div>
                 </div>
-
+                
                 <!-- Help Articles -->
                 <div class="help-articles-section">
-                    <h2>Popular Help Articles</h2>
+                    <div class="section-header">
+                        <h2>Popular Help Articles</h2>
+                        <a href="#" class="view-all">Browse all articles <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    
                     <div class="articles-grid">
-                        <article class="help-article">
-                            <span class="article-category">Getting Started</span>
-                            <h3>Complete Guide to Service Provider Onboarding</h3>
-                            <p>Learn everything you need to know about getting started as a service provider on AllServ.</p>
-                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                        </article>
-                        <article class="help-article">
-                            <span class="article-category">Payments</span>
-                            <h3>Understanding Your Earnings and Fees</h3>
-                            <p>A detailed breakdown of how payments work, including platform fees and payout schedules.</p>
-                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                        </article>
-                        <article class="help-article">
-                            <span class="article-category">Best Practices</span>
-                            <h3>Tips for Managing Multiple Bookings</h3>
-                            <p>Learn how to efficiently handle multiple service requests and maintain high customer satisfaction.</p>
-                            <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-                        </article>
+                        <div class="help-article">
+                            <div class="article-image">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="article-content">
+                                <span class="article-category">Getting Started</span>
+                                <h3>Complete Guide to Service Provider Onboarding</h3>
+                                <p>Learn everything you need to know about getting started as a service provider on ServicePro, from profile setup to your first booking.</p>
+                                <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="help-article">
+                            <div class="article-image">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="article-content">
+                                <span class="article-category">Payments</span>
+                                <h3>Understanding Your Earnings and Fees</h3>
+                                <p>A detailed breakdown of how payments work, including platform fees, payout schedules, and managing your earnings.</p>
+                                <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                        
+                        <div class="help-article">
+                            <div class="article-image">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="article-content">
+                                <span class="article-category">Best Practices</span>
+                                <h3>Tips for Managing Multiple Bookings</h3>
+                                <p>Learn how to efficiently handle multiple service requests and maintain high customer satisfaction ratings.</p>
+                                <a href="#" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/support.js"></script>
+    <script>
+        // Toggle sidebar between minimized and expanded states
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            sidebar.classList.toggle('minimized');
+            mainContent.classList.toggle('sidebar-minimized');
+            
+            // Change icon based on state
+            const icon = this.querySelector('i');
+            if (sidebar.classList.contains('minimized')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-indent');
+            } else {
+                icon.classList.remove('fa-indent');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Accordion functionality
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+        
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                const accordionItem = this.parentElement;
+                accordionItem.classList.toggle('active');
+            });
+        });
+
+        // Simulate contact buttons
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const action = this.textContent.trim();
+                alert(`${action} feature would open in a real application.`);
+            });
+        });
+
+        // Simulate search functionality
+        const searchBox = document.querySelector('.search-box');
+        searchBox.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                alert(`Searching for: "${this.value}"`);
+            }
+        });
+    </script>
 </body>
 </html>

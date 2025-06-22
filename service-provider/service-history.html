@@ -4,66 +4,866 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AllServ - Service History</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="css/dashboard.css" rel="stylesheet">
-    <link href="css/service-history.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Professional Teal Theme */
+            --primary: #0D9488;
+            --primary-light: #5FB4A9;
+            --primary-dark: #0A7369;
+            --accent: #334155;
+            --accent-light: #64748B;
+            --accent-lighter: #CBD5E1;
+            --background: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --info: #3B82F6;
+            --text-primary: #1E293B;
+            --text-secondary: #475569;
+            --hover-bg: rgba(13, 148, 136, 0.08);
+            --border-color: #E2E8F0;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --sidebar-width: 260px;
+            --sidebar-minimized: 80px;
+            --top-nav-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+        }
+
+        /* Dashboard Layout */
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--card-bg);
+            box-shadow: var(--shadow);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar.minimized {
+            width: var(--sidebar-minimized);
+        }
+
+        .sidebar.minimized .logo-text,
+        .sidebar.minimized .nav-link span,
+        .sidebar.minimized .sidebar-footer span {
+            display: none;
+        }
+
+        .sidebar.minimized .nav-link {
+            justify-content: center;
+        }
+
+        .sidebar.minimized .badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 3px 6px;
+            font-size: 10px;
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            min-height: 70px;
+        }
+
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            margin-right: 15px;
+        }
+
+        .logo-text {
+            font-size: 22px;
+            color: var(--accent);
+            font-weight: 700;
+            transition: opacity 0.3s;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+            flex: 1;
+        }
+
+        .sidebar-nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.2s;
+            position: relative;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--hover-bg);
+            color: var(--primary);
+            border-left: 4px solid var(--primary);
+        }
+
+        .nav-link i {
+            width: 24px;
+            margin-right: 12px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .badge {
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid var(--border-color);
+            padding: 15px 0 0;
+        }
+
+        .sidebar-footer a {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .sidebar-footer a:hover {
+            color: var(--primary);
+        }
+
+        .sidebar-footer a.logout {
+            color: var(--danger);
+        }
+
+        .sidebar-footer a.logout:hover {
+            background: rgba(235, 87, 87, 0.08);
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin-left: var(--sidebar-width);
+            transition: margin-left 0.3s ease;
+        }
+
+        .main-content.sidebar-minimized {
+            margin-left: var(--sidebar-minimized);
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background: var(--card-bg);
+            padding: 0 25px;
+            height: var(--top-nav-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .toggle-sidebar {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--accent);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .toggle-sidebar:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            color: var(--accent);
+            font-size: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .notification-bell:hover {
+            background: var(--hover-bg);
+            color: var(--primary);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+
+        .user-profile:hover {
+            background: var(--hover-bg);
+        }
+
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border-color);
+        }
+
+        .user-profile span {
+            font-weight: 500;
+            color: var(--accent);
+        }
+
+        /* Service History Content */
+        .service-history-content {
+            padding: 25px;
+            flex: 1;
+        }
+
+        /* Page Header */
+        .page-header {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .page-title h2 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            color: var(--text-secondary);
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .rating-stat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .rating-stars {
+            color: var(--warning);
+        }
+
+        /* Header Actions */
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+
+        .date-filter {
+            position: relative;
+        }
+
+        .date-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .date-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 15px;
+            min-width: 200px;
+            z-index: 100;
+            display: none;
+        }
+
+        .date-option {
+            padding: 8px 0;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .date-option:last-child {
+            border-bottom: none;
+        }
+
+        .date-option:hover {
+            color: var(--primary);
+        }
+
+        .date-option.active {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px 10px 40px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--background);
+            color: var(--text-primary);
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .export-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: 1px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .export-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* History Table */
+        .history-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .history-table th {
+            text-align: left;
+            padding: 15px;
+            color: var(--text-secondary);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .history-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .history-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .history-table tr:hover {
+            background: var(--hover-bg);
+        }
+
+        .service-date {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .date {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .time {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .customer-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .customer-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .customer-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .customer-location {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .service-type {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .service-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(13, 148, 136, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .service-name {
+            font-weight: 500;
+        }
+
+        .amount {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-badge.completed {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .status-badge.pending {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning);
+        }
+
+        .status-badge.cancelled {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stars {
+            color: var(--warning);
+        }
+
+        .rating-value {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .no-rating {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--background);
+            border: 1px solid var(--border-color);
+            color: var(--accent);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Pagination */
+        .pagination-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .pagination-info {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 5px;
+            list-style: none;
+        }
+
+        .page-item {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-item:hover {
+            background: var(--hover-bg);
+        }
+
+        .page-item.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .page-link {
+            text-decoration: none;
+            color: var(--accent);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-item.active .page-link {
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .sidebar {
+                left: -100%;
+            }
+            
+            .sidebar.active {
+                left: 0;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .main-content.sidebar-minimized {
+                margin-left: 0;
+            }
+            
+            .toggle-sidebar {
+                display: flex;
+            }
+            
+            .history-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .service-history-content {
+                padding: 15px;
+            }
+            
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .header-stats {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .header-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .search-box {
+                max-width: 100%;
+            }
+            
+            .history-table th, 
+            .history-table td {
+                padding: 10px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .top-nav {
+                padding: 0 15px;
+            }
+            
+            .nav-right {
+                gap: 15px;
+            }
+            
+            .user-profile span {
+                display: none;
+            }
+            
+            .header-stats {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .stat-item {
+                flex: 1;
+                min-width: 120px;
+            }
+            
+            .pagination-container {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- Sidebar (Same as dashboard.html) -->
+        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
-                <img src="assets/images/logo.png" alt="AllServ Logo" class="logo">
-                <h1>AllServ</h1>
+                <div class="logo">A</div>
+                <h1 class="logo-text">AllServ</h1>
             </div>
             
-            <nav class="sidebar-nav">
-                <ul>
-                    <li>
-                        <a href="dashboard.html">
-                            <i class="fas fa-home"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="service-requests.html">
-                            <i class="fas fa-clipboard-list"></i>
-                            <span>Service Requests</span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="service-history.html">
-                            <i class="fas fa-history"></i>
-                            <span>Service History</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="earnings.html">
-                            <i class="fas fa-wallet"></i>
-                            <span>Earnings</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="profile.html">
-                            <i class="fas fa-user"></i>
-                            <span>Profile</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="settings.html">
-                            <i class="fas fa-cog"></i>
-                            <span>Settings</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+        <nav class="sidebar-nav">
+          <ul>
+            <li>
+              <a href="dashboard.html" class="nav-link">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="service-requests.html" class="nav-link">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Service Requests</span>
+                <span class="badge">5</span>
+              </a>
+            </li>
+            <li>
+              <a href="service-history.html" class="nav-link active">
+                <i class="fas fa-history"></i>
+                <span>Service History</span>
+              </a>
+            </li>
+            <li>
+              <a href="earnings.html" class="nav-link">
+                <i class="fas fa-wallet"></i>
+                <span>Earnings</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Schedule</span>
+              </a>
+            </li>
+            <li>
+              <a href="profile.html" class="nav-link">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+              </a>
+            </li>
+            <li>
+              <a href="settings.html" class="nav-link">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link">
+                <i class="fas fa-chart-line"></i>
+                <span>Analytics</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
 
             <div class="sidebar-footer">
-                <a href="support.html">
+                <a href="#">
                     <i class="fas fa-question-circle"></i>
                     <span>Help & Support</span>
                 </a>
@@ -78,9 +878,12 @@
         <main class="main-content">
             <!-- Top Navigation -->
             <nav class="top-nav">
-                <button class="toggle-sidebar">
-                    <i class="fas fa-bars"></i>
-                </button>
+                <div class="nav-left">
+                    <button class="toggle-sidebar" id="toggleSidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h3>Service History</h3>
+                </div>
                 
                 <div class="nav-right">
                     <div class="notification-bell">
@@ -88,92 +891,83 @@
                         <span class="notification-badge">3</span>
                     </div>
                     <div class="user-profile">
-                        <img src="assets/images/profile-placeholder.jpg" alt="Profile Picture">
-                        <span>John Doe</span>
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Profile Picture">
+                        <span>John Smith</span>
                     </div>
                 </div>
             </nav>
 
             <!-- Service History Content -->
             <div class="service-history-content">
+                <!-- Page Header -->
                 <div class="page-header">
-                    <div class="header-main">
+                    <div class="page-title">
                         <h2>Service History</h2>
-                        <div class="stats">
-                            <div class="stat-item">
-                                <span class="stat-label">Total Services</span>
-                                <span class="stat-value">248</span>
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Average Rating</span>
-                                <div class="rating">
-                                    <span class="stars">★★★★★</span>
-                                    <span class="rating-value">4.8</span>
+                        <p>Review all your completed service requests</p>
+                    </div>
+                    
+                    <div class="header-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">248</div>
+                            <div class="stat-label">Total Services</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="rating-stat">
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
                                 </div>
+                                <div class="stat-value">4.8</div>
                             </div>
-                            <div class="stat-item">
-                                <span class="stat-label">Completion Rate</span>
-                                <span class="stat-value">98%</span>
-                            </div>
+                            <div class="stat-label">Average Rating</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">98%</div>
+                            <div class="stat-label">Completion Rate</div>
                         </div>
                     </div>
+                    
                     <div class="header-actions">
-                        <div class="date-range">
-                            <button class="btn btn-outline-secondary dropdown-toggle">
-                                <i class="fas fa-calendar"></i> Last 30 Days
+                        <div class="date-filter">
+                            <button class="date-btn" id="dateFilterBtn">
+                                <i class="fas fa-calendar"></i>
+                                Last 30 Days
                             </button>
+                            <div class="date-dropdown" id="dateDropdown">
+                                <div class="date-option active">Today</div>
+                                <div class="date-option">Last 7 Days</div>
+                                <div class="date-option">Last 30 Days</div>
+                                <div class="date-option">This Month</div>
+                                <div class="date-option">Last Month</div>
+                                <div class="date-option">Custom Range</div>
+                            </div>
                         </div>
+                        
                         <div class="search-box">
-                            <input type="text" class="form-control" placeholder="Search service history...">
                             <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Search service history...">
                         </div>
-                        <button class="btn btn-outline-primary">
+                        
+                        <button class="export-btn">
                             <i class="fas fa-download"></i> Export
                         </button>
                     </div>
                 </div>
-
-                <!-- Service History Table -->
-                <div class="history-table-container">
+                
+                <!-- History Table -->
+                <div class="history-container">
                     <table class="history-table">
                         <thead>
                             <tr>
-                                <th>
-                                    <div class="th-content">
-                                        Date
-                                        <i class="fas fa-sort"></i>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="th-content">
-                                        Customer
-                                        <i class="fas fa-sort"></i>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="th-content">
-                                        Service Type
-                                        <i class="fas fa-sort"></i>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="th-content">
-                                        Amount
-                                        <i class="fas fa-sort"></i>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="th-content">
-                                        Status
-                                        <i class="fas fa-sort"></i>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="th-content">
-                                        Rating
-                                        <i class="fas fa-sort"></i>
-                                    </div>
-                                </th>
+                                <th>Date & Time</th>
+                                <th>Customer</th>
+                                <th>Service Type</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Rating</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -188,17 +982,19 @@
                                 </td>
                                 <td>
                                     <div class="customer-info">
-                                        <img src="assets/images/profile-placeholder.jpg" alt="Sarah Johnson">
-                                        <div>
-                                            <span class="name">Sarah Johnson</span>
-                                            <span class="location">Manhattan, NY</span>
+                                        <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Sarah Johnson">
+                                        <div class="customer-details">
+                                            <span class="customer-name">Sarah Johnson</span>
+                                            <span class="customer-location">Manhattan, NY</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="service-type">
-                                        <i class="fas fa-tools"></i>
-                                        <span>Pipe Repair</span>
+                                        <div class="service-icon">
+                                            <i class="fas fa-tools"></i>
+                                        </div>
+                                        <span class="service-name">Pipe Repair</span>
                                     </div>
                                 </td>
                                 <td>
@@ -210,21 +1006,21 @@
                                 <td>
                                     <div class="rating">
                                         <span class="stars">★★★★★</span>
-                                        <span class="rating-count">(5.0)</span>
+                                        <span class="rating-value">5.0</span>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="actions">
-                                        <button class="btn btn-icon" data-bs-toggle="tooltip" title="View Details">
+                                        <button class="action-btn" title="View Details">
                                             <i class="fas fa-eye"></i>
                                         </button>
-                                        <button class="btn btn-icon" data-bs-toggle="tooltip" title="Download Invoice">
+                                        <button class="action-btn" title="Download Invoice">
                                             <i class="fas fa-file-invoice"></i>
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-
+                            
                             <!-- Service Entry 2 -->
                             <tr>
                                 <td>
@@ -235,17 +1031,19 @@
                                 </td>
                                 <td>
                                     <div class="customer-info">
-                                        <img src="assets/images/profile-placeholder.jpg" alt="Michael Brown">
-                                        <div>
-                                            <span class="name">Michael Brown</span>
-                                            <span class="location">Brooklyn, NY</span>
+                                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Michael Brown">
+                                        <div class="customer-details">
+                                            <span class="customer-name">Michael Brown</span>
+                                            <span class="customer-location">Brooklyn, NY</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="service-type">
-                                        <i class="fas fa-shower"></i>
-                                        <span>Bathroom Installation</span>
+                                        <div class="service-icon">
+                                            <i class="fas fa-shower"></i>
+                                        </div>
+                                        <span class="service-name">Bathroom Installation</span>
                                     </div>
                                 </td>
                                 <td>
@@ -257,21 +1055,21 @@
                                 <td>
                                     <div class="rating">
                                         <span class="stars">★★★★☆</span>
-                                        <span class="rating-count">(4.0)</span>
+                                        <span class="rating-value">4.0</span>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="actions">
-                                        <button class="btn btn-icon" data-bs-toggle="tooltip" title="View Details">
+                                        <button class="action-btn" title="View Details">
                                             <i class="fas fa-eye"></i>
                                         </button>
-                                        <button class="btn btn-icon" data-bs-toggle="tooltip" title="Download Invoice">
+                                        <button class="action-btn" title="Download Invoice">
                                             <i class="fas fa-file-invoice"></i>
                                         </button>
                                     </div>
                                 </td>
                             </tr>
-
+                            
                             <!-- Service Entry 3 -->
                             <tr>
                                 <td>
@@ -282,36 +1080,137 @@
                                 </td>
                                 <td>
                                     <div class="customer-info">
-                                        <img src="assets/images/profile-placeholder.jpg" alt="Emily Wilson">
-                                        <div>
-                                            <span class="name">Emily Wilson</span>
-                                            <span class="location">Queens, NY</span>
+                                        <img src="https://randomuser.me/api/portraits/women/35.jpg" alt="Emily Wilson">
+                                        <div class="customer-details">
+                                            <span class="customer-name">Emily Wilson</span>
+                                            <span class="customer-location">Queens, NY</span>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="service-type">
-                                        <i class="fas fa-fire"></i>
-                                        <span>Water Heater Repair</span>
+                                        <div class="service-icon">
+                                            <i class="fas fa-fire"></i>
+                                        </div>
+                                        <span class="service-name">Water Heater Repair</span>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="amount">₹180.00</div>
                                 </td>
                                 <td>
-                                    <span class="status-badge cancelled">Cancelled</span>
+                                    <span class="status-badge completed">Completed</span>
                                 </td>
                                 <td>
                                     <div class="rating">
-                                        <span class="no-rating">No Rating</span>
+                                        <span class="stars">★★★★★</span>
+                                        <span class="rating-value">5.0</span>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="actions">
-                                        <button class="btn btn-icon" data-bs-toggle="tooltip" title="View Details">
+                                        <button class="action-btn" title="View Details">
                                             <i class="fas fa-eye"></i>
                                         </button>
-                                        <button class="btn btn-icon" data-bs-toggle="tooltip" title="Download Invoice">
+                                        <button class="action-btn" title="Download Invoice">
+                                            <i class="fas fa-file-invoice"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Service Entry 4 -->
+                            <tr>
+                                <td>
+                                    <div class="service-date">
+                                        <span class="date">Jan 25, 2025</span>
+                                        <span class="time">10:30 AM</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="customer-info">
+                                        <img src="https://randomuser.me/api/portraits/men/52.jpg" alt="Robert Chen">
+                                        <div class="customer-details">
+                                            <span class="customer-name">Robert Chen</span>
+                                            <span class="customer-location">Bronx, NY</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="service-type">
+                                        <div class="service-icon">
+                                            <i class="fas fa-faucet"></i>
+                                        </div>
+                                        <span class="service-name">Leak Repair</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="amount">₹95.00</div>
+                                </td>
+                                <td>
+                                    <span class="status-badge completed">Completed</span>
+                                </td>
+                                <td>
+                                    <div class="rating">
+                                        <span class="stars">★★★★★</span>
+                                        <span class="rating-value">5.0</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="action-btn" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="action-btn" title="Download Invoice">
+                                            <i class="fas fa-file-invoice"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <!-- Service Entry 5 -->
+                            <tr>
+                                <td>
+                                    <div class="service-date">
+                                        <span class="date">Jan 22, 2025</span>
+                                        <span class="time">4:45 PM</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="customer-info">
+                                        <img src="https://randomuser.me/api/portraits/women/28.jpg" alt="Amanda Patel">
+                                        <div class="customer-details">
+                                            <span class="customer-name">Amanda Patel</span>
+                                            <span class="customer-location">Staten Island, NY</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="service-type">
+                                        <div class="service-icon">
+                                            <i class="fas fa-toilet"></i>
+                                        </div>
+                                        <span class="service-name">Toilet Replacement</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="amount">₹220.00</div>
+                                </td>
+                                <td>
+                                    <span class="status-badge completed">Completed</span>
+                                </td>
+                                <td>
+                                    <div class="rating">
+                                        <span class="stars">★★★★☆</span>
+                                        <span class="rating-value">4.5</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="action-btn" title="View Details">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="action-btn" title="Download Invoice">
                                             <i class="fas fa-file-invoice"></i>
                                         </button>
                                     </div>
@@ -319,16 +1218,14 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
-
-                <!-- Pagination -->
-                <div class="pagination-container">
-                    <div class="pagination-info">
-                        Showing 1-3 of 248 entries
-                    </div>
-                    <nav aria-label="Service history pagination">
+                    
+                    <!-- Pagination -->
+                    <div class="pagination-container">
+                        <div class="pagination-info">
+                            Showing 1-5 of 248 entries
+                        </div>
                         <ul class="pagination">
-                            <li class="page-item disabled">
+                            <li class="page-item">
                                 <a class="page-link" href="#" aria-label="Previous">
                                     <i class="fas fa-chevron-left"></i>
                                 </a>
@@ -342,114 +1239,70 @@
                                 </a>
                             </li>
                         </ul>
-                    </nav>
+                    </div>
                 </div>
             </div>
         </main>
-
-        <!-- Service Details Modal -->
-        <div class="modal fade" id="serviceDetailsModal" tabindex="-1">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Service Details</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="service-detail-content">
-                            <!-- Customer Information -->
-                            <div class="detail-section">
-                                <h6>Customer Information</h6>
-                                <div class="customer-detail">
-                                    <img src="assets/images/profile-placeholder.jpg" alt="Customer">
-                                    <div>
-                                        <h5>Sarah Johnson</h5>
-                                        <p>123 Main St, Apt 4B</p>
-                                        <p>Manhattan, NY 10001</p>
-                                        <p>Phone: (555) 123-4567</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Service Information -->
-                            <div class="detail-section">
-                                <h6>Service Information</h6>
-                                <div class="service-info-grid">
-                                    <div class="info-item">
-                                        <span class="label">Service Type</span>
-                                        <span class="value">Pipe Repair</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="label">Date & Time</span>
-                                        <span class="value">Feb 1, 2025, 2:30 PM</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="label">Duration</span>
-                                        <span class="value">1.5 hours</span>
-                                    </div>
-                                    <div class="info-item">
-                                        <span class="label">Status</span>
-                                        <span class="status-badge completed">Completed</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Payment Information -->
-                            <div class="detail-section">
-                                <h6>Payment Details</h6>
-                                <div class="payment-info">
-                                    <div class="payment-row">
-                                        <span>Service Charge</span>
-                                        <span>₹100.00</span>
-                                    </div>
-                                    <div class="payment-row">
-                                        <span>Materials</span>
-                                        <span>₹20.00</span>
-                                    </div>
-                                    <div class="payment-row total">
-                                        <span>Total Amount</span>
-                                        <span>₹120.00</span>
-                                    </div>
-                                    <div class="payment-status">
-                                        <i class="fas fa-check-circle"></i>
-                                        Payment Received
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Customer Review -->
-                            <div class="detail-section">
-                                <h6>Customer Review</h6>
-                                <div class="review-content">
-                                    <div class="review-header">
-                                        <div class="rating">
-                                            <span class="stars">★★★★★</span>
-                                            <span class="rating-value">5.0</span>
-                                        </div>
-                                        <span class="review-date">Feb 1, 2025</span>
-                                    </div>
-                                    <p class="review-text">
-                                        "Excellent service! Very professional and completed the work quickly. 
-                                        The pipe repair was done perfectly and there have been no issues since. 
-                                        Would definitely recommend!"
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Download Invoice</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
-    <script src="js/dashboard.js"></script>
-    <script src="js/service-history.js"></script>
+    <script>
+        // Toggle sidebar between minimized and expanded states
+        document.getElementById('toggleSidebar').addEventListener('click', function() {
+            const sidebar = document.querySelector('.sidebar');
+            const mainContent = document.querySelector('.main-content');
+            
+            sidebar.classList.toggle('minimized');
+            mainContent.classList.toggle('sidebar-minimized');
+            
+            // Change icon based on state
+            const icon = this.querySelector('i');
+            if (sidebar.classList.contains('minimized')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-indent');
+            } else {
+                icon.classList.remove('fa-indent');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Date filter dropdown functionality
+        const dateFilterBtn = document.getElementById('dateFilterBtn');
+        const dateDropdown = document.getElementById('dateDropdown');
+        
+        dateFilterBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            dateDropdown.style.display = dateDropdown.style.display === 'block' ? 'none' : 'block';
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!dateFilterBtn.contains(e.target) && !dateDropdown.contains(e.target)) {
+                dateDropdown.style.display = 'none';
+            }
+        });
+        
+        // Date option selection
+        const dateOptions = document.querySelectorAll('.date-option');
+        dateOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                dateOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                dateFilterBtn.querySelector('span').textContent = this.textContent;
+                dateDropdown.style.display = 'none';
+            });
+        });
+        
+        // Action buttons functionality
+        const viewButtons = document.querySelectorAll('.action-btn .fa-eye').forEach(btn => {
+            btn.closest('.action-btn').addEventListener('click', function() {
+                alert('Service details modal would open here');
+            });
+        });
+        
+        const invoiceButtons = document.querySelectorAll('.action-btn .fa-file-invoice').forEach(btn => {
+            btn.closest('.action-btn').addEventListener('click', function() {
+                alert('Invoice download would start here');
+            });
+        });
+    </script>
 </body>
 </html>

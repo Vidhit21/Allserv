@@ -8,8 +8,391 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link href="css/login.css" rel="stylesheet">
+    <style>
+        :root {
+            --brand-primary: #2563eb;
+            --brand-secondary: #0ea5e9;
+            --brand-dark: #1e293b;
+            --brand-light: #f8fafc;
+            --brand-gradient: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --error-color: #ef4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: #f0f4f8;
+            overflow-x: hidden;
+            color: #334155;
+        }
+
+        .container-fluid {
+            max-width: 1600px;
+        }
+
+        /* Brand Section */
+        .brand-section {
+            background: var(--brand-gradient);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-section::before {
+            content: "";
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .brand-section::after {
+            content: "";
+            position: absolute;
+            bottom: -80px;
+            left: -50px;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .brand-content {
+            position: relative;
+            z-index: 2;
+            padding: 4rem 3rem;
+            max-width: 90%;
+        }
+
+        .brand-content h1 {
+            font-weight: 800;
+            font-size: 3.5rem;
+            letter-spacing: -0.025em;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .brand-content h2 {
+            font-weight: 600;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .brand-content p {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            max-width: 90%;
+            opacity: 0.95;
+        }
+
+        .features {
+            margin-top: 3.5rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(5px);
+        }
+
+        .feature-item i {
+            font-size: 1.8rem;
+            margin-right: 1.2rem;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+        }
+
+        .feature-item span {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        /* Auth Section */
+        .auth-section {
+            background-color: var(--brand-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 550px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--brand-gradient);
+        }
+
+        .auth-form {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+        }
+
+        .auth-form.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .auth-form h2 {
+            font-weight: 700;
+            color: var(--brand-dark);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .auth-form h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--brand-gradient);
+            border-radius: 2px;
+        }
+
+        .form-floating > label {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .form-control, .form-select {
+            height: 55px;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+        }
+
+        .btn-primary {
+            background: var(--brand-gradient);
+            border: none;
+            height: 55px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 0.5px;
+            padding: 0.75rem 1.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+        }
+
+        .btn-primary:hover, .btn-primary:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+        }
+
+        .btn-outline-primary {
+            border: 2px solid var(--brand-primary);
+            color: var(--brand-primary);
+            height: 55px;
+            border-radius: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-primary:hover {
+            background: rgba(37, 99, 235, 0.08);
+        }
+
+        .text-primary {
+            color: var(--brand-primary) !important;
+            font-weight: 600;
+        }
+
+        /* Registration Steps */
+        .progress {
+            height: 8px !important;
+            border-radius: 10px;
+            background-color: #e2e8f0;
+            overflow: visible;
+        }
+
+        .progress-bar {
+            background: var(--brand-gradient);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .progress-bar::after {
+            content: "";
+            position: absolute;
+            top: -4px;
+            right: -2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--brand-primary);
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px var(--brand-primary);
+        }
+
+        .reg-step {
+            display: none;
+        }
+
+        .reg-step.active {
+            display: block;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
+        }
+
+        .upload-area:hover {
+            border-color: var(--brand-primary);
+            background-color: rgba(37, 99, 235, 0.05);
+        }
+
+        .upload-area i {
+            font-size: 2.5rem;
+            color: var(--brand-primary);
+            margin-bottom: 1rem;
+        }
+
+        .upload-area p {
+            margin: 0;
+            font-weight: 500;
+            color: #64748b;
+        }
+
+        /* Password Strength Meter */
+        .password-strength {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .password-strength span {
+            font-weight: 500;
+            margin-right: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .strength-meter {
+            flex: 1;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .strength-meter::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            background: var(--error-color);
+            transition: width 0.3s ease;
+        }
+
+        #regPassword:focus ~ .password-strength .strength-meter::before {
+            width: 33%;
+        }
+
+        #regPassword:valid ~ .password-strength .strength-meter::before {
+            background: var(--warning-color);
+            width: 66%;
+        }
+
+        #regPassword:valid + #regConfirmPassword:valid ~ .password-strength .strength-meter::before {
+            background: var(--success-color);
+            width: 100%;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 991.98px) {
+            .brand-content {
+                padding: 3rem 2rem;
+            }
+            
+            .brand-content h1 {
+                font-size: 2.8rem;
+            }
+            
+            .auth-container {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .auth-container {
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+                padding: 1.5rem;
+            }
+            
+            .form-control, .form-select, .btn, .btn-outline-primary {
+                height: 50px;
+            }
+            
+            .feature-item {
+                padding: 0.8rem 1.2rem;
+            }
+            
+            .feature-item i {
+                font-size: 1.5rem;
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid">
@@ -19,7 +402,7 @@
                 <div class="brand-content text-white p-5">
                     <h1 class="display-4 mb-4">AllServ</h1>
                     <h2 class="h3 mb-4">Welcome to Service Provider Portal</h2>
-                    <p class="lead">Join our network of trusted professionals and grow your business with us.</p>
+                    <p class="lead">Join our network of trusted professionals and grow your business with us. Access new customers, manage your services, and get paid securely.</p>
                     <div class="features mt-5">
                         <div class="feature-item">
                             <i class="fas fa-chart-line"></i>
@@ -73,24 +456,26 @@
                         <!-- Step 1: Basic Information -->
                         <form id="regStep1" class="reg-step active">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="regName" placeholder="Full Name">
+                                <input type="text" class="form-control" id="regName" placeholder="Full Name" required>
                                 <label for="regName">Full Name</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="regEmail" placeholder="Email">
+                                <input type="email" class="form-control" id="regEmail" placeholder="Email" required>
                                 <label for="regEmail">Email address</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="tel" class="form-control" id="regPhone" placeholder="Phone">
+                                <input type="tel" class="form-control" id="regPhone" placeholder="Phone" required>
                                 <label for="regPhone">Phone Number</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <select class="form-select" id="regCategory">
+                                <select class="form-select" id="regCategory" required>
                                     <option selected disabled value="">Select a category</option>
                                     <option value="plumbing">Plumbing</option>
                                     <option value="electrical">Electrical</option>
                                     <option value="cleaning">Cleaning</option>
                                     <option value="carpentry">Carpentry</option>
+                                    <option value="landscaping">Landscaping</option>
+                                    <option value="appliance">Appliance Repair</option>
                                 </select>
                                 <label for="regCategory">Service Category</label>
                             </div>
@@ -105,14 +490,18 @@
                                 <div class="upload-area mb-2" id="govtIdUpload">
                                     <i class="fas fa-cloud-upload-alt"></i>
                                     <p>Drag & Drop or Click to Upload</p>
+                                    <input type="file" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
                                 </div>
+                                <small class="text-muted">Upload a clear photo of your government-issued ID</small>
                             </div>
                             <div class="mb-4">
                                 <label class="form-label">Service License</label>
                                 <div class="upload-area mb-2" id="licenseUpload">
                                     <i class="fas fa-cloud-upload-alt"></i>
                                     <p>Drag & Drop or Click to Upload</p>
+                                    <input type="file" class="d-none" accept=".jpg,.jpeg,.png,.pdf">
                                 </div>
+                                <small class="text-muted">Upload your professional license or certification</small>
                             </div>
                             <div class="d-flex gap-2">
                                 <button type="button" class="btn btn-outline-primary w-50 prev-step">Back</button>
@@ -123,11 +512,11 @@
                         <!-- Step 3: Set Password -->
                         <form id="regStep3" class="reg-step">
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="regPassword" placeholder="Password">
+                                <input type="password" class="form-control" id="regPassword" placeholder="Password" required>
                                 <label for="regPassword">Create Password</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="password" class="form-control" id="regConfirmPassword" placeholder="Confirm Password">
+                                <input type="password" class="form-control" id="regConfirmPassword" placeholder="Confirm Password" required>
                                 <label for="regConfirmPassword">Confirm Password</label>
                             </div>
                             <div class="mb-3">
@@ -138,6 +527,12 @@
                                 <small class="text-muted">
                                     Password must contain at least 8 characters, including uppercase, lowercase letters, numbers, and special characters.
                                 </small>
+                            </div>
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="termsAgreement" required>
+                                <label class="form-check-label" for="termsAgreement">
+                                    I agree to the <a href="#" class="text-primary">Terms of Service</a> and <a href="#" class="text-primary">Privacy Policy</a>
+                                </label>
                             </div>
                             <div class="d-flex gap-2">
                                 <button type="button" class="btn btn-outline-primary w-50 prev-step">Back</button>
@@ -152,7 +547,122 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
-    <script src="js/login.js"></script>
+    <script>
+        // Form switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Toggle between login and register forms
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const showRegister = document.getElementById('showRegister');
+            const showLogin = document.getElementById('showLogin');
+            
+            showRegister.addEventListener('click', function(e) {
+                e.preventDefault();
+                loginForm.classList.remove('active');
+                setTimeout(() => {
+                    registerForm.classList.add('active');
+                    document.getElementById('regStep1').classList.add('active');
+                }, 10);
+            });
+            
+            showLogin.addEventListener('click', function(e) {
+                e.preventDefault();
+                registerForm.classList.remove('active');
+                setTimeout(() => {
+                    loginForm.classList.add('active');
+                    // Reset registration steps
+                    document.querySelectorAll('.reg-step').forEach(step => {
+                        step.classList.remove('active');
+                    });
+                    document.getElementById('regStep1').classList.add('active');
+                    document.querySelector('.progress-bar').style.width = '33%';
+                }, 10);
+            });
+            
+            // Registration step navigation
+            const nextButtons = document.querySelectorAll('.next-step');
+            const prevButtons = document.querySelectorAll('.prev-step');
+            const progressBar = document.querySelector('.progress-bar');
+            
+            nextButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const currentStep = this.closest('.reg-step');
+                    const nextStep = currentStep.nextElementSibling;
+                    
+                    currentStep.classList.remove('active');
+                    nextStep.classList.add('active');
+                    
+                    // Update progress bar
+                    if (nextStep.id === 'regStep2') {
+                        progressBar.style.width = '66%';
+                    } else if (nextStep.id === 'regStep3') {
+                        progressBar.style.width = '100%';
+                    }
+                });
+            });
+            
+            prevButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const currentStep = this.closest('.reg-step');
+                    const prevStep = currentStep.previousElementSibling;
+                    
+                    currentStep.classList.remove('active');
+                    prevStep.classList.add('active');
+                    
+                    // Update progress bar
+                    if (prevStep.id === 'regStep1') {
+                        progressBar.style.width = '33%';
+                    } else if (prevStep.id === 'regStep2') {
+                        progressBar.style.width = '66%';
+                    }
+                });
+            });
+            
+            // File upload functionality
+            const uploadAreas = document.querySelectorAll('.upload-area');
+            uploadAreas.forEach(area => {
+                const fileInput = area.querySelector('input[type="file"]');
+                
+                area.addEventListener('click', () => {
+                    fileInput.click();
+                });
+                
+                area.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    area.style.borderColor = 'var(--brand-primary)';
+                    area.style.backgroundColor = 'rgba(37, 99, 235, 0.1)';
+                });
+                
+                area.addEventListener('dragleave', () => {
+                    area.style.borderColor = '#cbd5e1';
+                    area.style.backgroundColor = '#f8fafc';
+                });
+                
+                area.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    area.style.borderColor = '#cbd5e1';
+                    area.style.backgroundColor = '#f8fafc';
+                    
+                    if (e.dataTransfer.files.length) {
+                        fileInput.files = e.dataTransfer.files;
+                        // Update UI to show file name
+                        area.querySelector('p').textContent = e.dataTransfer.files[0].name;
+                    }
+                });
+                
+                fileInput.addEventListener('change', () => {
+                    if (fileInput.files.length) {
+                        area.querySelector('p').textContent = fileInput.files[0].name;
+                    }
+                });
+            });
+            
+            // Password strength indicator
+            const passwordInput = document.getElementById('regPassword');
+            passwordInput.addEventListener('input', function() {
+                // This is handled by the CSS selector based on validity
+            });
+        });
+    </script>
 </body>
 </html>
